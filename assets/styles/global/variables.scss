@@ -1,0 +1,34 @@
+// Colours
+$color-dark: #000;
+$color-light: #f8f9fa;
+$color-light-2: #f2f2f2;
+$color-main: #0D1016;
+$color-main-light: #151A23;
+$color-warning: #FF5722;
+$color-success: #90C740;
+$color-dark-success: #023F2E;
+$color-secondary: #B4B5BB;
+$color-secondary-2: #83858F;
+$color-secondary-3: #C7D0CC;
+$color-danger: #d20a11;
+$color-primary: #3DCFF8;
+$color-primary-accent: #9673F1;
+
+// Container
+$container-size: 1364px;
+$container-gap: 58px;
+$container-gap-md: 40px;
+$container-gap-sm: 16px;
+
+// Breakpoints
+$breakpoint-desktop: 1600px;
+$breakpoint-desktop-lg: 1480px;
+$breakpoint-desktop-md: 1280px;
+$breakpoint-tablet: 1024px;
+$breakpoint-mobile: 768px;
+$breakpoint-mobile-sm: 375px;
+
+// Other
+$td: all 0.3s ease;
+
+

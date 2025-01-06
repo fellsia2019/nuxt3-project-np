@@ -1,0 +1,29 @@
+@use "~/assets/styles/global/mixins.scss" as *;
+@use "~/assets/styles/global/variables.scss" as *;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: normal;
+  background-color: $color-main;
+  color: $color-light;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(#{$container-size} + (#{$container-gap} * 2));
+  margin: 0 auto;
+  padding: 0 #{$container-gap};
+
+  @include low-desktop {
+    max-width: calc(#{$container-size} + (#{$container-gap-md} * 2));
+    padding: 0 #{$container-gap-md};
+  }
+
+  @include mobile {
+    max-width: 100%;
+    padding: 0 #{$container-gap-sm};
+  }
+}
+

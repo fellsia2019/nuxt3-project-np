@@ -1,0 +1,91 @@
+@use "~/assets/styles/global/mixins.scss" as *;
+@use "~/assets/styles/global/variables.scss" as *;
+
+.title {
+  text-transform: uppercase;
+  font-weight: bold;
+
+  // .title-h1
+  &-h1 {
+    font-size: 60px;
+
+    @include tablet {
+      font-size: 40px;
+    }
+
+    @include mobile {
+      font-size: 36px;
+    }
+  }
+
+  // .title-h2
+  &-h2 {
+    font-size: 42px;
+
+    @include tablet {
+      font-size: 36px;
+    }
+
+    @include mobile {
+      font-size: 30px;
+    }
+  }
+
+  // .title-h3
+  &-h3 {
+    font-size: 32px;
+
+    @include tablet {
+      font-size: 28px;
+    }
+
+    @include mobile {
+      font-size: 24px;
+    }
+  }
+
+  // .title-h4
+  &-h4 {
+    font-size: 20px;
+  }
+
+  // .title-h5
+  &-h5 {
+    font-size: 18px;
+  }
+
+  // .title-h6
+  &-h6 {
+    font-size: 16px;
+  }
+}
+
+.text {
+
+  // .text-lg
+  &-lg {
+    font-size: 20px;
+
+    @include mobile {
+      font-size: 18px;
+    }
+  }
+
+  // .text-md
+  &-md {
+    font-size: 18px;
+
+    @include mobile {
+      font-size: 16px;
+    }
+  }
+
+  // .text-sm
+  &-sm {
+    font-size: 14px;
+
+    @include mobile {
+      font-size: 12px;
+    }
+  }
+}
