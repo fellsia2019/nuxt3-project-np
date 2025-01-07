@@ -25,7 +25,6 @@ export default async function (
   const needAuth = currentService.routes[route].allowOnlyWithAuth?.includes(method)
 
   if (needAuth) {
-
     if (!userStore.ACCESS_TOKEN || !userStore.REFRESH_TOKEN) {
       router.push({ name: 'auth' })
       return
@@ -57,9 +56,7 @@ export default async function (
     }
   }
 
-  const res = useFetch(url, {
+  return useFetch(url, {
     ...requestOptions
   })
-
-  return res
 }

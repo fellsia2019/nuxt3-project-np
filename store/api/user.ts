@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import { HttpMethod } from '~/types/ApiService';
 
+import { useLoadingStore } from '~/store/common/loading'
+
 const LS_TOKEN_ACCESS_NAME = '_token_access_'
 const LS_TOKEN_REFRESH_NAME = '_token_refresh_'
 
@@ -9,7 +11,7 @@ interface IUserApiState {
   tokens: {
     access: null | string;
     refresh: null | string;
-  }
+  },
 }
 
 export const useUserStore = defineStore('user', {
@@ -18,17 +20,22 @@ export const useUserStore = defineStore('user', {
     tokens: {
       access: null,
       refresh: null
-    }
+    },
   }),
 
   getters: {
     ACCESS_TOKEN: (state) => state.tokens.access || (import.meta.client ? window.localStorage.getItem(LS_TOKEN_ACCESS_NAME) : null),
+
     REFRESH_TOKEN: (state) => state.tokens.refresh || (import.meta.client ? window.localStorage.getItem(LS_TOKEN_REFRESH_NAME) : null),
+
+    IS_AUTH: (state) => Boolean(state.user?.id)
   },
 
   actions: {
     async AUTH(body: { username: string; password: string }) {
+      const loadingStore = useLoadingStore()
       try {
+        loadingStore.SET_LOADING(true)
         const response = await getFetch(
           'auth',
           {
@@ -75,6 +82,8 @@ export const useUserStore = defineStore('user', {
         }
       } catch (e) {
         throw new Error(`store:user | AUTH - ${e}`)
+      } finally {
+        loadingStore.SET_LOADING(false)
       }
     },
 
@@ -83,9 +92,8 @@ export const useUserStore = defineStore('user', {
         const isVerify = this.ACCESS_TOKEN ? await this.DO_VERIFY_TOKEN(this.ACCESS_TOKEN) : false
 
         if (isVerify) {
-          this.GET_USER()
+          await this.GET_USER()
         }
-
       } catch (e) {
         throw new Error(`store:user | GET_USER_DATA - ${e}`)
       }

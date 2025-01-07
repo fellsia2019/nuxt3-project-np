@@ -33,6 +33,10 @@
 <script setup lang="ts">
 import { useProjectsStore } from '~/store/api/projects'
 
+definePageMeta({
+  middleware: ['auth']
+})
+
 const projectsStore = useProjectsStore();
 
 const projectForm = ref({

@@ -7,9 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '~/store/api/user'
-
-const userStore = useUserStore();
 
 const resizeObserver = ref<ResizeObserver | null>(null)
 
@@ -30,7 +27,4 @@ onMounted(() => {
   saveSettingInRootVars()
   resizeObserver.value.observe(document.documentElement)
 })
-
-await useAsyncData('user-data', () => userStore.GET_USER_DATA().then(() => true))
-
 </script>
