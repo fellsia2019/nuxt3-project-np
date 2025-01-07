@@ -3,14 +3,19 @@ import { defineStore } from 'pinia';
 import type { IProject } from '~/types/api/projects';
 import type { TPaginationResponse, IPaginationApi } from '~/types/api/common';
 
+import { useLoadingStore } from '~/store/common/loading'
+import { HttpMethod } from '~/types/ApiService';
+
 interface IProjectsApiState {
   projects: Array<IProject>;
+  project: null | IProject;
   pagination: IPaginationApi;
 }
 
 export const useProjectsStore = defineStore('projects', {
   state: (): IProjectsApiState => ({
     projects: [],
+    project: null,
     pagination: {
       count: 0,
       next: null,
@@ -29,25 +34,101 @@ export const useProjectsStore = defineStore('projects', {
 
   actions: {
     async LOAD_PROJECTS(withReplace: boolean = true, page: number = 1) {
-      console.log("LOAD_PROJECTS !!!!!!!!!!!!!!!!!!!!!!!!")
+      const loadingStore = useLoadingStore()
+
       try {
-        const url = getRoute('projects')
+        if (loadingStore.IS_LOADING) {
+          return
+        }
+
+        loadingStore.SET_LOADING(true)
+
         const pageNumber = Math.min(page, this.pagination.total_pages)
 
-        const res: TPaginationResponse<Array<IProject>> = await $fetch(url, {
-          params: { page: pageNumber },
+        const response = await getFetch('projects', {
+          query: { page: pageNumber },
         })
 
-        if (!res) return
-        // TODO: добавить нотифийку
+        const result: TPaginationResponse<Array<IProject>> | null = response?.data?.value
 
-        this.projects = withReplace ? res.results : [...this.projects, ...res.results]
-        this.pagination = res.pagination
-        return res
+        if (!result) return
+        // TODO: minor - добавить нотифийку
+
+        this.projects = withReplace ? result.results : [...this.projects, ...result.results]
+        this.pagination = result.pagination
       } catch (e) {
         throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
       } finally {
+        loadingStore.SET_LOADING(false)
       }
     },
+
+    async LOAD_PROJECT(id: string) {
+      const loadingStore = useLoadingStore()
+
+      try {
+        if (loadingStore.IS_LOADING) {
+          return
+        }
+
+        loadingStore.SET_LOADING(true)
+
+
+        const response = await getFetch(
+          'projects',
+          {
+            method: HttpMethod.GET,
+          },
+          id
+        )
+
+        const result: IProject | null = response?.data?.value
+
+        if (!result) return
+        // TODO: minor - добавить нотифийку
+
+        this.project = result
+      } catch (e) {
+        throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
+      } finally {
+        loadingStore.SET_LOADING(false)
+      }
+    },
+
+    async CREATE_PROJECT(body: { title: string; content: string }) {
+      const loadingStore = useLoadingStore()
+
+      try {
+        if (loadingStore.IS_LOADING) {
+          return
+        }
+
+        loadingStore.SET_LOADING(true)
+
+
+        const response = await getFetch(
+          'projects',
+          {
+            method: HttpMethod.POST,
+            body: body,
+            // onResponseError({ response }) {
+            //   // console.log('onResponseError', response?._data)
+            // },
+            // onResponse({ response }) {
+            //   console.log('onResponse', response?._data)
+            // }
+          },
+        )
+
+        // console.log('data', response?.data)
+        // console.log('error', response?.error)
+
+
+      } catch (e) {
+        throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
+      } finally {
+        loadingStore.SET_LOADING(false)
+      }
+    }
   },
 });

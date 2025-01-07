@@ -16,7 +16,6 @@ export const useLoadingStore = defineStore('loading', {
 
   actions: {
     SET_LOADING(isLoading: boolean) {
-      console.log('SET_LOADING', isLoading)
       this.isLoading = isLoading
     }
   },

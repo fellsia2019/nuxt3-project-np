@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { domainParser } from '~/helpers/routeHelpers';
-import type { IApiService, IDomain } from '~/types/ApiService';
+import { type IApiService, type IDomain, HttpMethod } from '~/types/ApiService';
 
 export const useConfigApiStore = defineStore('configApi', () => {
   const domainMain: IDomain = {
@@ -13,7 +13,26 @@ export const useConfigApiStore = defineStore('configApi', () => {
   const services = computed<IApiService>(() => ({
     domain: domainParser(domainMain),
     routes: {
-      projects: 'project',
+      projects: {
+        path: 'project',
+        allowOnlyWithAuth: [HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.PATCH]
+      },
+      auth: {
+        path: 'token',
+        allowOnlyWithAuth: []
+      },
+      tokenRefresh: {
+        path: 'token/refresh',
+        allowOnlyWithAuth: []
+      },
+      tokenVerify: {
+        path: 'token/verify',
+        allowOnlyWithAuth: []
+      },
+      user: {
+        path: 'user',
+        allowOnlyWithAuth: [HttpMethod.GET]
+      }
     },
   }))
 

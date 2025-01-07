@@ -8,6 +8,12 @@ body {
   line-height: normal;
   background-color: $color-main;
   color: $color-light;
+
+  &.scrollbar-is-locked {
+    overflow: hidden;
+    height: var(--app-height, 100vh);
+    will-change: scroll-position;
+  }
 }
 
 .container {

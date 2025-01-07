@@ -1,13 +1,15 @@
 <template>
-  <div
-    class="spinner-loading"
-    :class="{
-      'spinner-loading--into-block': intoBlock,
-      'spinner-loading--is-loading': isLoading
-    }"
-  >
-    <div class="spinner-loading__spinner" />
-  </div>
+  <ClientOnly>
+    <div
+      class="spinner-loading"
+      :class="{
+        'spinner-loading--into-block': intoBlock,
+        'spinner-loading--is-loading': resultIsLoading
+      }"
+    >
+      <div class="spinner-loading__spinner" />
+    </div>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
@@ -17,11 +19,24 @@ interface ILoadingSpinnerProps {
   isLoading?: boolean;
 }
 
-// import { useLoadingStore } from '~/store/common/loading'
+import { useLoadingStore } from '~/store/common/loading'
 
-// const loadingStore = useLoadingStore();
+import simpleLockPageScroll from '~/helpers/simpleLockPageScroll'
+
+const loadingStore = useLoadingStore();
 
 const props = defineProps<ILoadingSpinnerProps>()
+
+const resultIsLoading = computed<boolean>(() => props.intoBlock ? props.isLoading : loadingStore.IS_LOADING)
+
+watch(
+  () => loadingStore.IS_LOADING,
+  () => {
+    if (!props.intoBlock) {
+      simpleLockPageScroll(loadingStore.IS_LOADING)
+    }
+  }
+);
 
 </script>
 
@@ -35,7 +50,7 @@ $b: '.spinner-loading';
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba($color-light, 0.2);
+  background-color: rgba($color-primary, 0.2);
   align-items: center;
   justify-content: center;
   z-index: 10000;
@@ -43,15 +58,11 @@ $b: '.spinner-loading';
   // .spinner-loading--into-block
   &--into-block {
     position: absolute;
-    &#{$b}--is-loading {
-      display: flex;
-    }
   }
 
-  &:not(#{$b}--is-loading) {
-    body.u-is-loading & {
-      display: flex;
-    }
+  // .spinner-loading--is-block
+  &--is-loading {
+    display: flex;
   }
 
   &__spinner {
@@ -68,7 +79,7 @@ $b: '.spinner-loading';
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      border: 6px inset $color-light;
+      border: 6px inset $color-primary;
       animation: spin-rotate 2.5s infinite linear;
     }
   }

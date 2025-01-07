@@ -89,3 +89,32 @@
     }
   }
 }
+
+@each $name, $color in (
+  dark: $color-dark,
+  light: $color-light,
+  light-2: $color-light-2,
+  main: $color-main,
+  main-light: $color-main-light,
+  warning: $color-warning,
+  success: $color-success,
+  dark-success: $color-dark-success,
+  secondary: $color-secondary,
+  secondary-2: $color-secondary-2,
+  secondary-3: $color-secondary-3,
+  danger: $color-danger,
+  primary: $color-primary,
+  primary-accent: $color-primary-accent,
+) {
+  .color-#{$name} {
+    color: $color;
+  }
+}
+
+@for $i from 1 to 10 {
+  $weight: $i * 100;
+
+  .fw-#{$weight} {
+    font-weight: $weight !important;
+  }
+}

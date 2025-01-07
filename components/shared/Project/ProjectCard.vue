@@ -1,8 +1,11 @@
 <template>
-  <div class="project-card">
+  <NuxtLink :to="{ name: 'projects-id', params: { id: card.id } }" class="project-card">
     <div class="project-card__inner">
       <div class="project-card__preview">
-        <img class="project-card__preview-img" :src="card.image || '/404.webp'"/>
+        <picture>
+          <source v-if="card.image_webp" :srcset="card.image_webp" type="image/webp">
+          <img class="project-card__preview-img" :src="card.image || '/404.webp'"/>
+        </picture>
       </div>
       <div class="project-card__content">
         <div class="project-card__content-top text-sm">
@@ -19,14 +22,22 @@
         <p class="project-card__text text-md">
           {{ card.content }}
         </p>
+        <CustomButton
+          class="project-card__btn"
+          :theme="CustomButtonThemeSettings.PRIMARY_OUTLINE"
+          :size="CustomButtonSizeSettings.SM"
+        >
+          Подробнее
+        </CustomButton>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
 import type { IProject } from '~/types/api/projects'
 import { detDateArticle } from '~/helpers/dateHelpers'
+import { CustomButtonThemeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
 
 interface IProjectCardProps {
   card: IProject
@@ -40,8 +51,14 @@ const props = defineProps<IProjectCardProps>()
 $b: '.project-card';
 
 #{$b} {
+  display: block;
   background-color: rgba($color-primary, 0.1);
   border-radius: 16px;
+  transition: $td;
+
+  &:hover {
+    box-shadow: 0 0 10px 0 rgba($color-primary, 0.5);
+  }
 
   // .project-card__inner
   &__inner {
@@ -54,7 +71,7 @@ $b: '.project-card';
   &__preview {
     width: 100%;
     height: fit-content;
-    aspect-ratio: 320/250;
+    aspect-ratio: 320/200;
     margin-bottom: 16px;
 
     // .project-card__preview-img
@@ -69,6 +86,9 @@ $b: '.project-card';
   // .project-card__content
   &__content {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: rgba($color-primary, 0.1);
     border-radius: 16px;
     padding: 16px;
@@ -80,12 +100,29 @@ $b: '.project-card';
       align-items: center;
       gap: 12px;
       margin-bottom: 16px;
+      color: $color-secondary-3;
     }
   }
 
   // .project-card__title
   &__title {
     margin-bottom: 16px;
+  }
+
+  // .project-card__text
+  &__text {
+    color: $color-secondary-3;
+    @include line-сlamp(7);
+  }
+
+  // .project-card__btn
+  &__btn {
+    align-self: flex-start;
+    margin-top: 16px;
+
+    @include tablet {
+      width: 100%;
+    }
   }
 }
 </style>

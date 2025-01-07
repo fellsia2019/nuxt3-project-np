@@ -6,6 +6,7 @@ export enum CustomButtonSizeSettings {
 
 export enum CustomButtonThemeSettings {
   PRIMARY = "primary",
+  PRIMARY_OUTLINE = "primary-outline",
   DANGER = "danger",
   WARNING = "warning",
   DARK = "dark",

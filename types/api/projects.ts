@@ -7,4 +7,5 @@ export interface IProject {
   time_update: number;
   is_published: boolean;
   image: null | string;
+  image_webp: null | string;
 }

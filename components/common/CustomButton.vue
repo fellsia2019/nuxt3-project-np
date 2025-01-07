@@ -61,14 +61,17 @@ $b: '.custom-button';
     background-color: $color-danger;
     color: $color-light;
     border-color: $color-danger;
+    box-shadow: 0 0 15px rgba($color-danger, 0.5);
 
     &:hover {
       background-color: transparent;
       color: $color-danger;
+      box-shadow: 0 0 15px rgba($color-danger, 1);
     }
     &:active {
       background-color: $color-danger;
       color: $color-light;
+      box-shadow: 0 0 15px rgba($color-danger, 0.5);
     }
   }
 
@@ -77,14 +80,37 @@ $b: '.custom-button';
     background-color: $color-primary;
     color: $color-main;
     border-color: $color-primary;
+    box-shadow: 0 0 15px rgba($color-primary, 0.5);
 
     &:hover {
       background-color: transparent;
       color: $color-primary;
+      box-shadow: 0 0 15px rgba($color-primary, 1);
     }
     &:active {
       background-color: $color-primary;
       color: $color-light;
+      box-shadow: 0 0 15px rgba($color-primary, 0.5);
+    }
+  }
+
+  // .custom-button--themes-primary-outline
+  &--themes-primary-outline {
+    background-color: transparent;
+    color: $color-primary;
+    border-color: $color-primary;
+    box-shadow: 0 0 15px rgba($color-primary, 0.5);
+
+    &:hover {
+      background-color: $color-primary;
+      color: $color-main;
+      box-shadow: 0 0 15px rgba($color-primary, 1);
+    }
+    &:active {
+      background-color: transparent;
+      color: $color-primary;
+      border-color: $color-primary;
+      box-shadow: 0 0 15px rgba($color-primary, 0.5);
     }
   }
 
@@ -93,30 +119,36 @@ $b: '.custom-button';
     background-color: $color-success;
     color: $color-light;
     border-color: $color-success;
+    box-shadow: 0 0 15px rgba($color-success, 0.5);
 
     &:hover {
       background-color: transparent;
       color: $color-success;
+      box-shadow: 0 0 15px rgba($color-success, 1);
     }
     &:active {
       background-color: $color-success;
       color: $color-light;
+      box-shadow: 0 0 15px rgba($color-success, 0.5);
     }
   }
 
   // .custom-button--themes-dark
   &--themes-dark {
-    background-color: $color-dark;
+    background-color: $color-main;
     color: $color-light;
-    border-color: $color-dark;
+    border-color: $color-main;
+    box-shadow: 0 0 15px rgba($color-main, 0.5);
 
     &:hover {
       background-color: transparent;
-      color: $color-dark;
+      color: $color-main;
+      box-shadow: 0 0 15px rgba($color-main, 1);
     }
     &:active {
-      background-color: $color-dark;
+      background-color: $color-main;
       color: $color-light;
+      box-shadow: 0 0 15px rgba($color-main, 0.5);
     }
   }
 
@@ -125,25 +157,28 @@ $b: '.custom-button';
     background-color: $color-warning;
     color: $color-light;
     border-color: $color-warning;
+    box-shadow: 0 0 15px rgba($color-warning, 0.5);
 
     &:hover {
       background-color: transparent;
       color: $color-warning;
+      box-shadow: 0 0 15px rgba($color-warning, 1);
     }
     &:active {
       background-color: $color-warning;
       color: $color-light;
+      box-shadow: 0 0 15px rgba($color-warning, 0.5);
     }
   }
 
   // sizes
   // .custom-button--size-sm
   &--size-sm {
-    padding: 14px 20px;
+    padding: 10px 20px;
     border-radius: 20px;
 
     @include mobile {
-      padding: 12px 16px;
+      padding: 8px 16px;
     }
   }
 
