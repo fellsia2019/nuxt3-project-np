@@ -1,6 +1,7 @@
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Бэк для этого проекта - https://github.com/fellsia2019/django-project-np/tree/master
 
 ## Setup
 
