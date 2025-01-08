@@ -14,7 +14,7 @@
               :class="{ '_done': list.done || (list.items?.length && list.items.every(el => el.done)) }"
               @click="toggleTodoItem(list)"
             >
-              <span>{{ list.item }}</span>
+              <span v-html="list.item" />
               <template v-if="list.items?.length">
                 <ul>
                   <li
@@ -22,7 +22,7 @@
                     :class="{ '_done': supList.done }"
                     @click.stop="toggleTodoItem(supList)"
                   >
-                    <span>{{ supList.item }}</span>
+                    <span v-html="supList.item" />
                   </li>
                 </ul>
               </template>

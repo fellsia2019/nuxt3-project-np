@@ -7,9 +7,19 @@
         </h1>
       </div>
 
-      <pre>
-        {{ projectsStore?.project }}
-      </pre>
+
+      <div class="detail-project-page__body">
+        <picture v-if="projectsStore?.project?.image">
+          <source v-if="projectsStore?.project?.image_webp" :srcset="projectsStore?.project?.image_webp" type="image/webp">
+          <img :src="projectsStore?.project?.image" :alt="projectsStore?.project?.title">
+        </picture>
+
+        <p>
+          {{ projectsStore?.project?.content }}
+        </p>
+
+        <div v-if="projectsStore?.project?.detail_text" v-html="projectsStore?.project?.detail_text" />
+      </div>
     </div>
   </div>
 </template>
