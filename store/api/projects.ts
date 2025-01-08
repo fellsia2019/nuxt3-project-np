@@ -12,6 +12,8 @@ interface IProjectsApiState {
   pagination: IPaginationApi;
 }
 
+const LOADING_SLUG = 'projects-store'
+
 export const useProjectsStore = defineStore('projects', {
   state: (): IProjectsApiState => ({
     projects: [],
@@ -29,19 +31,31 @@ export const useProjectsStore = defineStore('projects', {
 
   getters: {
     NEXT_PAGE_NUMBER: (state) => state.pagination.current_page + 1,
-    HAS_NEXT_PAGE: (state) => state.pagination.total_pages > state.pagination.current_page
+
+    HAS_NEXT_PAGE: (state) => state.pagination.total_pages > state.pagination.current_page,
+
+    IS_LOADING: () => {
+      const loadingStore = useLoadingStore()
+
+      return Boolean(loadingStore.loadingList.find(item => item === LOADING_SLUG))
+    }
   },
 
   actions: {
-    async LOAD_PROJECTS(withReplace: boolean = true, page: number = 1) {
+    SET_LOADING(isLoading: boolean) {
       const loadingStore = useLoadingStore()
 
+      loadingStore.SET_LOADING(isLoading, LOADING_SLUG)
+    },
+
+    async LOAD_PROJECTS(withReplace: boolean = true, page: number = 1) {
+      console.log('LOAD_PROJECTS', this.IS_LOADING)
       try {
-        if (loadingStore.IS_LOADING) {
+        if (this.IS_LOADING) {
           return
         }
 
-        loadingStore.SET_LOADING(true)
+        this.SET_LOADING(true)
 
         const pageNumber = Math.min(page, this.pagination.total_pages)
 
@@ -59,20 +73,17 @@ export const useProjectsStore = defineStore('projects', {
       } catch (e) {
         throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
       } finally {
-        loadingStore.SET_LOADING(false)
+        this.SET_LOADING(false)
       }
     },
 
     async LOAD_PROJECT(id: string) {
-      const loadingStore = useLoadingStore()
-
       try {
-        if (loadingStore.IS_LOADING) {
+        if (this.IS_LOADING) {
           return
         }
 
-        loadingStore.SET_LOADING(true)
-
+        this.SET_LOADING(true)
 
         const response = await getFetch(
           'projects',
@@ -91,20 +102,17 @@ export const useProjectsStore = defineStore('projects', {
       } catch (e) {
         throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
       } finally {
-        loadingStore.SET_LOADING(false)
+        this.SET_LOADING(false)
       }
     },
 
     async CREATE_PROJECT(body: { title: string; content: string }) {
-      const loadingStore = useLoadingStore()
-
       try {
-        if (loadingStore.IS_LOADING) {
+        if (this.IS_LOADING) {
           return
         }
 
-        loadingStore.SET_LOADING(true)
-
+        this.SET_LOADING(true)
 
         const response = await getFetch(
           'projects',
@@ -127,7 +135,7 @@ export const useProjectsStore = defineStore('projects', {
       } catch (e) {
         throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
       } finally {
-        loadingStore.SET_LOADING(false)
+        this.SET_LOADING(false)
       }
     }
   },

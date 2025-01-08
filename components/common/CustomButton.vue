@@ -94,6 +94,25 @@ $b: '.custom-button';
     }
   }
 
+  // .custom-button--themes-primary-accent
+  &--themes-primary-accent {
+    background-color: $color-primary-accent;
+    color: $color-main;
+    border-color: $color-primary-accent;
+    box-shadow: 0 0 15px rgba($color-primary-accent, 0.5);
+
+    &:hover {
+      background-color: transparent;
+      color: $color-primary-accent;
+      box-shadow: 0 0 15px rgba($color-primary-accent, 1);
+    }
+    &:active {
+      background-color: $color-primary-accent;
+      color: $color-light;
+      box-shadow: 0 0 15px rgba($color-primary-accent, 0.5);
+    }
+  }
+
   // .custom-button--themes-primary-outline
   &--themes-primary-outline {
     background-color: transparent;
@@ -111,6 +130,26 @@ $b: '.custom-button';
       color: $color-primary;
       border-color: $color-primary;
       box-shadow: 0 0 15px rgba($color-primary, 0.5);
+    }
+  }
+
+  // .custom-button--themes-primary-accent-outline
+  &--themes-primary-accent-outline {
+    background-color: transparent;
+    color: $color-primary-accent;
+    border-color: $color-primary-accent;
+    box-shadow: 0 0 15px rgba($color-primary-accent, 0.5);
+
+    &:hover {
+      background-color: $color-primary-accent;
+      color: $color-main;
+      box-shadow: 0 0 15px rgba($color-primary-accent, 1);
+    }
+    &:active {
+      background-color: transparent;
+      color: $color-primary-accent;
+      border-color: $color-primary-accent;
+      box-shadow: 0 0 15px rgba($color-primary-accent, 0.5);
     }
   }
 

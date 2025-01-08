@@ -1,7 +1,9 @@
 <template>
   <div class="default-layout">
     <CustomHeader />
-    <NuxtPage />
+    <div class="default-layout__main">
+      <NuxtPage />
+    </div>
     <LoadingSpinner />
     <CustomFooter class="default-layout__footer" />
   </div>
@@ -21,6 +23,11 @@ $b: '.default-layout';
   // .default-layout__footer
   &__footer {
     margin-top: auto;
+  }
+
+  // .default-layout__main
+  &__main {
+    margin: 30px 0 80px 0;
   }
 }
 </style>

@@ -30,11 +30,39 @@
           </ul>
         </div>
       </div>
+
+      <div class="todo-page__form">
+        <select name="" id="" @change="onChangeTypeBlock">
+          <option :value="TypeBlock.FRONT">Добавить в фронтенд</option>
+          <option :value="TypeBlock.BACK">Добавить в бэкент</option>
+        </select>
+        <input v-model="form.item" type="text" placeholder="item">
+        <div class="todo-page__form-items">
+          <div v-for="(item, i) in form.items">
+            <input :value="item.item" type="text" placeholder="item" @input="(e) => onInputFormItem(e, i)">
+            <CustomButton @click="removeFormItem(i)" :size="CustomButtonSizeSettings.SM" :theme="CustomButtonThemeSettings.PRIMARY_OUTLINE">
+              X
+            </CustomButton>
+          </div>
+        </div>
+        <CustomButton @click="addFormItem" :size="CustomButtonSizeSettings.SM" :theme="CustomButtonThemeSettings.PRIMARY_OUTLINE">
+          Добавить айтем
+        </CustomButton>
+        <CustomButton @click="createTodo">
+          Добавить тудушку в {{ form.type === TypeBlock.FRONT ? 'Фронтенд' : 'Бэкенд' }}
+        </CustomButton>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { CustomButtonSizeSettings, CustomButtonThemeSettings } from '~/types/common/CustomButton';
+
+enum TypeBlock {
+  FRONT = 'FRONT',
+  BACK = 'BACK'
+}
 
 const todoList = ref([
   {
@@ -161,6 +189,10 @@ function toggleTodoItem(list: { item: string; done: boolean; items: Array<any> }
     list.items.forEach(item => item.done = list.done)
   }
 
+  saveTodoListInLC()
+}
+
+function saveTodoListInLC() {
   window.localStorage.setItem('_todo_list_', JSON.stringify(todoList.value))
 }
 
@@ -171,6 +203,48 @@ onMounted(() => {
     todoList.value = JSON.parse(todoListFromLC)
   }
 })
+
+const form = ref({...{ item: '', done: false, items: [ { item: '', done: false, items: [] } ] }, type: TypeBlock.FRONT })
+
+function onInputFormItem(e: Event, i: number) {
+  // const formItem = form.value?.[i]
+  if (!form.value?.items?.length || !(e.target instanceof HTMLInputElement)) {
+    return
+  }
+
+  form.value.items[i].item = e.target.value
+}
+
+function addFormItem() {
+  form.value.items.push({ item: '', done: false, items: [] })
+}
+
+function removeFormItem(i: number) {
+  form.value.items = [...form.value.items.slice(0, i), ...form.value.items.slice(i + 1)]
+}
+
+function onChangeTypeBlock(e: Event) {
+  if (!(e.target instanceof HTMLSelectElement)) {
+    return
+  }
+
+  form.value.type = TypeBlock[e.target.value as TypeBlock]
+}
+
+function createTodo() {
+  if (!form.value.item?.trim()) {
+    return
+  }
+
+  const index = form.value.type === TypeBlock.FRONT ? 0 : 1
+  console.log('form.value.items', form.value.items)
+  todoList.value[index].items.push({ item: form.value.item, done: false, items: [ ...form.value.items ] })
+
+  // clear
+  form.value = {...{ item: '', done: false, items: [ { item: '', done: false, items: [] } ] }, type: TypeBlock.FRONT }
+
+  saveTodoListInLC()
+}
 
 </script>
 
@@ -241,6 +315,48 @@ $b: '.todo-page';
             background-color: $color-success;
           }
         }
+      }
+    }
+  }
+
+  // .todo-page__form
+  &__form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid $color-primary;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    input, select {
+      width: 400px;
+      height: 40px;
+      padding: 5px 20px;
+      border: 1px solid $color-primary;
+    }
+
+    select {
+      background-color: $color-main;
+    }
+
+    // .todo-page__form-items
+    &-items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-left: 50px;
+      border-left: 1px solid $color-primary;
+
+      & > * {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      input {
+        width: auto;
       }
     }
   }

@@ -1,30 +1,30 @@
 <template>
-  <NuxtLink :to="{ name: 'projects-id', params: { id: card.id } }" class="project-card">
-    <div class="project-card__inner">
-      <div class="project-card__preview">
+  <NuxtLink :to="{ name: 'initiatives-id', params: { id: card.id } }" class="initiative-card">
+    <div class="initiative-card__inner">
+      <div class="initiative-card__preview">
         <picture>
           <source v-if="card.image_webp" :srcset="card.image_webp" type="image/webp">
-          <img class="project-card__preview-img" :src="card.image || '/404.webp'"/>
+          <img class="initiative-card__preview-img" :src="card.image || '/404.webp'"/>
         </picture>
       </div>
-      <div class="project-card__content">
-        <div class="project-card__content-top text-sm">
-          <time class="project-card__date" :datetime="String(card.time_create)">
+      <div class="initiative-card__content">
+        <div class="initiative-card__content-top text-sm">
+          <time class="initiative-card__date" :datetime="String(card.time_create)">
             Создан {{ detDateArticle(card.time_create) }}
           </time>
-          <time class="project-card__date" :datetime="String(card.time_update)">
+          <time class="initiative-card__date" :datetime="String(card.time_update)">
             Обновлен {{ detDateArticle(card.time_update) }}
           </time>
         </div>
-        <h3 class="project-card__title title title-h4">
+        <h3 class="initiative-card__title title title-h4">
           {{ card.title }} | {{ card.id }}
         </h3>
-        <p class="project-card__text text-md">
+        <p class="initiative-card__text text-md">
           {{ card.content }}
         </p>
         <CustomButton
-          class="project-card__btn"
-          :theme="CustomButtonThemeSettings.PRIMARY_OUTLINE"
+          class="initiative-card__btn"
+          :theme="CustomButtonThemeSettings.PRIMARY_ACCENT_OUTLINE"
           :size="CustomButtonSizeSettings.SM"
         >
           Подробнее
@@ -35,46 +35,60 @@
 </template>
 
 <script setup lang="ts">
-import type { IProject } from '~/types/api/projects'
+import type { IInitiative } from '~/types/api/initiatives'
 import { detDateArticle } from '~/helpers/dateHelpers'
 import { CustomButtonThemeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
 
-interface IProjectCardProps {
-  card: IProject
+interface IInitiativeCardProps {
+  card: IInitiative
 }
 
-const props = defineProps<IProjectCardProps>()
+const props = defineProps<IInitiativeCardProps>()
 
 </script>
 
 <style lang="scss">
-$b: '.project-card';
+$b: '.initiative-card';
 
 #{$b} {
   display: block;
-  background-color: rgba($color-primary, 0.1);
+  background-color: rgba($color-primary-accent, 0.1);
   border-radius: 16px;
   transition: $td;
 
   &:hover {
-    box-shadow: 0 0 10px 0 rgba($color-primary, 0.5);
+    box-shadow: 0 0 10px 0 rgba($color-primary-accent, 0.5);
   }
 
-  // .project-card__inner
+  // .initiative-card__inner
   &__inner {
     height: 100%;
     display: flex;
-    flex-direction: column;
+    gap: 12px;
+
+    @include mobile {
+      flex-direction: column;
+      gap: 0;
+    }
   }
 
-  // .project-card__preview
+  // .initiative-card__preview
   &__preview {
-    width: 100%;
-    height: fit-content;
-    aspect-ratio: 320/200;
+    width: 33%;
+    min-width: 33%;
+    max-width: 33%;
+    height: 100%;
     margin-bottom: 16px;
 
-    // .project-card__preview-img
+    @include mobile {
+      width: 100%;
+      min-width: unset;
+      max-width: unset;
+      height: auto;
+      aspect-ratio: 320/200;
+    }
+
+    // .initiative-card__preview-img
     &-img {
       width: 100%;
       height: 100%;
@@ -83,21 +97,20 @@ $b: '.project-card';
     }
   }
 
-  // .project-card__content
+  // .initiative-card__content
   &__content {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: rgba($color-primary, 0.1);
+    background-color: rgba($color-primary-accent, 0.1);
     border-radius: 16px;
     padding: 16px;
 
-    // .project-card__content-top
+    // .initiative-card__content-top
     &-top {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       flex-wrap: wrap;
       gap: 5px 12px;
       margin-bottom: 16px;
@@ -105,18 +118,18 @@ $b: '.project-card';
     }
   }
 
-  // .project-card__title
+  // .initiative-card__title
   &__title {
     margin-bottom: 16px;
   }
 
-  // .project-card__text
+  // .initiative-card__text
   &__text {
     color: $color-secondary-3;
     @include line-сlamp(7);
   }
 
-  // .project-card__btn
+  // .initiative-card__btn
   &__btn {
     align-self: flex-start;
     margin-top: 16px;
@@ -126,7 +139,7 @@ $b: '.project-card';
     }
   }
 
-  // .project-card__date
+  // .initiative-card__date
   &__date {
     white-space: nowrap;
   }

@@ -26,6 +26,7 @@ export default async function (
 
   if (needAuth) {
     if (!userStore.ACCESS_TOKEN || !userStore.REFRESH_TOKEN) {
+      console.log('нет токенов -  на auth')
       router.push({ name: 'auth' })
       return
     }
@@ -36,7 +37,10 @@ export default async function (
       if (!isVerify) {
         const refreshIsSuccess = await userStore.DO_REFRESH_TOKEN(userStore.REFRESH_TOKEN)
 
+        console.log('refreshIsSuccess', refreshIsSuccess)
+
         if (!refreshIsSuccess) {
+          console.log('рефреш эррор - на auth')
           router.push({ name: 'auth' })
           return
         }
