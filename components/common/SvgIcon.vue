@@ -22,7 +22,7 @@ const icons = import.meta.glob('~/assets/icons/*.svg', {
 const iconName = computed(() => `${props.icon}.svg`)
 const iconContent = computed(() => icons[`/assets/icons/${iconName.value}`] as string)
 
-const iconClass = computed(() => `icon--${props.icon}`)
+const iconClass = computed(() => `svg-icon--${props.icon}`)
 </script>
 
 <style lang="scss">
