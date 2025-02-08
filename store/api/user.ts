@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
-import { HttpMethod } from '~/types/ApiService';
+
+import { HttpMethod } from '~/types/ApiService'
+import type { IUser } from '~/types/api/user'
 
 import { useLoadingStore } from '~/store/common/loading'
 
@@ -9,11 +11,27 @@ const LS_TOKEN_REFRESH_NAME = '_token_refresh_'
 const LOADING_SLUG = 'user-store'
 
 interface IUserApiState {
-  user: any;
+  user: IUser | null;
   tokens: {
     access: null | string;
     refresh: null | string;
   },
+  fetchUserDataIsFinally: boolean;
+}
+
+function getCookieItem(name: string) {
+  const cookie = useCookie(name)
+  return cookie?.value || ''
+}
+
+function deleteCookieItem(name: string) {
+  const cookie = useCookie(name)
+  cookie.value = null
+}
+
+function setCookieItem(name: string, value: string) {
+  const cookie = useCookie(name)
+  cookie.value = value
 }
 
 export const useUserStore = defineStore('user', {
@@ -23,12 +41,18 @@ export const useUserStore = defineStore('user', {
       access: null,
       refresh: null
     },
+    fetchUserDataIsFinally: false
   }),
 
   getters: {
-    ACCESS_TOKEN: (state) => state.tokens.access || (import.meta.client ? window.localStorage.getItem(LS_TOKEN_ACCESS_NAME) : null),
+    ACCESS_TOKEN: (state) => {
+      return state.tokens.access || getCookieItem(LS_TOKEN_ACCESS_NAME)
+    },
 
-    REFRESH_TOKEN: (state) => state.tokens.refresh || (import.meta.client ? window.localStorage.getItem(LS_TOKEN_REFRESH_NAME) : null),
+    REFRESH_TOKEN: (state) => {
+      return state.tokens.refresh || getCookieItem(LS_TOKEN_REFRESH_NAME)
+    },
+
 
     IS_AUTH: (state) => Boolean(state.user?.id),
 
@@ -36,24 +60,68 @@ export const useUserStore = defineStore('user', {
       const loadingStore = useLoadingStore()
 
       return Boolean(loadingStore.loadingList.find(item => item === LOADING_SLUG))
-    }
+    },
+
+    USER: (state) => state.user
   },
 
   actions: {
-    SAVE_ACCESS_TOKEN(token :string) {
+    SAVE_ACCESS_TOKEN(token: string, onlyState: boolean = false) {
       this.tokens.access = token
-      window.localStorage.setItem(LS_TOKEN_ACCESS_NAME, token)
+      if (!onlyState && import.meta.client) {
+        setCookieItem(LS_TOKEN_ACCESS_NAME, token)
+      }
     },
 
-    SAVE_REFRESH_TOKEN(token :string) {
+    SAVE_REFRESH_TOKEN(token: string, onlyState: boolean = false) {
       this.tokens.refresh = token
-      window.localStorage.setItem(LS_TOKEN_REFRESH_NAME, token)
+      if (!onlyState && import.meta.client) {
+        setCookieItem(LS_TOKEN_REFRESH_NAME, token)
+      }
     },
 
     SET_LOADING(isLoading: boolean) {
       const loadingStore = useLoadingStore()
 
       loadingStore.SET_LOADING(isLoading, LOADING_SLUG)
+    },
+
+    async REGISTRATION(body: { username: string; password: string; email: string; first_name: string; last_name: string }) {
+      try {
+        if (this.IS_LOADING) {
+          return
+        }
+
+        this.SET_LOADING(true)
+
+        const response = await useCustomFetch(
+          'registration',
+          {
+            method: HttpMethod.POST,
+            body: body,
+          },
+        )
+
+        if (response?.refresh && response?.access) {
+          this.SAVE_ACCESS_TOKEN(response?.access)
+          this.SAVE_REFRESH_TOKEN(response?.refresh)
+
+          useRouter().push({ name: 'lk' })
+          this.GET_USER(true)
+
+          return true
+        }
+
+        if (response?.data) {
+          setNotificationFromResponseError(response?.data)
+
+          return false
+        }
+      } catch(e) {
+        throw new Error(`store:user | REGISTRATION - ${e}`)
+      } finally {
+        this.SET_LOADING(false)
+      }
     },
 
     async AUTH(body: { username: string; password: string }) {
@@ -64,7 +132,7 @@ export const useUserStore = defineStore('user', {
 
         this.SET_LOADING(true)
 
-        const response = await getFetch(
+        const response = await useCustomFetch(
           'auth',
           {
             method: HttpMethod.POST,
@@ -72,34 +140,18 @@ export const useUserStore = defineStore('user', {
           },
         )
 
-        const successResponse = response?.data?.value
+        if (response?.refresh && response?.access) {
+          this.SAVE_ACCESS_TOKEN(response?.access)
+          this.SAVE_REFRESH_TOKEN(response?.refresh)
 
-        if (successResponse?.refresh && successResponse?.access) {
-          this.SAVE_ACCESS_TOKEN(successResponse?.access)
-          this.SAVE_REFRESH_TOKEN(successResponse?.refresh)
-
+          await this.GET_USER(true)
           useRouter().push({ name: 'lk' })
-          this.GET_USER()
 
           return true
         }
 
-        const errorResponse = response?.error?.value?.data
-        if (errorResponse) {
-
-          if (typeof errorResponse === 'object') {
-            if (Array.isArray(errorResponse)) {
-              errorResponse.forEach(error => {
-                console.log('ERROR', error)
-              })
-            } else {
-              for (let key in errorResponse) {
-                const value = errorResponse[key]
-
-                console.log('ERROR', key, value)
-              }
-            }
-          }
+        if (response?.data) {
+          setNotificationFromResponseError(response?.data)
 
           return false
         }
@@ -111,20 +163,25 @@ export const useUserStore = defineStore('user', {
     },
 
     async GET_USER_DATA() {
-      console.log('GET_USER_DATA')
+      if (!this.tokens?.access && this.ACCESS_TOKEN) {
+        this.SAVE_ACCESS_TOKEN(this.ACCESS_TOKEN, true)
+      }
+      if (!this.tokens?.refresh && this.REFRESH_TOKEN) {
+        this.SAVE_REFRESH_TOKEN(this.REFRESH_TOKEN, true)
+      }
+
       try {
+        this.fetchUserDataIsFinally = true
         if (!this.ACCESS_TOKEN || !this.REFRESH_TOKEN) {
           return
         }
 
         const isVerify = await this.DO_VERIFY_TOKEN(this.ACCESS_TOKEN)
-        console.log('GET_USER_DATA isVerify', isVerify)
 
         if (isVerify) {
-          await this.GET_USER()
+          await this.GET_USER(false, true)
         } else {
           const refreshIsSuccess = await this.DO_REFRESH_TOKEN(this.REFRESH_TOKEN)
-          console.log('GET_USER_DATA refreshIsSuccess', refreshIsSuccess)
 
           if (refreshIsSuccess) {
             await this.GET_USER()
@@ -132,38 +189,30 @@ export const useUserStore = defineStore('user', {
         }
       } catch (e) {
         throw new Error(`store:user | GET_USER_DATA - ${e}`)
+      } finally {
+        this.fetchUserDataIsFinally = true
       }
     },
 
-    async GET_USER() {
+    async GET_USER(noCheckAuth: boolean = false, noCheckTokenVerify: boolean = false) {
       try {
-        const response = await getFetch(
+        const response = await useCustomFetch(
           'user',
+          {},
+          '',
+          noCheckAuth,
+          noCheckTokenVerify
         )
 
-        const successResponse = response?.data?.value
+        if (response?.id) {
+          this.user = response
 
-        if (successResponse) {
-          this.user = successResponse
-
-          console.log('success', this.user)
           return true
         }
 
-        const errorResponse = response?.error?.value?.data
-        if (errorResponse) {
-          if (typeof errorResponse === 'object') {
-            if (Array.isArray(errorResponse)) {
-              errorResponse.forEach(error => {
-                console.log('ERROR', error)
-              })
-            } else {
-              for (let key in errorResponse) {
-                const value = errorResponse[key]
-                console.log('ERROR', key, value)
-              }
-            }
-          }
+        if (response?.data) {
+          setNotificationFromResponseError(response?.data)
+
           return false
         }
 
@@ -174,7 +223,7 @@ export const useUserStore = defineStore('user', {
 
     async DO_VERIFY_TOKEN(token: string) {
       try {
-        const { data, error } = await getFetch(
+        const response = await useCustomFetch(
           'tokenVerify',
           {
             method: HttpMethod.POST,
@@ -182,31 +231,11 @@ export const useUserStore = defineStore('user', {
           }
         )
 
-        const successResponse = data?.value
-
-        if (successResponse) {
+        if (response?.detail) {
+          return false
+        } else if (response) {
           return true
         }
-
-        const errorResponse = error?.value?.data
-        if (errorResponse) {
-
-          if (typeof errorResponse === 'object') {
-            if (Array.isArray(errorResponse)) {
-              errorResponse.forEach(error => {
-                console.log('ERROR', error)
-              })
-            } else {
-              for (let key in errorResponse) {
-                const value = errorResponse[key]
-
-                console.log('ERROR', key, value)
-              }
-            }
-          }
-          return false
-        }
-
       } catch(e) {
         throw new Error(`store:user | DO_VERIFY_TOKEN - ${e}`)
       }
@@ -214,7 +243,7 @@ export const useUserStore = defineStore('user', {
 
     async DO_REFRESH_TOKEN(token: string) {
       try {
-        const { data, error } = await getFetch(
+        const response = await useCustomFetch(
           'tokenRefresh',
           {
             method: HttpMethod.POST,
@@ -222,32 +251,12 @@ export const useUserStore = defineStore('user', {
           }
         )
 
-        const successResponse = data?.value
-
-        if (successResponse?.access) {
-          this.SAVE_ACCESS_TOKEN(successResponse?.access)
+        if (response?.access) {
+          this.SAVE_ACCESS_TOKEN(response?.access)
           return true
-        }
-
-        const errorResponse = error?.value?.data
-        if (errorResponse) {
-
-          if (typeof errorResponse === 'object') {
-            if (Array.isArray(errorResponse)) {
-              errorResponse.forEach(error => {
-                console.log('ERROR', error)
-              })
-            } else {
-              for (let key in errorResponse) {
-                const value = errorResponse[key]
-
-                console.log('ERROR', key, value)
-              }
-            }
-          }
+        } else {
           return false
         }
-
       } catch(e) {
         throw new Error(`store:user | DO_REFRESH_TOKEN - ${e}`)
       }

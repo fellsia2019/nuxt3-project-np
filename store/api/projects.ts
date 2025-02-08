@@ -2,7 +2,9 @@ import { defineStore } from 'pinia';
 
 import type { IProject } from '~/types/api/projects';
 import type { TPaginationResponse, IPaginationApi } from '~/types/api/common';
+import { NotificationStatus } from '~/types/common/Notification'
 
+import { useNotificationStore } from '~/store/common/notification'
 import { useLoadingStore } from '~/store/common/loading'
 import { HttpMethod } from '~/types/ApiService';
 
@@ -49,7 +51,6 @@ export const useProjectsStore = defineStore('projects', {
     },
 
     async LOAD_PROJECTS(withReplace: boolean = true, page: number = 1) {
-      console.log('LOAD_PROJECTS', this.IS_LOADING)
       try {
         if (this.IS_LOADING) {
           return
@@ -59,17 +60,14 @@ export const useProjectsStore = defineStore('projects', {
 
         const pageNumber = Math.min(page, this.pagination.total_pages)
 
-        const response = await getFetch('projects', {
+        const response: TPaginationResponse<Array<IProject>> | null = await useCustomFetch('projects', {
           query: { page: pageNumber },
         })
 
-        const result: TPaginationResponse<Array<IProject>> | null = response?.data?.value
+        if (!response) return
 
-        if (!result) return
-        // TODO: minor - добавить нотифийку
-
-        this.projects = withReplace ? result.results : [...this.projects, ...result.results]
-        this.pagination = result.pagination
+        this.projects = withReplace ? response.results : [...this.projects, ...response.results]
+        this.pagination = response.pagination
       } catch (e) {
         throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
       } finally {
@@ -85,7 +83,7 @@ export const useProjectsStore = defineStore('projects', {
 
         this.SET_LOADING(true)
 
-        const response = await getFetch(
+        const response: IProject | null = await useCustomFetch(
           'projects',
           {
             method: HttpMethod.GET,
@@ -93,12 +91,9 @@ export const useProjectsStore = defineStore('projects', {
           id
         )
 
-        const result: IProject | null = response?.data?.value
+        if (!response) return
 
-        if (!result) return
-        // TODO: minor - добавить нотифийку
-
-        this.project = result
+        this.project = response
       } catch (e) {
         throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
       } finally {
@@ -114,26 +109,29 @@ export const useProjectsStore = defineStore('projects', {
 
         this.SET_LOADING(true)
 
-        const response = await getFetch(
+        const response = await useCustomFetch(
           'projects',
           {
             method: HttpMethod.POST,
             body: body,
-            // onResponseError({ response }) {
-            //   // console.log('onResponseError', response?._data)
-            // },
-            // onResponse({ response }) {
-            //   console.log('onResponse', response?._data)
-            // }
           },
         )
 
-        // console.log('data', response?.data)
-        // console.log('error', response?.error)
 
+        if (response?.id) {
+          const notificationStore  = useNotificationStore()
+          notificationStore.PUSH_NOTIFICATION({ title: 'Успех!', text: 'Проект успешно создан.', status: NotificationStatus.SUCCESS })
 
+          return true
+        }
+
+        if (response?.data) {
+          setNotificationFromResponseError(response?.data)
+
+          return false
+        }
       } catch (e) {
-        throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
+        throw new Error(`store:projects | CREATE_PROJECT - ${e}`)
       } finally {
         this.SET_LOADING(false)
       }

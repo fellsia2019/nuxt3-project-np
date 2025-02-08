@@ -237,7 +237,6 @@ function createTodo() {
   }
 
   const index = form.value.type === TypeBlock.FRONT ? 0 : 1
-  console.log('form.value.items', form.value.items)
   todoList.value[index].items.push({ item: form.value.item, done: false, items: [ ...form.value.items ] })
 
   // clear

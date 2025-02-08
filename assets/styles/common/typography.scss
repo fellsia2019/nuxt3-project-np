@@ -1,2 +1,29 @@
 @use "~/assets/styles/global/mixins.scss" as *;
 @use "~/assets/styles/global/variables.scss" as *;
+
+$b: '.typography';
+
+#{$b} {
+
+  & > * {
+    margin: 0;
+
+    &:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }
+
+  b:not([class]), strong:not([class]) {
+    font-weight: bolder;
+  }
+
+  a:not([class]) {
+    // @extend .link.link--primary;
+  }
+
+  img:not([class]) {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+}

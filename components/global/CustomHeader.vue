@@ -10,28 +10,48 @@
           <nav class="custom-header__nav">
             <ul class="custom-header__nav-list">
               <li class="custom-header__nav-item">
-                <NuxtLink class="custom-header__nav-link" :to="{ name: 'projects' }">
+                <NuxtLink class="custom-header__nav-link link" :to="{ name: 'projects' }">
                   Проекты
                 </NuxtLink>
               </li>
               <li class="custom-header__nav-item">
-                <NuxtLink class="custom-header__nav-link" :to="{ name: 'todo' }">
+                <NuxtLink class="custom-header__nav-link link" :to="{ name: 'todo' }">
                   Список дел
                 </NuxtLink>
               </li>
               <li class="custom-header__nav-item">
-                <NuxtLink class="custom-header__nav-link" :to="{ name: 'lk' }">
-                  ЛК
+                <NuxtLink class="custom-header__nav-link link" :to="{ name: 'lk' }">
+                  lk
+                </NuxtLink>
+              </li>
+              <li class="custom-header__nav-item">
+                <NuxtLink class="custom-header__nav-link link" :to="{ name: 'login' }">
+                  login
                 </NuxtLink>
               </li>
             </ul>
           </nav>
 
-          <div class="custom-header__actions">
-            <NuxtLink :to="{ name: 'auth' }" class="custom-header__actions-item">
-              Auth
-            </NuxtLink>
-          </div>
+          <ClientOnly>
+            <div class="custom-header__actions">
+              <NuxtLink
+                v-if="userStore?.IS_AUTH"
+                :to="{ name: 'lk' }"
+                class="custom-header__actions-item link link--primary"
+              >
+                {{ userStore.user?.username }}
+              </NuxtLink>
+              <NuxtLink
+                v-else
+                :to="{ name: 'login' }"
+                class="custom-header__actions-item"
+              >
+                <CustomButton :size="CustomButtonSizeSettings.SM">
+                  Вход
+                </CustomButton>
+              </NuxtLink>
+            </div>
+          </ClientOnly>
         </div>
       </div>
     </div>
@@ -39,9 +59,14 @@
 </template>
 
 <script setup lang="ts">
+import { CustomButtonSizeSettings } from '~/types/common/CustomButton'
+
+import { useUserStore } from '~/store/api/user'
 
 const rootElement = ref<HTMLElement | null>(null);
 const resizeObserver = ref<ResizeObserver | null>(null)
+
+const userStore = useUserStore()
 
 function saveSettingInRootVars() {
   nextTick(() => {

@@ -31,10 +31,10 @@ interface IProjectEmits {
 }
 
 const props = defineProps<IProjectProps>()
-const emit = defineEmits<IProjectEmits>()
+const emits = defineEmits<IProjectEmits>()
 
 function showMore() {
-  emit('show-more')
+  emits('show-more')
 }
 
 </script>

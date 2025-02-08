@@ -13,7 +13,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   }
 
   if (!userStore.IS_AUTH) {
-    console.log('миделварина , не авторизован, на auth')
-    return navigateTo({ name: 'auth' })
+    return navigateTo({ name: 'login' })
   }
 })

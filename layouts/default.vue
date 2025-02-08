@@ -4,8 +4,9 @@
     <div class="default-layout__main">
       <NuxtPage />
     </div>
-    <LoadingSpinner />
     <CustomFooter class="default-layout__footer" />
+    <LoadingSpinner />
+    <CustomNotification />
   </div>
 </template>
 

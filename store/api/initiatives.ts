@@ -59,17 +59,14 @@ export const useInitiativesStore = defineStore('initiatives', {
 
         const pageNumber = Math.min(page, this.pagination.total_pages)
 
-        const response = await getFetch('initiatives', {
+        const response: TPaginationResponse<Array<IInitiative>> | null = await useCustomFetch('initiatives', {
           query: { page: pageNumber },
         })
 
-        const result: TPaginationResponse<Array<IInitiative>> | null = response?.data?.value
+        if (!response) return
 
-        if (!result) return
-        // TODO: minor - добавить нотифийку
-
-        this.initiatives = withReplace ? result.results : [...this.initiatives, ...result.results]
-        this.pagination = result.pagination
+        this.initiatives = withReplace ? response.results : [...this.initiatives, ...response.results]
+        this.pagination = response.pagination
       } catch (e) {
         throw new Error(`store:initiatives | LOAD_INITIATIVES - ${e}`)
       } finally {
@@ -85,7 +82,7 @@ export const useInitiativesStore = defineStore('initiatives', {
 
         this.SET_LOADING(true)
 
-        const response = await getFetch(
+        const response: IInitiative | null = await useCustomFetch(
           'projects',
           {
             method: HttpMethod.GET,
@@ -93,12 +90,9 @@ export const useInitiativesStore = defineStore('initiatives', {
           id
         )
 
-        const result: IInitiative | null = response?.data?.value
+        if (!response) return
 
-        if (!result) return
-        // TODO: minor - добавить нотифийку
-
-        this.initiative = result
+        this.initiative = response
       } catch (e) {
         throw new Error(`store:initiatives | LOAD_INITIATIVE - ${e}`)
       } finally {

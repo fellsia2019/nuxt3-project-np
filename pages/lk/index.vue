@@ -34,7 +34,7 @@
 import { useProjectsStore } from '~/store/api/projects'
 
 definePageMeta({
-  middleware: ['auth']
+  middleware: ['login']
 })
 
 const projectsStore = useProjectsStore();
@@ -46,7 +46,6 @@ const projectForm = ref({
 
 async function onSubmit() {
   const res = await projectsStore.CREATE_PROJECT(projectForm.value)
-  console.log('RES', res)
 }
 </script>
 

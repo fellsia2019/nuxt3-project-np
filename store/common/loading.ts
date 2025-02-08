@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 
-
 interface ILoadingState {
   isLoading: boolean;
   loadingList: Array<string>

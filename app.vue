@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -7,7 +7,6 @@
 </template>
 
 <script setup lang="ts">
-
 const resizeObserver = ref<ResizeObserver | null>(null)
 
 function saveSettingInRootVars() {
