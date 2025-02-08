@@ -26,7 +26,7 @@ export const useNotificationStore = defineStore('notification', {
       if (!noRemoveByTimeout) {
         // отложенное удаление уведломление через время timeToRemove в мс
         this.callbacks[notificationId] = setTimeout(() => {
-          this.notifications = this.notifications.filter(item => item.id !== notificationId)
+          this.REMOVE_NOTIFICATION(notificationId)
         }, timeToRemove || 10000);
       }
 
