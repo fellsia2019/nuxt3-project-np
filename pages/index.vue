@@ -10,18 +10,27 @@
       <ProjectBlock
         v-if="projectsStore?.projects?.length"
         class="home-page__block"
+        title="Проекты"
         :projects="projectsStore.projects"
-        :can-load-more="projectsStore.HAS_NEXT_PAGE"
-        @show-more="showMoreProjects"
-      />
+      >
+        <template #title>
+          <NuxtLink class="link" :to="{ name: 'projects' }">
+            Проекты
+          </NuxtLink>
+        </template>
+      </ProjectBlock>
 
       <InitiativeBlock
         v-if="initiativesStore?.initiatives?.length"
         class="home-page__block"
         :initiatives="initiativesStore.initiatives"
-        :can-load-more="initiativesStore.HAS_NEXT_PAGE"
-        @show-more="showMoreInitiatives"
-      />
+      >
+        <template #title>
+          <NuxtLink class="link" :to="{ name: 'initiatives' }">
+            Инициативы
+          </NuxtLink>
+        </template>
+      </InitiativeBlock>
     </div>
   </main>
 </template>
@@ -34,14 +43,6 @@ const projectsStore = useProjectsStore();
 const initiativesStore = useInitiativesStore();
 
 await useAsyncData('projects', () => Promise.all([projectsStore.LOAD_PROJECTS(), initiativesStore.LOAD_INITIATIVES()]).then(() => true))
-
-function showMoreProjects() {
-  projectsStore.LOAD_PROJECTS(false, projectsStore.NEXT_PAGE_NUMBER)
-}
-function showMoreInitiatives() {
-  initiativesStore.LOAD_INITIATIVES(false, initiativesStore.NEXT_PAGE_NUMBER)
-}
-
 </script>
 
 <style lang="scss">

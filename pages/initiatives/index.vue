@@ -1,11 +1,50 @@
 <template>
   <main class="initiatives-page">
-    <div class="container">
-      <div class="initiatives-page__innner">
-        <h1 class="initiatives-page__title title title-h1 color-primary-accent">
-          Инициативы
-        </h1>
+    <div class="initiatives-page__inner">
+      <div class="container">
+        <div class="initiatives-page__header">
+          <h1 class="initiatives-page__title title title-h1 color-primary-accent">
+            Инициативы
+          </h1>
+        </div>
+      </div>
+      <div class="initiatives-page__body">
+        <InitiativeBlock
+          v-if="initiativesStore?.initiatives?.length"
+          class="home-page__block"
+          :initiatives="initiativesStore.initiatives"
+          :can-load-more="initiativesStore.HAS_NEXT_PAGE"
+          @show-more="showMore"
+        />
       </div>
     </div>
   </main>
 </template>
+
+<script setup lang="ts">
+import { useInitiativesStore } from '~/store/api/initiatives'
+
+const initiativesStore = useInitiativesStore();
+
+await useAsyncData('projects', () => initiativesStore.LOAD_INITIATIVES().then(() => true))
+
+function showMore() {
+  initiativesStore.LOAD_INITIATIVES(false, initiativesStore.NEXT_PAGE_NUMBER)
+}
+</script>
+
+<style lang="scss">
+$b: '.initiatives-page';
+
+#{$b} {
+
+  // .initiatives-page__header
+  &__header {
+    margin-bottom: 32px;
+
+    @include mobile {
+      margin-bottom: 24px;
+    }
+  }
+}
+</style>

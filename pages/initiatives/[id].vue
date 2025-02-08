@@ -1,11 +1,24 @@
 <template>
-  <main class="initiatives-detail-page">
-    <div class="container">
-      <div class="initiatives-detail-page__inner">
-        <h1 class="initiatives-detail-page__title title title-h1 color-primary-accent">
-          Инициатива
-        </h1>
-      </div>
-    </div>
-  </main>
+  <div v-if="initiativesStore?.initiative?.id" class="detail-project-page">
+    <DefaultDetailTemplate
+      :title="initiativesStore?.initiative?.title"
+      :content="initiativesStore?.initiative?.content"
+      :html="initiativesStore?.initiative?.detail_text"
+      :preview="{
+        base: initiativesStore?.initiative?.image || '',
+        webp: initiativesStore?.initiative?.image_webp || ''
+      }"
+    />
+  </div>
 </template>
+
+<script setup lang="ts">
+import { useInitiativesStore } from '~/store/api/initiatives'
+
+const route = useRoute()
+const id: string = Array.isArray(route.params.id) ? route.params.id?.[0] : route.params.id
+
+const initiativesStore = useInitiativesStore();
+
+await useAsyncData('project-detail', () => initiativesStore.LOAD_INITIATIVE(id).then(() => true))
+</script>

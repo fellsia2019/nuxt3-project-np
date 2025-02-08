@@ -3,6 +3,7 @@
     <InitiativeCard
       v-for="card in initiatives"
       :key="`initiatives-list-item-${card.id}`"
+      class="initiatives-list__card"
       :card="card"
     />
   </div>
@@ -27,6 +28,18 @@ $b: '.initiatives-list';
 
   @include tablet {
     @include gridcols(1, 16px);
+  }
+
+  // .initiatives-list__card
+  &__card {
+    &:last-child {
+      &:nth-child(odd) {
+        @include tablet-min {
+          grid-column-start: 1;
+          grid-column-end: 3;
+        }
+      }
+    }
   }
 }
 </style>

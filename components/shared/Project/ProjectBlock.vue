@@ -2,8 +2,8 @@
   <div class="projects-block">
     <div class="container">
       <div class="projects-block__inner">
-        <h2 class="projects-block__title title title-h2">
-          Проекты
+        <h2 v-if="$slots.title" class="projects-block__title title title-h2">
+          <slot name="title" />
         </h2>
 
         <ProjectList :projects="projects"/>
@@ -23,14 +23,16 @@ import type { IProject } from '~/types/api/projects'
 
 interface IProjectProps {
   projects: Array<IProject>;
-  canLoadMore: boolean;
+  canLoadMore?: boolean;
 }
 
 interface IProjectEmits {
   (e: 'show-more'): void
 }
 
-const props = defineProps<IProjectProps>()
+const props = withDefaults(defineProps<IProjectProps>(), {
+  canLoadMore: false,
+});
 const emits = defineEmits<IProjectEmits>()
 
 function showMore() {

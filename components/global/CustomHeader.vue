@@ -15,6 +15,11 @@
                 </NuxtLink>
               </li>
               <li class="custom-header__nav-item">
+                <NuxtLink class="custom-header__nav-link link" :to="{ name: 'initiatives' }">
+                  Инициативы
+                </NuxtLink>
+              </li>
+              <li class="custom-header__nav-item">
                 <NuxtLink class="custom-header__nav-link link" :to="{ name: 'todo' }">
                   Список дел
                 </NuxtLink>

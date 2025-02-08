@@ -2,8 +2,8 @@
   <div class="initiatives-block">
     <div class="container">
       <div class="initiatives-block__inner">
-        <h2 class="initiatives-block__title title title-h2">
-          Инициативы
+        <h2 v-if="$slots.title" class="initiatives-block__title title title-h2">
+          <slot name="title" />
         </h2>
 
         <InitiativeList :initiatives="initiatives"/>
@@ -24,14 +24,16 @@ import { CustomButtonThemeSettings } from '~/types/common/CustomButton';
 
 interface IInitiativesProps {
   initiatives: Array<IInitiative>;
-  canLoadMore: boolean;
+  canLoadMore?: boolean;
 }
 
 interface IInitiativesEmits {
   (e: 'show-more'): void
 }
 
-const props = defineProps<IInitiativesProps>()
+const props = withDefaults(defineProps<IInitiativesProps>(), {
+  canLoadMore: false,
+});
 const emit = defineEmits<IInitiativesEmits>()
 
 function showMore() {

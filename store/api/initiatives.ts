@@ -83,7 +83,7 @@ export const useInitiativesStore = defineStore('initiatives', {
         this.SET_LOADING(true)
 
         const response: IFetchResponse<IInitiative> | null = await useCustomFetch(
-          'projects',
+          'initiatives',
           {
             method: HttpMethod.GET,
           },
