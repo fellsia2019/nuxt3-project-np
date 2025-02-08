@@ -34,7 +34,8 @@
 import { useProjectsStore } from '~/store/api/projects'
 
 definePageMeta({
-  middleware: ['login']
+  middleware: ['login'],
+  ssr: false
 })
 
 const projectsStore = useProjectsStore();

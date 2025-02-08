@@ -102,9 +102,9 @@ export const useUserStore = defineStore('user', {
           },
         )
 
-        if (response?.refresh && response?.access) {
-          this.SAVE_ACCESS_TOKEN(response?.access)
-          this.SAVE_REFRESH_TOKEN(response?.refresh)
+        if (response?.ok && (response?.data?.refresh && response?.data?.access)) {
+          this.SAVE_ACCESS_TOKEN(response?.data?.access)
+          this.SAVE_REFRESH_TOKEN(response?.data?.refresh)
 
           useRouter().push({ name: 'lk' })
           this.GET_USER(true)
@@ -112,7 +112,7 @@ export const useUserStore = defineStore('user', {
           return true
         }
 
-        if (response?.data) {
+        if (!response?.ok && response?.data) {
           setNotificationFromResponseError(response?.data)
 
           return false
@@ -140,9 +140,9 @@ export const useUserStore = defineStore('user', {
           },
         )
 
-        if (response?.refresh && response?.access) {
-          this.SAVE_ACCESS_TOKEN(response?.access)
-          this.SAVE_REFRESH_TOKEN(response?.refresh)
+        if (response?.ok && (response.data?.refresh && response?.data?.access)) {
+          this.SAVE_ACCESS_TOKEN(response?.data?.access)
+          this.SAVE_REFRESH_TOKEN(response?.data?.refresh)
 
           await this.GET_USER(true)
           useRouter().push({ name: 'lk' })
@@ -150,7 +150,7 @@ export const useUserStore = defineStore('user', {
           return true
         }
 
-        if (response?.data) {
+        if (!response?.ok && response?.data) {
           setNotificationFromResponseError(response?.data)
 
           return false
@@ -204,13 +204,13 @@ export const useUserStore = defineStore('user', {
           noCheckTokenVerify
         )
 
-        if (response?.id) {
-          this.user = response
+        if (response?.ok && response?.data?.id) {
+          this.user = response?.data
 
           return true
         }
 
-        if (response?.data) {
+        if (!response?.ok && response?.data) {
           setNotificationFromResponseError(response?.data)
 
           return false
@@ -231,9 +231,9 @@ export const useUserStore = defineStore('user', {
           }
         )
 
-        if (response?.detail) {
+        if (response?.data?.detail) {
           return false
-        } else if (response) {
+        } else if (response?.data) {
           return true
         }
       } catch(e) {
@@ -251,8 +251,8 @@ export const useUserStore = defineStore('user', {
           }
         )
 
-        if (response?.access) {
-          this.SAVE_ACCESS_TOKEN(response?.access)
+        if (response?.ok && response?.data?.access) {
+          this.SAVE_ACCESS_TOKEN(response?.data?.access)
           return true
         } else {
           return false

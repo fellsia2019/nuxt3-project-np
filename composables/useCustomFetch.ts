@@ -1,10 +1,18 @@
 import { useConfigApiStore } from '~/store/api/_config';
 import { HttpMethod } from '~/types/ApiService'
 import { useUserStore } from '~/store/api/user'
+import { getUrlWithQuery } from '~/helpers/queryHelpers'
+
+interface IOptions {
+  query?: { [key: string]: string | number };
+  method?: HttpMethod;
+  headers?: { [key: string]: string | number };
+  body?: { [key: string]: any };
+}
 
 export async function useCustomFetch (
   route: string,
-  options?: any,
+  options?: IOptions,
   addionalToUrl?: string,
   noCheckAuth?: boolean,
   noCheckTokenVerify?: boolean,
@@ -25,7 +33,6 @@ export async function useCustomFetch (
   const needAuth = currentService.routes[route].allowOnlyWithAuth?.includes(method)
 
   if (needAuth && !noCheckAuth) {
-
     if (!userStore.ACCESS_TOKEN || !userStore.REFRESH_TOKEN) {
       if (import.meta.client) {
         const router = useRouter()
@@ -53,52 +60,44 @@ export async function useCustomFetch (
     }
   }
 
-  const requestOptions = {
-    ...(options || {}),
+  const fetchOptions: RequestInit = {
     method,
     headers: {
-      ...(options?.headers || {}),
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...(options?.headers || {})
     }
   }
 
   if (needAuth) {
-    requestOptions.headers = {
-      ...requestOptions.headers,
+    fetchOptions.headers = {
+      ...fetchOptions.headers,
       Authorization: `Bearer ${userStore.ACCESS_TOKEN}`
     }
   }
 
-  const fetchOptions = {}
-
-  if (requestOptions.headers) {
-    fetchOptions.headers = { ...(requestOptions.headers || {}) }
-  }
-  if (requestOptions.body) {
-    fetchOptions.body = JSON.stringify(requestOptions.body)
-    fetchOptions.method = 'POST'
+  if (options?.body) {
+    fetchOptions.body = JSON.stringify(options.body)
   }
 
-  let fetchUrl = url
-  if (requestOptions.query) {
-    const startSymbol = (new URL(url))?.search ? '&' : '?'
-
-    const queryList = []
-
-    for (let key in requestOptions.query) {
-      const v = requestOptions.query[key]
-
-      queryList.push(`${key}=${v}`)
-    }
-
-    if (queryList?.length) {
-      fetchUrl += `${startSymbol}${queryList.join('&')}`
-    }
-  }
+  let fetchUrl = getUrlWithQuery(url,options?.query)
 
   return fetch(
     fetchUrl,
     fetchOptions
   )
-  .then(res => res.json())
+  .then(async (res) => {
+    let data = null;
+
+    try {
+      data = await res.json();
+    } catch {
+      try {
+        data = await res.text();
+      } catch {
+        data = null;
+      }
+    }
+
+    return { ok: res.ok, status: res.status, data: data };
+  });
 }

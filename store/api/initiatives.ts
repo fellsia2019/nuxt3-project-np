@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 import type { IInitiative } from '~/types/api/initiatives';
-import type { TPaginationResponse, IPaginationApi } from '~/types/api/common';
+import type { TPaginationResponse, IPaginationApi, IFetchResponse } from '~/types/api/common';
 
 import { useLoadingStore } from '~/store/common/loading'
 import { HttpMethod } from '~/types/ApiService';
@@ -59,14 +59,14 @@ export const useInitiativesStore = defineStore('initiatives', {
 
         const pageNumber = Math.min(page, this.pagination.total_pages)
 
-        const response: TPaginationResponse<Array<IInitiative>> | null = await useCustomFetch('initiatives', {
+        const response: IFetchResponse<TPaginationResponse<Array<IInitiative>>> | null = await useCustomFetch('initiatives', {
           query: { page: pageNumber },
         })
 
-        if (!response) return
-
-        this.initiatives = withReplace ? response.results : [...this.initiatives, ...response.results]
-        this.pagination = response.pagination
+        if (response?.ok && response?.data) {
+          this.initiatives = withReplace ? response.data?.results : [...this.initiatives, ...response.data?.results]
+          this.pagination = response.data?.pagination
+        }
       } catch (e) {
         throw new Error(`store:initiatives | LOAD_INITIATIVES - ${e}`)
       } finally {
@@ -82,7 +82,7 @@ export const useInitiativesStore = defineStore('initiatives', {
 
         this.SET_LOADING(true)
 
-        const response: IInitiative | null = await useCustomFetch(
+        const response: IFetchResponse<IInitiative> | null = await useCustomFetch(
           'projects',
           {
             method: HttpMethod.GET,
@@ -90,9 +90,9 @@ export const useInitiativesStore = defineStore('initiatives', {
           id
         )
 
-        if (!response) return
-
-        this.initiative = response
+        if (response?.ok) {
+          this.initiative = response?.data
+        }
       } catch (e) {
         throw new Error(`store:initiatives | LOAD_INITIATIVE - ${e}`)
       } finally {

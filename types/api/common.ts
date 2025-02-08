@@ -12,3 +12,9 @@ export interface IPaginationApi {
   total_pages: number;
   current_page: number;
 }
+
+export interface IFetchResponse<T> {
+  ok: boolean;
+  status: number;
+  data: T;
+}

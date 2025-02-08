@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 import type { IProject } from '~/types/api/projects';
-import type { TPaginationResponse, IPaginationApi } from '~/types/api/common';
+import type { TPaginationResponse, IPaginationApi, IFetchResponse } from '~/types/api/common';
 import { NotificationStatus } from '~/types/common/Notification'
 
 import { useNotificationStore } from '~/store/common/notification'
@@ -60,14 +60,14 @@ export const useProjectsStore = defineStore('projects', {
 
         const pageNumber = Math.min(page, this.pagination.total_pages)
 
-        const response: TPaginationResponse<Array<IProject>> | null = await useCustomFetch('projects', {
+        const response: IFetchResponse<TPaginationResponse<Array<IProject>>> | null = await useCustomFetch('projects', {
           query: { page: pageNumber },
         })
 
-        if (!response) return
-
-        this.projects = withReplace ? response.results : [...this.projects, ...response.results]
-        this.pagination = response.pagination
+        if (response?.ok && response?.data) {
+          this.projects = withReplace ? response.data?.results : [...this.projects, ...response.data?.results]
+          this.pagination = response.data?.pagination
+        }
       } catch (e) {
         throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
       } finally {
@@ -83,7 +83,7 @@ export const useProjectsStore = defineStore('projects', {
 
         this.SET_LOADING(true)
 
-        const response: IProject | null = await useCustomFetch(
+        const response: IFetchResponse<IProject> = await useCustomFetch(
           'projects',
           {
             method: HttpMethod.GET,
@@ -91,9 +91,9 @@ export const useProjectsStore = defineStore('projects', {
           id
         )
 
-        if (!response) return
-
-        this.project = response
+        if (response?.ok && response?.data) {
+          this.project = response?.data
+        }
       } catch (e) {
         throw new Error(`store:projects | LOAD_PROJECTS - ${e}`)
       } finally {
@@ -117,15 +117,14 @@ export const useProjectsStore = defineStore('projects', {
           },
         )
 
-
-        if (response?.id) {
+        if (response?.ok && response?.data?.id) {
           const notificationStore  = useNotificationStore()
           notificationStore.PUSH_NOTIFICATION({ title: 'Успех!', text: 'Проект успешно создан.', status: NotificationStatus.SUCCESS })
 
           return true
         }
 
-        if (response?.data) {
+        if (!response?.ok && response?.data) {
           setNotificationFromResponseError(response?.data)
 
           return false
