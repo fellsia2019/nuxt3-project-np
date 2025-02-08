@@ -43,6 +43,10 @@ export const useNotificationStore = defineStore('notification', {
       clearTimeout(this.callbacks?.[id])
 
       this.notifications = this.notifications.filter(notification => notification.id !== id)
+    },
+
+    CLEAR() {
+      this.notifications = []
     }
   },
 });

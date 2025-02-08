@@ -39,20 +39,23 @@
 
           <ClientOnly>
             <div class="custom-header__actions">
-              <NuxtLink
-                v-if="userStore?.IS_AUTH"
-                :to="{ name: 'lk' }"
-                class="custom-header__actions-item link link--primary"
-              >
-                {{ userStore.user?.username }}
-              </NuxtLink>
+              <div v-if="userStore?.IS_AUTH" class="custom-header__actions-item">
+                <SvgIcon class="custom-header__logout-icon" icon="logout" @click="userStore.LOGOUT" />
+                <NuxtLink
+                  :to="{ name: 'lk' }"
+                  class=" link link--primary"
+                >
+                  {{ userStore.user?.username }}
+                </NuxtLink>
+              </div>
               <NuxtLink
                 v-else
                 :to="{ name: 'login' }"
                 class="custom-header__actions-item"
               >
                 <CustomButton :size="CustomButtonSizeSettings.SM">
-                  Вход
+                  <SvgIcon class="custom-header__user-icon" icon="user" />
+                  <span>Вход</span>
                 </CustomButton>
               </NuxtLink>
             </div>
@@ -140,6 +143,44 @@ $b: '.custom-header';
   // .custom-header__actions
   &__actions {
     margin-left: auto;
+
+    // .custom-header__actions-item
+    &-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+  // .custom-header__logout-icon
+  &__logout-icon {
+    cursor: pointer;
+    color: $color-light;
+    width: 20px;
+
+    @include hover {
+      color: $color-primary;
+
+      svg {
+        transform: translateX(-2px);
+      }
+    }
+
+    svg {
+      transition: $td;
+      fill: currentColor;
+    }
+  }
+
+  // .custom-header__user-icon
+  &__user-icon {
+    width: 14px;
+    margin-right: 4px;
+    margin-bottom: 2px;
+
+    svg {
+      fill: currentColor;
+    }
   }
 }
 </style>

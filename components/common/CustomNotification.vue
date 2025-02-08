@@ -30,7 +30,7 @@
                   class="custom-notification__item-close"
                   @click="close(notification.id)"
                 >
-                  X
+                  <SvgIcon icon="cross" />
                 </div>
               </div>
             </div>
@@ -47,6 +47,7 @@ import { useNotificationStore } from '~/store/common/notification'
 const notificationStore = useNotificationStore();
 const isVisible = ref(false)
 const animationTime = 500 // ms
+const timeoutId = ref<ReturnType<typeof setTimeout> | null>(null)
 
 const rootStyle = computed(() => {
   return {
@@ -61,11 +62,13 @@ function close(id: number) {
 watch(() => notificationStore.NOTIFICATIONS.length, (newVal) => {
   if (newVal) {
     isVisible.value = true
-
+    if (timeoutId.value) {
+      clearTimeout(timeoutId.value)
+    }
   } else {
-    setTimeout(() => {
+    timeoutId.value = setTimeout(() => {
       isVisible.value = false
-    }, 500);
+    }, animationTime);
   }
 })
 </script>
@@ -110,24 +113,21 @@ $b: '.custom-notification';
     position: relative;
     border-radius: 12px;
     padding: 12px;
-    border: 2px solid;
+    // border: 2px solid;
     font-size: 14px;
     background-color: $color-main;
+    box-shadow: 0 0 15px 3px currentColor;
 
     &--status-success {
-      border-color: $color-success;
       color: $color-success;
     }
     &--status-warning {
-      border-color: $color-warning;
       color: $color-warning;
     }
     &--status-danger {
-      border-color: $color-danger;
       color: $color-danger;
     }
     &--status-primary {
-      border-color: $color-primary;
       color: $color-primary;
     }
 
@@ -159,10 +159,13 @@ $b: '.custom-notification';
       cursor: pointer;
       transition: all 0.3s ease;
       will-change: color, background, transform;
-      @include boxsize(15px);
+      @include boxsize(16px);
 
       @include hover {
         background-color: currentColor;
+        svg {
+          color: $color-dark;
+        }
       }
     }
   }
@@ -174,7 +177,7 @@ $b: '.custom-notification';
   .notifications-enter-from,
   .notifications-leave-to {
     opacity: 0;
-    transform: translateX(80px);
+    transform: translateX(50%);
   }
 }
 </style>

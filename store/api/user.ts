@@ -24,11 +24,6 @@ function getCookieItem(name: string) {
   return cookie?.value || ''
 }
 
-function deleteCookieItem(name: string) {
-  const cookie = useCookie(name)
-  cookie.value = null
-}
-
 function setCookieItem(name: string, value: string) {
   const cookie = useCookie(name)
   cookie.value = value
@@ -52,7 +47,6 @@ export const useUserStore = defineStore('user', {
     REFRESH_TOKEN: (state) => {
       return state.tokens.refresh || getCookieItem(LS_TOKEN_REFRESH_NAME)
     },
-
 
     IS_AUTH: (state) => Boolean(state.user?.id),
 
@@ -260,6 +254,13 @@ export const useUserStore = defineStore('user', {
       } catch(e) {
         throw new Error(`store:user | DO_REFRESH_TOKEN - ${e}`)
       }
+    },
+
+    LOGOUT() {
+      this.SAVE_ACCESS_TOKEN('')
+      this.SAVE_REFRESH_TOKEN('')
+      this.user = null
+      useRouter().push({ name: 'index' })
     }
   },
 });
