@@ -1,37 +1,40 @@
 <template>
   <div
-    v-if="notificationStore?.IS_VISIBLE"
+    v-show="isVisible"
     class="custom-notification"
+    :style="rootStyle"
   >
     <div class="container custom-notification__container">
       <div class="custom-notification__inner">
         <div class="custom-notification__body">
-          <div
-            v-for="notification in notificationStore?.NOTIFICATIONS"
-            :key="`custom-notification__item-${notification.id}`"
-            class="custom-notification__item"
-            :class="`custom-notification__item--status-${notification.status}`"
-          >
-            <div class="custom-notification__item-inner">
-              <div
-                v-if="notification.title"
-                v-html="notification.title"
-                class="custom-notification__item-title fw-600"
-              />
-              <div
-                v-if="notification.text"
-                v-html="notification.text"
-                class="custom-notification__item-text"
-              />
-              <div
-                v-if="notification.id"
-                class="custom-notification__item-close"
-                @click="close(notification.id)"
-              >
-                X
+          <TransitionGroup name="notifications">
+            <div
+              v-for="notification in notificationStore?.NOTIFICATIONS"
+              :key="`custom-notification__item-${notification.id}`"
+              class="custom-notification__item"
+              :class="`custom-notification__item--status-${notification.status}`"
+            >
+              <div class="custom-notification__item-inner">
+                <div
+                  v-if="notification.title"
+                  v-html="notification.title"
+                  class="custom-notification__item-title fw-600"
+                />
+                <div
+                  v-if="notification.text"
+                  v-html="notification.text"
+                  class="custom-notification__item-text"
+                />
+                <div
+                  v-if="notification.id"
+                  class="custom-notification__item-close"
+                  @click="close(notification.id)"
+                >
+                  X
+                </div>
               </div>
             </div>
-          </div>
+          </TransitionGroup>
         </div>
       </div>
     </div>
@@ -42,10 +45,29 @@
 import { useNotificationStore } from '~/store/common/notification'
 
 const notificationStore = useNotificationStore();
+const isVisible = ref(false)
+const animationTime = 500 // ms
+
+const rootStyle = computed(() => {
+  return {
+    '--animation-time': `${animationTime}ms`
+  }
+})
 
 function close(id: number) {
   notificationStore.REMOVE_NOTIFICATION(id)
 }
+
+watch(() => notificationStore.NOTIFICATIONS.length, (newVal) => {
+  if (newVal) {
+    isVisible.value = true
+
+  } else {
+    setTimeout(() => {
+      isVisible.value = false
+    }, 500);
+  }
+})
 </script>
 
 <style lang="scss">
@@ -144,6 +166,15 @@ $b: '.custom-notification';
       }
     }
   }
-}
 
+  .notifications-enter-active,
+  .notifications-leave-active {
+    transition: all var(--animation-time) ease;
+  }
+  .notifications-enter-from,
+  .notifications-leave-to {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+}
 </style>
