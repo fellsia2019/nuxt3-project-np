@@ -175,6 +175,7 @@ $b: '.custom-header';
   // .custom-header__user-icon
   &__user-icon {
     width: 14px;
+    height: 14px;
     margin-right: 4px;
     margin-bottom: 2px;
 

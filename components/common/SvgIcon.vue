@@ -1,47 +1,21 @@
 <template>
-  <ClientOnly>
-    <div
-      class="svg-icon"
-      v-html="iconContent"
-      :class="[$attrs.class, iconClass]"
-    />
-  </ClientOnly>
+  <svg class="svg-icon">
+    <use :href="`#icon-${icon}`" />
+  </svg>
 </template>
 
 <script setup lang="ts">
-import { ClientOnly } from '#components';
-
 interface IProps {
   icon: string;
 }
 
-const props = defineProps<IProps>()
-
-const icons = import.meta.glob('~/assets/icons/*.svg', {
-  eager: true,
-  query: '?raw',
-  import: 'default'
-})
-
-const iconName = computed(() => `${props.icon}.svg`)
-const iconContent = computed(() => icons[`/assets/icons/${iconName.value}`] as string)
-
-const iconClass = computed(() => `svg-icon--${props.icon}`)
+const props = defineProps<IProps>();
 </script>
 
-<style lang="scss">
-$b: '.svg-icon';
-
-#{$b} {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+<style scoped>
+.svg-icon {
   max-width: 100%;
   max-height: 100%;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
+  fill: currentColor;
 }
 </style>

@@ -1,4 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import path from 'path';
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
@@ -34,7 +38,16 @@ export default defineNuxtConfig({
           additionalData: '@use "~/assets/styles/global/variables.scss" as *; @use "~/assets/styles/global/mixins.scss" as *;',
         }
       }
-    }
+    },
+
+    plugins: [
+      createSvgIconsPlugin({
+        // Укажите путь к папке с иконками
+        iconDirs: [path.resolve(process.cwd(), 'assets/icons')],
+        // Укажите символ для генерации ID иконок
+        symbolId: 'icon-[dir]-[name]',
+      }),
+    ]
   },
 
   modules: ['@pinia/nuxt'],

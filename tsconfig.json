@@ -1,4 +1,7 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
+//   "compilerOptions": {
+//     "types": ["vite-plugin-svg-icons/client"]
+//   },
   "extends": "./.nuxt/tsconfig.json",
 }
