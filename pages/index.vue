@@ -1,9 +1,19 @@
 <template>
   <main class="home-page">
     <div class="container">
-      <h1 class="home-page__title title title-h1 color-primary">
-        Главная страница
-      </h1>
+      <div class="home-page__header">
+        <h1 class="home-page__title title title-h1">
+          Главная страница
+        </h1>
+
+        <p>
+          Это обычный пет-проект.
+          <br>
+          Он не нацелен на получение прибыли или любой другой коммерческой, финансовой, материальной и любой другой выгоды.
+          <br>
+          Прошу не обращать особое внимание к дизайну, он создавался внезапно и на коленке.
+        </p>
+      </div>
     </div>
 
     <div class="home-page__body">
@@ -49,9 +59,17 @@ await useAsyncData('projects', () => Promise.all([projectsStore.LOAD_PROJECTS(),
 $b: '.home-page';
 
 #{$b} {
+
+  // .home-page__header
+  &__header {
+    margin-bottom: 40px;
+  }
+
   // .home-page__title
   &__title {
-    margin-bottom: 40px;
+    &:not(:last-child) {
+      margin-bottom: 16px;
+    }
   }
 
   // .home-page__block

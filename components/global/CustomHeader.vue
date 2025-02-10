@@ -116,8 +116,8 @@ $b: '.custom-header';
   // .custom-header__inner
   &__wrapper {
     padding: 20px 0;
-    border-bottom: 1px solid $color-primary;
-    box-shadow: 0 0 30px 0 rgba($color-primary, 0.5);
+    border-bottom: 1px solid $color-light;
+    box-shadow: 0 0 30px 0 rgba($color-light, 0.5);
     background-color: rgba($color-main, 0.8);
     backdrop-filter: blur(20px);
   }
