@@ -3,6 +3,7 @@
     <ProjectCard
       v-for="card in projects"
       :key="`project-list-item-${card.id}`"
+      class="project-list__card"
       :card="card"
     />
   </div>
@@ -31,6 +32,18 @@ $b: '.project-list';
 
   @include mobile {
     @include gridcols(1, 16px);
+  }
+
+  // .project-list__card
+  &__card {
+    &:last-child {
+      &:nth-child(odd) {
+        @include tablet-only {
+          grid-column-start: 1;
+          grid-column-end: 3;
+        }
+      }
+    }
   }
 }
 </style>

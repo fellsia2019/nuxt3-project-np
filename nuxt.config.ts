@@ -42,12 +42,10 @@ export default defineNuxtConfig({
 
     plugins: [
       createSvgIconsPlugin({
-        // Укажите путь к папке с иконками
         iconDirs: [path.resolve(process.cwd(), 'assets/icons')],
-        // Укажите символ для генерации ID иконок
         symbolId: 'icon-[dir]-[name]',
       }),
-    ]
+    ],
   },
 
   modules: ['@pinia/nuxt'],

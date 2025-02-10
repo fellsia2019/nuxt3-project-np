@@ -33,7 +33,7 @@ interface IAnimationInitArgs {
   intersectingHandler: () => void;
   paralaxOptions: {
     deltaPercent: number;
-  }
+  } | null;
 }
 
 export class Animation {
@@ -43,7 +43,7 @@ export class Animation {
   animationName: ANIMATIONS;
   observerOptions: IntersectionObserverInit;
   intersectingHandler: () => void;
-  paralaxOptions: { deltaPercent: number; };
+  paralaxOptions: { deltaPercent: number; } | null = null;
   intersectionObserver: IntersectionObserver | null = null;
 
   constructor({ target, animationName, observerOptions, intersectingHandler, paralaxOptions }: IAnimationInitArgs) {

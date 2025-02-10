@@ -12,8 +12,11 @@
 $b: '.custom-footer';
 
 #{$b} {
+  position: relative;
   padding: 30px 0;
   border-top: 1px solid $color-primary;
   box-shadow: 0 0 30px 0 rgba($color-primary, 0.5);
+  background-color: $color-main;
+  z-index: 2;
 }
 </style>

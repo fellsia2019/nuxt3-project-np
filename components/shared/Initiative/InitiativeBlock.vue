@@ -1,36 +1,31 @@
 <template>
   <div class="initiatives-block">
-    <AnimationWrapper :parallaxEnabled="false">
-      <div class="container">
-        <div class="initiatives-block__inner">
-          <h2 v-if="$slots.title" class="initiatives-block__title title title-h2">
-            <slot name="title" />
-          </h2>
+    <div class="container">
+      <div class="initiatives-block__inner">
+        <h2 v-if="$slots.title" class="initiatives-block__title title title-h2">
+          <slot name="title" />
+        </h2>
 
-          <InitiativeList :initiatives="initiatives"/>
+        <InitiativeList :initiatives="initiatives"/>
 
-          <div v-if="canLoadMore" class="initiatives-block__actions">
-            <CustomButton @click="showMore" :theme="CustomButtonThemeSettings.PRIMARY_ACCENT">
-              Показать ещё
-            </CustomButton>
-          </div>
+        <div v-if="canLoadMore" class="initiatives-block__actions">
+          <CustomButton @click="showMore" :theme="CustomButtonThemeSettings.PRIMARY_ACCENT">
+            Показать ещё
+          </CustomButton>
         </div>
       </div>
+    </div>
 
-      <div class="initiatives-block__shapes">
-        <AnimationWrapper class="initiatives-block__shape initiatives-block__shape--1" :deltaPercent="0.25">
-          <SvgIcon icon="square" class="initiatives-block__shape-icon initiatives-block__shape-icon--1" />
-          <SvgIcon icon="square" class="initiatives-block__shape-icon initiatives-block__shape-icon--2" />
-          <SvgIcon icon="square" class="initiatives-block__shape-icon initiatives-block__shape-icon--3" />
-        </AnimationWrapper>
-
-        <AnimationWrapper class="initiatives-block__shape initiatives-block__shape--2" :deltaPercent="0.25">
-          <SvgIcon icon="square" class="initiatives-block__shape-icon initiatives-block__shape-icon--1" />
-          <SvgIcon icon="square" class="initiatives-block__shape-icon initiatives-block__shape-icon--2" />
-          <SvgIcon icon="square" class="initiatives-block__shape-icon initiatives-block__shape-icon--3" />
-        </AnimationWrapper>
-      </div>
-    </AnimationWrapper>
+    <div class="initiatives-block__shapes initiatives-block__shapes--1">
+      <AnimationWrapper>
+        <AnimateFigure icon="square" class="initiatives-block__animate-figure" />
+      </AnimationWrapper>
+    </div>
+    <div class="initiatives-block__shapes initiatives-block__shapes--2">
+      <AnimationWrapper>
+        <AnimateFigure icon="square" class="initiatives-block__animate-figure" />
+      </AnimationWrapper>
+    </div>
   </div>
 </template>
 
@@ -63,6 +58,11 @@ $b: '.initiatives-block';
 
 #{$b} {
   position: relative;
+  padding: 32px 0;
+
+  @include mobile {
+    padding: 18px 0;
+  }
 
   // .initiatives-block__title
   &__title {
@@ -74,55 +74,41 @@ $b: '.initiatives-block';
     margin-top: 24px;
   }
 
-  // .initiatives-block__shape
-  &__shape {
+  // .initiatives-block__shapes
+  &__shapes {
     position: absolute;
-    width: 300px;
-    height: 300px;
 
-    // .initiatives-block__shape--1
+    // .initiatives-block__shapes--1
     &--1 {
       right: 45px;
-      top: -150px;
+      top: -100px;
+
+      @include tablet {
+        right: -60px;
+        top: -60px;
+      }
     }
 
-    // .initiatives-block__shape--2
+    // .initiatives-block__shapes--2
     &--2 {
       left: 45px;
-      bottom: -200px;
+      bottom: -150px;
+
+      @include tablet {
+        left: -60px;
+        bottom: -60px;
+      }
     }
+  }
 
-    // .initiatives-block__shape-icon
-    &-icon {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+  // .initiatives-block__animate-figure
+  &__animate-figure {
+    width: 250px;
+    height: 250px;
 
-      &#{$b}__shape-icon--2 {
-        max-width: 75%;
-        max-height: 75%;
-      }
-
-      &#{$b}__shape-icon--3 {
-        max-width: 50%;
-        max-height: 50%;
-      }
-
-      &--1,
-      &--3 {
-        svg {
-          animation: RotateLeft 5s linear infinite, ChangeColor 10s linear infinite alternate;
-        }
-      }
-
-      &--2 {
-        svg {
-          animation: RotateRight 5s linear infinite, ChangeColor 10s linear infinite alternate;
-        }
-      }
+    @include tablet {
+      width: 150px;
+      height: 150px;
     }
   }
 
@@ -133,35 +119,4 @@ $b: '.initiatives-block';
   }
 }
 
-@keyframes RotateLeft {
-  from {
-    transform: rotate(0deg);
-  } to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes RotateRight {
-  from {
-    transform: rotate(0deg);
-  } to {
-    transform: rotate(-360deg);
-  }
-}
-@keyframes ChangeColor {
-  0% {
-    color: $color-light
-  }
-  25% {
-    color: $color-primary;
-  }
-  50% {
-    color: $color-primary-accent;
-  }
-  75% {
-    color: $color-success;
-  }
-  100% {
-    color: $color-danger;
-  }
-}
 </style>

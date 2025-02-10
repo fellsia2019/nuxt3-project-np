@@ -154,9 +154,10 @@ $b: '.custom-header';
 
   // .custom-header__logout-icon
   &__logout-icon {
-    cursor: pointer;
-    color: $color-light;
     width: 20px;
+    height: 20px;
+    color: $color-light;
+    cursor: pointer;
 
     @include hover {
       color: $color-primary;

@@ -8,11 +8,14 @@
         base: initiativesStore?.initiative?.image || '',
         webp: initiativesStore?.initiative?.image_webp || ''
       }"
+      :theme="TemplateThemes.PRIMARY_ACCENT"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import { TemplateThemes } from '~/types/common/Themes'
+
 import { useInitiativesStore } from '~/store/api/initiatives'
 
 const route = useRoute()

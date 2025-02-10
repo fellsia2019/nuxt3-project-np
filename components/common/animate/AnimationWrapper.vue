@@ -67,16 +67,22 @@ onMounted(async () => {
     return
   }
 
-  await nextTick()
+  // await nextTick()
+
+  if (!rootEl.value) {
+    return
+  }
 
   AnimationInstance.value = new Animation({
     target: rootEl.value,
     animationName: props.animationName,
     observerOptions: props.observerOptions,
     intersectingHandler: intersectingHandler,
-    paralaxOptions: props.parallaxEnabled ? {
-      deltaPercent: props.deltaPercent,
-    } : {}
+    paralaxOptions: props.parallaxEnabled
+      ? {
+        deltaPercent: props.deltaPercent,
+      }
+      : null,
   })
 
 })
