@@ -1,12 +1,16 @@
 <template>
-  <div
-    class="svg-icon"
-    v-html="iconContent"
-    :class="[$attrs.class, iconClass]"
-  />
+  <ClientOnly>
+    <div
+      class="svg-icon"
+      v-html="iconContent"
+      :class="[$attrs.class, iconClass]"
+    />
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
+import { ClientOnly } from '#components';
+
 interface IProps {
   icon: string;
 }

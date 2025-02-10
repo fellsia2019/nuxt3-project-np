@@ -52,12 +52,12 @@ $b: '.project-card';
 
 #{$b} {
   display: block;
-  background-color: rgba($color-primary, 0.1);
+  background-color: $color-dark-primary;
   border-radius: 16px;
   transition: $td;
 
   &:hover {
-    box-shadow: 0 0 10px 0 rgba($color-primary, 0.5);
+    box-shadow: 0 0 10px 0 $color-dark-primary-2;
   }
 
   // .project-card__inner
@@ -89,7 +89,7 @@ $b: '.project-card';
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: rgba($color-primary, 0.1);
+    background-color: $color-dark-primary-2;
     border-radius: 16px;
     padding: 16px;
 
