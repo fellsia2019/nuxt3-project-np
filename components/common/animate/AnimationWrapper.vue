@@ -21,6 +21,7 @@ interface IProps {
   deltaPercent?: number;
   observerOptions?: IntersectionObserverInit;
   parallaxEnabled?: boolean;
+  awaitNextTick?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -33,7 +34,8 @@ const props = withDefaults(defineProps<IProps>(), {
     rootMargin: '0px',
     threshold: [0.15, 0.25, 0.5, 0.75, 1]
   }),
-  parallaxEnabled: true
+  parallaxEnabled: true,
+  awaitNextTick: false
 });
 
 const isVisible = ref(false)
@@ -62,12 +64,14 @@ function intersectingHandler() {
   }, props.animationDelay)
 }
 
-onMounted(async () => {
+async function init() {
   if (import.meta.server) {
     return
   }
 
-  // await nextTick()
+  if (props.awaitNextTick) {
+    await nextTick()
+  }
 
   if (!rootEl.value) {
     return
@@ -84,7 +88,10 @@ onMounted(async () => {
       }
       : null,
   })
+}
 
+onMounted(() => {
+  init()
 })
 
 onBeforeUnmount(() => {

@@ -1,14 +1,15 @@
 <template>
   <div class="animate-figure">
     <div
-      v-for="i in levels"
-      :key="`animate-figure__item-${i}`"
+      v-for="(item, i) in items"
+      :key="`animate-figure__item-${item.icon}-${i}`"
       class="animate-figure__item"
-      :class="`animate-figure__item--${i}`"
+      :class="`animate-figure__item--${i + 1}`"
     >
       <SvgIcon
         class="animate-figure__item-icon"
-        :icon="icon"
+        :class="{ 'animate-figure__item-icon--no-rotate': item.noRotate }"
+        :icon="item.icon"
       />
     </div>
   </div>
@@ -17,13 +18,10 @@
 <script setup lang="ts">
 
 interface IProps {
-  icon: string;
-  levels?: 2 | 3 | 4;
+  items: Array<{ icon: string; noRotate?: boolean }>;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
-  levels: 3,
-});
+const props = defineProps<IProps>();
 
 </script>
 
@@ -63,14 +61,22 @@ $b: '.animate-figure';
     &--1,
     &--3 {
       #{$b}__item-icon {
-        animation: RotateLeft 5s linear infinite, ChangeColor 10s linear infinite alternate;
+        animation: ChangeColor 10s linear infinite alternate, RotateLeft 5s linear infinite;
+
+        &#{$b}__item-icon--no-rotate {
+          animation: ChangeColor 10s linear infinite alternate;
+        }
       }
     }
 
     &--2,
     &--4 {
       #{$b}__item-icon {
-        animation: RotateRight 5s linear infinite, ChangeColor 10s linear infinite alternate;
+        animation: ChangeColor 10s linear infinite alternate, RotateRight 5s linear infinite;
+
+        &#{$b}__item-icon--no-rotate {
+          animation: ChangeColor 10s linear infinite alternate;
+        }
       }
     }
 
@@ -98,7 +104,7 @@ $b: '.animate-figure';
 }
 @keyframes ChangeColor {
   0% {
-    color: $color-light
+    color: $color-light;
   }
   25% {
     color: $color-primary;

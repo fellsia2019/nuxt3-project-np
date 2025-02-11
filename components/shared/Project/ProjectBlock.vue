@@ -18,12 +18,12 @@
 
     <div class="projects-block__shapes projects-block__shapes--1">
       <AnimationWrapper>
-        <AnimateFigure icon="hexagon" class="projects-block__animate-figure" />
+        <AnimateFigure :items="figuresHexagons" class="projects-block__animate-figure" />
       </AnimationWrapper>
     </div>
     <div class="projects-block__shapes projects-block__shapes--2">
       <AnimationWrapper>
-        <AnimateFigure icon="hexagon" class="projects-block__animate-figure" />
+        <AnimateFigure :items="figuresHexagons" class="projects-block__animate-figure" />
       </AnimationWrapper>
     </div>
   </div>
@@ -45,6 +45,18 @@ const props = withDefaults(defineProps<IProjectProps>(), {
   canLoadMore: false,
 });
 const emits = defineEmits<IProjectEmits>()
+
+const figuresHexagons = [
+  {
+    icon: 'hexagon'
+  },
+  {
+    icon: 'hexagon'
+  },
+  {
+    icon: 'hexagon'
+  },
+]
 
 function showMore() {
   emits('show-more')

@@ -18,12 +18,12 @@
 
     <div class="initiatives-block__shapes initiatives-block__shapes--1">
       <AnimationWrapper>
-        <AnimateFigure icon="square" class="initiatives-block__animate-figure" />
+        <AnimateFigure :items="figuresSquares" class="initiatives-block__animate-figure" />
       </AnimationWrapper>
     </div>
     <div class="initiatives-block__shapes initiatives-block__shapes--2">
       <AnimationWrapper>
-        <AnimateFigure icon="square" class="initiatives-block__animate-figure" />
+        <AnimateFigure :items="figuresSquares" class="initiatives-block__animate-figure" />
       </AnimationWrapper>
     </div>
   </div>
@@ -46,6 +46,18 @@ const props = withDefaults(defineProps<IInitiativesProps>(), {
   canLoadMore: false,
 });
 const emit = defineEmits<IInitiativesEmits>()
+
+const figuresSquares = [
+  {
+    icon: 'square'
+  },
+  {
+    icon: 'square'
+  },
+  {
+    icon: 'square'
+  },
+]
 
 function showMore() {
   emit('show-more')

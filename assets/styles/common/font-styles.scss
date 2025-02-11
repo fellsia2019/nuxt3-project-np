@@ -94,6 +94,7 @@
   position: relative;
   cursor: pointer;
   transition: $td;
+  user-select: none;
 
   &::before {
     content: '';
@@ -140,6 +141,10 @@
     &:active {
       color: $color;
     }
+  }
+
+  .bg-color-#{$name} {
+    background-color: $color;
   }
 }
 

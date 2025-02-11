@@ -1,17 +1,18 @@
 <template>
-  <div class="default-layout">
+  <div class="kit-layout">
     <CustomHeader />
-    <div class="default-layout__main">
+    <div class="kit-layout__main">
+      <div class="container">
+        <KitNavigation class="kit-layout__navigation" />
+      </div>
       <NuxtPage />
     </div>
-    <CustomFooter class="default-layout__footer" />
-    <LoadingSpinner />
-    <CustomNotification />
+    <CustomFooter class="kit-layout__footer" />
   </div>
 </template>
 
 <style lang="scss">
-$b: '.default-layout';
+$b: '.kit-layout';
 
 #{$b} {
   display: flex;
@@ -21,12 +22,17 @@ $b: '.default-layout';
   padding-top: calc(var(--header-height, 0px) + 40px);
   transition: padding 0.3s ease;
 
-  // .default-layout__main
+  // .kit-layout__navigation
+  &__navigation {
+    margin-bottom: 32px;
+  }
+
+  // .kit-layout__main
   &__main {
     margin: 30px 0 80px 0;
   }
 
-  // .default-layout__footer
+  // .kit-layout__footer
   &__footer {
     margin-top: auto;
   }

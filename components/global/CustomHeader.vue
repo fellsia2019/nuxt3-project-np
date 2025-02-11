@@ -4,7 +4,7 @@
       <div class="container">
         <div class="custom-header__inner">
           <NuxtLink :to="{ name: 'index' }" class="custom-header__logo">
-            LOGO
+            <MainLogo />
           </NuxtLink>
 
           <nav class="custom-header__nav">
@@ -32,6 +32,11 @@
               <li class="custom-header__nav-item">
                 <NuxtLink class="custom-header__nav-link link" :to="{ name: 'login' }">
                   login
+                </NuxtLink>
+              </li>
+              <li class="custom-header__nav-item">
+                <NuxtLink class="custom-header__nav-link link" :to="{ name: 'kit' }">
+                  kit
                 </NuxtLink>
               </li>
             </ul>
@@ -115,7 +120,7 @@ $b: '.custom-header';
 
   // .custom-header__inner
   &__wrapper {
-    padding: 20px 0;
+    padding: 5px 0;
     border-bottom: 1px solid $color-light;
     box-shadow: 0 0 30px 0 rgba($color-light, 0.5);
     background-color: rgba($color-main, 0.8);
@@ -127,6 +132,11 @@ $b: '.custom-header';
     display: flex;
     align-items: center;
     gap: 40px;
+  }
+
+  // .custom-header__logo
+  &__logo {
+    display: inline-flex;
   }
 
   // .custom-header__nav
