@@ -1,5 +1,6 @@
 <template>
   <nav class="kit-navigation">
+    <div class="kit-navigation__tite title-h4">//Навигация</div>
     <ul class="kit-navigation__list">
       <li
         v-for="item in navigationList"
@@ -28,6 +29,10 @@ const navigationList = [
   {
     routeName: 'kit-controls',
     label: 'Кнопки'
+  },
+  {
+    routeName: 'kit-icons',
+    label: 'Иконки'
   },
   {
     routeName: 'kit-styles',
