@@ -44,7 +44,7 @@
 import { type IDropdownOption } from '~/types/common/CustomDropdown'
 import { CustomIconArrowSizeSettings } from '~/types/common/CustomIcons'
 
-type modelValueType = string | number;
+type modelValueType = string | number | null;
 
 interface IEmits {
   (e: 'update:modelValue', value: modelValueType): void

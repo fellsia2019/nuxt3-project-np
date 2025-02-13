@@ -29,6 +29,13 @@
             </div>
           </div>
         </div>
+
+        <div class="kit-fields__block">
+
+          <div class="kit-fields__list">
+            <TestForm />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -84,6 +91,7 @@ const dropdownOptions: Array<IDropdownOption> = [
     name: 'опция 9'
   },
 ]
+
 
 </script>
 

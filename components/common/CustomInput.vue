@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-type modelValueType = string | number;
+type modelValueType = string | number | null;
 
 interface ICustomInputEmits {
   (e: 'update:modelValue', value: modelValueType): void
