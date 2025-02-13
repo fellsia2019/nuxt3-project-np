@@ -38,6 +38,10 @@ const navigationList = [
     routeName: 'kit-styles',
     label: 'Стили'
   },
+  {
+    routeName: 'kit-fields',
+    label: 'Поля форм'
+  },
 ]
 
 </script>

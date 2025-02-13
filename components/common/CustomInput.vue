@@ -1,5 +1,11 @@
 <template>
-  <div class="custom-input">
+  <div
+    class="custom-input"
+    :class="{
+      'custom-input--is-readonly': readonly,
+      'custom-input--is-disabled': disabled
+    }"
+  >
     <input
       :type="type"
       class="custom-input__input"
@@ -7,6 +13,7 @@
       placeholder="placeholder"
       :autocomplete="autocomplete"
       :readonly="readonly"
+      :value="modelValue"
       @input="onInput"
     >
     <label :for="id" class="custom-input__label">
@@ -46,7 +53,7 @@ const emits = defineEmits<ICustomInputEmits>()
 const id = useId()
 
 function onInput(e: Event) {
-  if (e.target instanceof HTMLInputElement && e.target.value) {
+  if (e.target instanceof HTMLInputElement) {
     emits('update:modelValue', e.target.value)
   }
 }
@@ -57,6 +64,17 @@ $b: '.custom-input';
 
 #{$b} {
   position: relative;
+  transition: $td;
+
+  &--is-readonly,
+  &--is-disabled {
+    pointer-events: none;
+    touch-action: none;
+  }
+
+  &--is-disabled {
+    opacity: 0.5;
+  }
 
   // .custom-input__input
   &__input {
