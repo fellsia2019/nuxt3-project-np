@@ -29,13 +29,6 @@
             </div>
           </div>
         </div>
-
-        <div class="kit-fields__block">
-
-          <div class="kit-fields__list">
-            <TestForm />
-          </div>
-        </div>
       </div>
     </div>
   </div>
