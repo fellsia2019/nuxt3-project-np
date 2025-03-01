@@ -16,6 +16,7 @@ const props = defineProps<IProps>();
 .svg-icon {
   max-width: 100%;
   max-height: 100%;
+  display: block;
   fill: currentColor;
 }
 </style>

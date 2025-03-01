@@ -4,4 +4,5 @@ export default function (state: boolean) {
 
   document.body.classList[method]('scrollbar-is-locked')
   document.body.style.paddingRight = state ? `${delta}px` : ''
+  document.documentElement.style.setProperty('--scroll-bar-width', `${delta}px`)
 }

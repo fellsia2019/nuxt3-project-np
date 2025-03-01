@@ -13,18 +13,12 @@ $b: '.typography';
     }
   }
 
-  b:not([class]), strong:not([class]) {
-    font-weight: bolder;
-  }
-
   a:not([class]) {
     // @extend .link.link--primary;
   }
 
   img:not([class]) {
     max-width: 100%;
-    // width: 100%;
-    // height: auto;
     border-radius: 12px;
     float: left;
   }

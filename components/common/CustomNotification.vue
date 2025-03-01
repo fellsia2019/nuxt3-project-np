@@ -113,7 +113,6 @@ $b: '.custom-notification';
     position: relative;
     border-radius: 12px;
     padding: 12px;
-    // border: 2px solid;
     font-size: 14px;
     background-color: $color-main;
     box-shadow: 0 0 15px 3px currentColor;

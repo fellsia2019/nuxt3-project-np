@@ -64,7 +64,9 @@ $b: '.home-page';
 
   // .home-page__header
   &__header {
+    position: relative;
     margin-bottom: 40px;
+    z-index: 5;
   }
 
   // .home-page__title
