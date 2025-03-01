@@ -14,7 +14,7 @@
           </CustomButton>
         </div>
         <CustomPagination
-          v-if="pagination.total_pages > 1"
+          v-if="pagination && pagination.total_pages > 1"
           class="projects-block__actions"
           :currentPage="pagination.current_page"
           :countPages="pagination.total_pages"
@@ -47,7 +47,7 @@ import { CustomButtonThemeSettings } from '~/types/common/CustomButton';
 interface IInitiativesProps {
   initiatives: Array<IInitiative>;
   canLoadMore?: boolean;
-  pagination: IPaginationApi;
+  pagination?: IPaginationApi;
 }
 
 interface IInitiativesEmits {
