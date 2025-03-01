@@ -13,6 +13,8 @@ const resizeObserver = ref<ResizeObserver | null>(null)
 
 
 const resizeHelperInstance = ref<null | resizeHelpers>(null)
+const resizeHelperInstanceWithCheckHeigh = ref<null | resizeHelpers>(null)
+
 
 const breakpoint = ref<IBreakpoint>({
   isMobile: false,
@@ -34,8 +36,14 @@ onMounted(() => {
   saveSettingInRootVars()
   resizeObserver.value.observe(document.documentElement)
 
-  resizeHelperInstance.value = new resizeHelpers([saveSettingInRootVars, updateBreakpoint])
+  resizeHelperInstance.value = new resizeHelpers([updateBreakpoint])
+  resizeHelperInstanceWithCheckHeigh.value = new resizeHelpers([saveSettingInRootVars], true)
   updateBreakpoint()
+})
+
+onBeforeUnmount(() => {
+  resizeHelperInstance.value?.destroy()
+  resizeHelperInstanceWithCheckHeigh.value?.destroy()
 })
 
 function saveSettingInRootVars() {

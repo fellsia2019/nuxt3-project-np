@@ -1,9 +1,11 @@
 export default class {
   prevInnerWidth: number = 0;
   functions: Array<Function> | null = null;
+  withCheckHeight: boolean = false;
 
-  constructor(functions: Array<Function>) {
+  constructor(functions: Array<Function>, withCheckHeight: boolean = false) {
     this.functions = functions
+    this.withCheckHeight = withCheckHeight
 
     if (!functions?.length) {
       return
@@ -13,7 +15,7 @@ export default class {
   }
 
   resizeHandler() {
-    if (window.innerWidth === this.prevInnerWidth || !this.functions?.length) {
+    if ((!this.withCheckHeight && (window.innerWidth === this.prevInnerWidth)) || !this.functions?.length) {
       return
     }
 
@@ -26,5 +28,9 @@ export default class {
     })
 
     this.prevInnerWidth = window.innerWidth
+  }
+
+  destroy() {
+    window.removeEventListener('resize', this.resizeHandler.bind(this))
   }
 }

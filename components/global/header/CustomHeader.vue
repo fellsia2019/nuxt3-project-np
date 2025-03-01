@@ -41,8 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import { CustomButtonSizeSettings } from '~/types/common/CustomButton'
-
 import { useUserStore } from '~/store/api/user'
 
 const rootElement = ref<HTMLElement | null>(null);
