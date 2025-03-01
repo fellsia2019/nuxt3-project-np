@@ -2,10 +2,7 @@
   <NuxtLink :to="{ name: 'initiatives-id', params: { id: card.id } }" class="initiative-card">
     <div class="initiative-card__inner">
       <div class="initiative-card__preview">
-        <picture>
-          <source v-if="card.image_webp" :srcset="card.image_webp" type="image/webp">
-          <img class="initiative-card__preview-img" :src="card.image || '/404.webp'"/>
-        </picture>
+        <CommonImage img-class="initiative-card__preview-img" :image="{ webp: card.image_webp, base: card.image }"/>
       </div>
       <div class="initiative-card__content">
         <div class="initiative-card__content-top text-sm">

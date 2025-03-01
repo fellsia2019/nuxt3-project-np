@@ -4,15 +4,18 @@
       :title="projectsStore?.project?.title"
       :content="projectsStore?.project?.content"
       :html="projectsStore?.project?.detail_text"
-      :preview="{
-        base: projectsStore?.project?.image || '',
-        webp: projectsStore?.project?.image_webp || ''
+      :detail-img="{
+        base: projectsStore?.project?.image_detail || '',
+        webp: projectsStore?.project?.image_detail_webp || ''
       }"
+      :theme="TemplateThemes.PRIMARY"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import { TemplateThemes } from '~/types/common/Themes'
+
 import { useProjectsStore } from '~/store/api/projects'
 
 const route = useRoute()

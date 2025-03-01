@@ -1,6 +1,7 @@
 export enum TemplateThemes {
   PRIMARY = 'primary',
-  PRIMARY_ACCENT = 'primary-accent'
+  PRIMARY_ACCENT = 'primary-accent',
+  DEFAULT = 'default'
 }
 
 export enum AllBaseColors {

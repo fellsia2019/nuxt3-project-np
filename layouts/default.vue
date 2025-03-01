@@ -18,12 +18,12 @@ $b: '.default-layout';
   flex-direction: column;
   overflow: hidden;
   min-height: var(--app-height, 100vh);
-  padding-top: calc(var(--header-height, 0px) + 40px);
+  padding-top: var(--header-height, 0px);
   transition: padding 0.3s ease;
 
   // .default-layout__main
   &__main {
-    margin: 30px 0 80px 0;
+    margin: 40px 0 80px 0;
   }
 
   // .default-layout__footer

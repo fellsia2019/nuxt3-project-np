@@ -4,9 +4,9 @@
       :title="initiativesStore?.initiative?.title"
       :content="initiativesStore?.initiative?.content"
       :html="initiativesStore?.initiative?.detail_text"
-      :preview="{
-        base: initiativesStore?.initiative?.image || '',
-        webp: initiativesStore?.initiative?.image_webp || ''
+      :detail-img="{
+        base: initiativesStore?.initiative?.image_detail || '',
+        webp: initiativesStore?.initiative?.image_detail_webp || ''
       }"
       :theme="TemplateThemes.PRIMARY_ACCENT"
     />

@@ -2,10 +2,7 @@
   <NuxtLink :to="{ name: 'projects-id', params: { id: card.id } }" class="project-card">
     <div class="project-card__inner">
       <div class="project-card__preview">
-        <picture>
-          <source v-if="card.image_webp" :srcset="card.image_webp" type="image/webp">
-          <img class="project-card__preview-img" :src="card.image || '/404.webp'"/>
-        </picture>
+        <CommonImage img-class="project-card__preview-img" :image="{ webp: card.image_webp, base: card.image }"/>
       </div>
       <div class="project-card__content">
         <div class="project-card__content-top text-sm">

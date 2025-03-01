@@ -1,4 +1,4 @@
 export interface IImageData {
-  base: string;
-  webp: string;
+  base: string | null;
+  webp: string | null;
 }

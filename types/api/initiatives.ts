@@ -9,4 +9,6 @@ export interface IInitiative {
   is_published: boolean;
   image: null | string;
   image_webp: null | string;
+  image_detail: null | string;
+  image_detail_webp: null | string;
 }
