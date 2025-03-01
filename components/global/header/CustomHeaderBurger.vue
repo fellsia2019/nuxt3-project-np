@@ -10,7 +10,7 @@
               :key="`custom-header-burger__nav-item-${item.name}`"
               class="custom-header-burger__nav-item text-lg"
             >
-              <NuxtLink class="custom-header-burger__nav-link link" :to="{ name: item.routeName }" @click="onClick">
+              <NuxtLink class="custom-header-burger__nav-link" :to="{ name: item.routeName }" @click="onClick">
                 {{ item.name }}
               </NuxtLink>
             </li>
@@ -68,6 +68,7 @@ $b: '.custom-header-burger';
   &__inner {
     padding: 24px 0;
     padding-right: var(--scroll-bar-width, 0px);
+    padding-left: var(--scroll-bar-width, 0px);
   }
 
   // .custom-header-burger__profile
@@ -85,7 +86,20 @@ $b: '.custom-header-burger';
     // .custom-header-burger__nav-item
     &-item {
       &:not(:last-child) {
-        margin-bottom: 20px;
+        margin-bottom: 5px;
+      }
+    }
+
+    // .custom-header-burger__nav-link
+    &-link {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border-radius: 2px;
+      background-color: rgba($color-primary, 0.1);
+
+      &.router-link-active {
+        color: $color-primary;
       }
     }
   }

@@ -13,6 +13,15 @@
             Показать ещё
           </CustomButton>
         </div>
+        <CustomPagination
+          v-if="pagination.total_pages > 1"
+          class="projects-block__actions"
+          :currentPage="pagination.current_page"
+          :countPages="pagination.total_pages"
+          :hiddenMoreBtn="!canLoadMore"
+          @show-more="showMore"
+          @change="onChangePagination"
+        />
       </div>
     </div>
 
@@ -31,21 +40,25 @@
 
 <script setup lang="ts">
 import type { IInitiative } from '~/types/api/initiatives'
+import type { IPaginationApi } from '~/types/api/common';
+
 import { CustomButtonThemeSettings } from '~/types/common/CustomButton';
 
 interface IInitiativesProps {
   initiatives: Array<IInitiative>;
   canLoadMore?: boolean;
+  pagination: IPaginationApi;
 }
 
 interface IInitiativesEmits {
-  (e: 'show-more'): void
+  (e: 'show-more'): void,
+  (e: 'change-page', page: number): void
 }
 
 const props = withDefaults(defineProps<IInitiativesProps>(), {
   canLoadMore: false,
 });
-const emit = defineEmits<IInitiativesEmits>()
+const emits = defineEmits<IInitiativesEmits>()
 
 const figuresSquares = [
   {
@@ -60,7 +73,10 @@ const figuresSquares = [
 ]
 
 function showMore() {
-  emit('show-more')
+  emits('show-more')
+}
+function onChangePagination(page: number) {
+  emits('change-page', page)
 }
 
 </script>

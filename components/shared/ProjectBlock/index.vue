@@ -8,11 +8,15 @@
 
         <ProjectList :projects="projects"/>
 
-        <div v-if="canLoadMore" class="projects-block__actions">
-          <CustomButton @click="showMore">
-            Показать ещё
-          </CustomButton>
-        </div>
+        <CustomPagination
+          v-if="pagination.total_pages > 1"
+          class="projects-block__actions"
+          :currentPage="pagination.current_page"
+          :countPages="pagination.total_pages"
+          :hiddenMoreBtn="!canLoadMore"
+          @show-more="showMore"
+          @change="onChangePagination"
+        />
       </div>
     </div>
 
@@ -31,14 +35,17 @@
 
 <script setup lang="ts">
 import type { IProject } from '~/types/api/projects'
+import type { IPaginationApi } from '~/types/api/common';
 
 interface IProjectProps {
   projects: Array<IProject>;
   canLoadMore?: boolean;
+  pagination: IPaginationApi;
 }
 
 interface IProjectEmits {
-  (e: 'show-more'): void
+  (e: 'show-more'): void,
+  (e: 'change-page', page: number): void
 }
 
 const props = withDefaults(defineProps<IProjectProps>(), {
@@ -60,6 +67,10 @@ const figuresHexagons = [
 
 function showMore() {
   emits('show-more')
+}
+
+function onChangePagination(page: number) {
+  emits('change-page', page)
 }
 
 </script>

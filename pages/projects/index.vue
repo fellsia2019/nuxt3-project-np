@@ -14,7 +14,9 @@
           class="home-page__block"
           :projects="projectsStore.projects"
           :can-load-more="projectsStore.HAS_NEXT_PAGE"
+          :pagination="projectsStore.PAGINATION"
           @show-more="showMore"
+          @change-page="onChangePage"
         />
       </div>
     </div>
@@ -30,6 +32,10 @@ await useAsyncData('projects', () => projectsStore.LOAD_PROJECTS().then(() => tr
 
 function showMore() {
   projectsStore.LOAD_PROJECTS(false, projectsStore.NEXT_PAGE_NUMBER)
+}
+
+function onChangePage(page: number) {
+  projectsStore.LOAD_PROJECTS(true, page)
 }
 </script>
 

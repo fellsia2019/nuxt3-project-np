@@ -40,7 +40,9 @@ export const useProjectsStore = defineStore('projects', {
       const loadingStore = useLoadingStore()
 
       return Boolean(loadingStore.loadingList.find(item => item === LOADING_SLUG))
-    }
+    },
+
+    PAGINATION: (state) => state.pagination
   },
 
   actions: {

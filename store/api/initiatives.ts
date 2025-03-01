@@ -38,7 +38,9 @@ export const useInitiativesStore = defineStore('initiatives', {
       const loadingStore = useLoadingStore()
 
       return loadingStore.loadingList.find(item => item === LOADING_SLUG)
-    }
+    },
+
+    PAGINATION: (state) => state.pagination
   },
 
   actions: {

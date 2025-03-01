@@ -66,16 +66,16 @@ const navigation = [
     name: 'Список дел'
   },
   {
-    routeName: 'projects',
-    name: 'Проекты'
-  },
-  {
     routeName: 'login',
     name: 'login'
   },
   {
     routeName: 'kit',
     name: 'kit'
+  },
+  {
+    routeName: 'lk',
+    name: 'Личный кабинет'
   },
 ]
 
@@ -155,6 +155,13 @@ $b: '.custom-header';
       display: flex;
       align-items: center;
       gap: 16px;
+    }
+
+    // .custom-header__nav-link
+    &-link {
+      &.router-link-active {
+        color: $color-primary;
+      }
     }
   }
 
