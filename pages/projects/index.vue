@@ -26,6 +26,10 @@
 <script setup lang="ts">
 import { useProjectsStore } from '~/store/api/projects'
 
+useHead({
+  title: 'Проекты'
+})
+
 const projectsStore = useProjectsStore();
 
 await useAsyncData('projects', () => projectsStore.LOAD_PROJECTS().then(() => true))

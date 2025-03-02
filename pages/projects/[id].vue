@@ -25,4 +25,7 @@ const projectsStore = useProjectsStore();
 
 await useAsyncData('project-detail', () => projectsStore.LOAD_PROJECT(id).then(() => true))
 
+useHead({
+  title: projectsStore?.project?.title
+})
 </script>

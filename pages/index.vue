@@ -51,6 +51,10 @@
 import { useProjectsStore } from '~/store/api/projects'
 import { useInitiativesStore } from '~/store/api/initiatives'
 
+useHead({
+  title: 'Главная страница'
+})
+
 const projectsStore = useProjectsStore();
 const initiativesStore = useInitiativesStore();
 
