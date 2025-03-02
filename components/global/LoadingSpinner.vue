@@ -1,43 +1,41 @@
 <template>
-  <ClientOnly>
-    <div
-      class="spinner-loading"
-      :class="{
-        'spinner-loading--into-block': intoBlock,
-        'spinner-loading--is-loading': resultIsLoading
-      }"
-    >
-      <div class="spinner-loading__spinner" />
-    </div>
-  </ClientOnly>
+	<ClientOnly>
+		<div
+			class="spinner-loading"
+			:class="{
+				'spinner-loading--into-block': intoBlock,
+				'spinner-loading--is-loading': resultIsLoading,
+			}"
+		>
+			<div class="spinner-loading__spinner" />
+		</div>
+	</ClientOnly>
 </template>
 
 <script setup lang="ts">
-
-interface ILoadingSpinnerProps {
-  intoBlock?: boolean;
-  isLoading?: boolean;
-}
-
 import { useLoadingStore } from '~/store/common/loading'
 
 import simpleLockPageScroll from '~/helpers/simpleLockPageScroll'
 
-const loadingStore = useLoadingStore();
+interface ILoadingSpinnerProps {
+	intoBlock?: boolean
+	isLoading?: boolean
+}
+
+const loadingStore = useLoadingStore()
 
 const props = defineProps<ILoadingSpinnerProps>()
 
 const resultIsLoading = computed<boolean>(() => props.intoBlock ? props.isLoading : loadingStore.IS_LOADING)
 
 watch(
-  () => loadingStore.IS_LOADING,
-  () => {
-    if (!props.intoBlock) {
-      simpleLockPageScroll(loadingStore.IS_LOADING)
-    }
-  }
-);
-
+	() => loadingStore.IS_LOADING,
+	() => {
+		if (!props.intoBlock) {
+			simpleLockPageScroll(loadingStore.IS_LOADING)
+		}
+	},
+)
 </script>
 
 <style lang="scss">

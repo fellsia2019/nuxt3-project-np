@@ -1,17 +1,29 @@
 <template>
-  <div class="default-detai-template" :class="`default-detai-template--theme-${theme}`">
-    <div class="container">
-      <div class="default-detai-template__inner">
-        <div class="default-detai-template__header">
-          <Banner :title="title" :description="content" :image="detailImg" :theme="theme" />
-        </div>
+	<div
+		class="default-detai-template"
+		:class="`default-detai-template--theme-${theme}`"
+	>
+		<div class="container">
+			<div class="default-detai-template__inner">
+				<div class="default-detai-template__header">
+					<Banner
+						:title="title"
+						:description="content"
+						:image="detailImg"
+						:theme="theme"
+					/>
+				</div>
 
-        <div class="default-detai-template__body">
-          <div v-if="html?.length" class="default-detai-template__html typography" v-html="html" />
-        </div>
-      </div>
-    </div>
-  </div>
+				<div class="default-detai-template__body">
+					<div
+						v-if="html?.length"
+						class="default-detai-template__html typography"
+						v-html="html"
+					/>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>
@@ -19,17 +31,16 @@ import type { IImageData } from '~/types/common/Image'
 import { TemplateThemes } from '~/types/common/Themes'
 
 interface IProps {
-  title: string;
-  html?: string;
-  content?: string;
-  detailImg: IImageData;
-  theme?: TemplateThemes;
+	title: string
+	html?: string
+	content?: string
+	detailImg: IImageData
+	theme?: TemplateThemes
 }
 
-const props = withDefaults(defineProps<IProps>(), {
-  theme: TemplateThemes.DEFAULT
+withDefaults(defineProps<IProps>(), {
+	theme: TemplateThemes.DEFAULT,
 })
-
 </script>
 
 <style lang="scss">

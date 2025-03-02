@@ -1,52 +1,55 @@
 <template>
-  <div class="custom-header-burger">
-    <div class="container">
-      <div class="custom-header-burger__inner">
-        <UserButton class="custom-header-burger__profile" />
-        <nav class="custom-header-burger__nav">
-          <ul class="custom-header-burger__nav-list">
-            <li
-              v-for="item in navigation"
-              :key="`custom-header-burger__nav-item-${item.name}`"
-              class="custom-header-burger__nav-item text-lg"
-            >
-              <NuxtLink class="custom-header-burger__nav-link" :to="{ name: item.routeName }" @click="onClick">
-                {{ item.name }}
-              </NuxtLink>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
+	<div class="custom-header-burger">
+		<div class="container">
+			<div class="custom-header-burger__inner">
+				<UserButton class="custom-header-burger__profile" />
+				<nav class="custom-header-burger__nav">
+					<ul class="custom-header-burger__nav-list">
+						<li
+							v-for="item in navigation"
+							:key="`custom-header-burger__nav-item-${item.name}`"
+							class="custom-header-burger__nav-item text-lg"
+						>
+							<NuxtLink
+								class="custom-header-burger__nav-link"
+								:to="{ name: item.routeName }"
+								@click="onClick"
+							>
+								{{ item.name }}
+							</NuxtLink>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
+import simpleLockPageScroll from '~/helpers/simpleLockPageScroll'
+
 interface IProps {
-  navigation: Array<{ routeName: string; name: string }>
+	navigation: Array<{ routeName: string, name: string }>
 }
 
 interface IEmits {
-  (e: 'close'): void
+	(e: 'close'): void
 }
 
-import simpleLockPageScroll from '~/helpers/simpleLockPageScroll'
-
-const props = defineProps<IProps>()
+defineProps<IProps>()
 const emits = defineEmits<IEmits>()
 
 function onClick() {
-  emits('close')
+	emits('close')
 }
 
 onMounted(() => {
-  simpleLockPageScroll(true)
+	simpleLockPageScroll(true)
 })
 
 onBeforeUnmount(() => {
-  simpleLockPageScroll(false)
+	simpleLockPageScroll(false)
 })
-
 </script>
 
 <style lang="scss">

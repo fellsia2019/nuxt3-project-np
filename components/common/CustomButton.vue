@@ -1,42 +1,47 @@
 <template>
-  <component :is="resultTag" class="custom-button" :class="rootClass" :href="href">
-    <slot />
-  </component>
+	<component
+		:is="resultTag"
+		class="custom-button"
+		:class="rootClass"
+		:href="href"
+	>
+		<slot />
+	</component>
 </template>
 
 <script setup lang="ts">
-import { CustomButtonSizeSettings, CustomButtonThemeSettings } from '~/types/common/CustomButton';
+import { CustomButtonSizeSettings, CustomButtonThemeSettings } from '~/types/common/CustomButton'
 
 interface ICustomButtonProps {
-  tag?: string;
-  href?: string;
-  size?: CustomButtonSizeSettings;
-  theme?: CustomButtonThemeSettings;
-  disabled?: boolean;
+	tag?: string
+	href?: string
+	size?: CustomButtonSizeSettings
+	theme?: CustomButtonThemeSettings
+	disabled?: boolean
 }
 
 const props = withDefaults(defineProps<ICustomButtonProps>(), {
-  tag: 'button',
-  href: '',
-  size: CustomButtonSizeSettings.MD,
-  theme: CustomButtonThemeSettings.PRIMARY,
-  disabled: false,
-});
+	tag: 'button',
+	href: '',
+	size: CustomButtonSizeSettings.MD,
+	theme: CustomButtonThemeSettings.PRIMARY,
+	disabled: false,
+})
 
 const resultTag = computed(() => props.href ? 'a' : props.tag)
 
 const rootClass = computed(() => {
-  const prefix = 'custom-button'
-  const classes = []
+	const prefix = 'custom-button'
+	const classes = []
 
-  if (props.disabled) {
-    classes.push(`${prefix}--disabled`)
-  }
+	if (props.disabled) {
+		classes.push(`${prefix}--disabled`)
+	}
 
-  classes.push(`${prefix}--size-${props.size}`)
-  classes.push(`${prefix}--themes-${props.theme}`)
+	classes.push(`${prefix}--size-${props.size}`)
+	classes.push(`${prefix}--themes-${props.theme}`)
 
-  return classes.join(' ')
+	return classes.join(' ')
 })
 </script>
 

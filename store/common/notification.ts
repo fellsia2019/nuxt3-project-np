@@ -1,52 +1,51 @@
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
 
 import { type INotification, type INotificationCreateData, NotificationStatus } from '~/types/common/Notification'
 
 interface INotificationState {
-  callbacks: { [key: number]: ReturnType<typeof setTimeout> };
-  notifications: Array<INotification>
+	callbacks: { [key: number]: ReturnType<typeof setTimeout> }
+	notifications: Array<INotification>
 }
 
 export const useNotificationStore = defineStore('notification', {
-  state: (): INotificationState => ({
-    callbacks: {},
-    notifications: []
-  }),
+	state: (): INotificationState => ({
+		callbacks: {},
+		notifications: [],
+	}),
 
-  getters: {
-    IS_VISIBLE: (state) => state.notifications?.length,
+	getters: {
+		IS_VISIBLE: state => state.notifications?.length,
 
-    NOTIFICATIONS: (state) => state.notifications,
-  },
+		NOTIFICATIONS: state => state.notifications,
+	},
 
-  actions: {
-    PUSH_NOTIFICATION({ status, title, text, timeToRemove, id, noRemoveByTimeout }: INotificationCreateData) {
-      const notificationId = id || Date.now()
+	actions: {
+		PUSH_NOTIFICATION({ status, title, text, timeToRemove, id, noRemoveByTimeout }: INotificationCreateData) {
+			const notificationId = id || Date.now()
 
-      if (!noRemoveByTimeout) {
-        // отложенное удаление уведломление через время timeToRemove в мс
-        this.callbacks[notificationId] = setTimeout(() => {
-          this.REMOVE_NOTIFICATION(notificationId)
-        }, timeToRemove || 1000000);
-      }
+			if (!noRemoveByTimeout) {
+				// отложенное удаление уведломление через время timeToRemove в мс
+				this.callbacks[notificationId] = setTimeout(() => {
+					this.REMOVE_NOTIFICATION(notificationId)
+				}, timeToRemove || 1000000)
+			}
 
-      this.notifications.push({
-        status: status || NotificationStatus.PRIMARY,
-        title: title || '',
-        text: text || '',
-        id: notificationId
-      })
-    },
+			this.notifications.push({
+				status: status || NotificationStatus.PRIMARY,
+				title: title || '',
+				text: text || '',
+				id: notificationId,
+			})
+		},
 
+		REMOVE_NOTIFICATION(id: number) {
+			clearTimeout(this.callbacks?.[id])
 
-    REMOVE_NOTIFICATION(id: number) {
-      clearTimeout(this.callbacks?.[id])
+			this.notifications = this.notifications.filter(notification => notification.id !== id)
+		},
 
-      this.notifications = this.notifications.filter(notification => notification.id !== id)
-    },
-
-    CLEAR() {
-      this.notifications = []
-    }
-  },
-});
+		CLEAR() {
+			this.notifications = []
+		},
+	},
+})

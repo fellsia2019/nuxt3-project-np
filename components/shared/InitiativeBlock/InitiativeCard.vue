@@ -1,34 +1,46 @@
 <template>
-  <NuxtLink :to="{ name: 'initiatives-id', params: { id: card.id } }" class="initiative-card">
-    <div class="initiative-card__inner">
-      <div class="initiative-card__preview">
-        <CommonImage img-class="initiative-card__preview-img" :image="{ webp: card.image_webp, base: card.image }"/>
-      </div>
-      <div class="initiative-card__content">
-        <div class="initiative-card__content-top text-sm">
-          <time class="initiative-card__date" :datetime="String(card.time_create)">
-            Создан {{ detDateArticle(card.time_create) }}
-          </time>
-          <time class="initiative-card__date" :datetime="String(card.time_update)">
-            Обновлен {{ detDateArticle(card.time_update) }}
-          </time>
-        </div>
-        <h3 class="initiative-card__title title title-h4">
-          {{ card.title }} | {{ card.id }}
-        </h3>
-        <p class="initiative-card__text text-md">
-          {{ card.content }}
-        </p>
-        <CustomButton
-          class="initiative-card__btn"
-          :theme="CustomButtonThemeSettings.PRIMARY_ACCENT_OUTLINE"
-          :size="CustomButtonSizeSettings.SM"
-        >
-          Подробнее
-        </CustomButton>
-      </div>
-    </div>
-  </NuxtLink>
+	<NuxtLink
+		:to="{ name: 'initiatives-id', params: { id: card.id } }"
+		class="initiative-card"
+	>
+		<div class="initiative-card__inner">
+			<div class="initiative-card__preview">
+				<CommonImage
+					img-class="initiative-card__preview-img"
+					:image="{ webp: card.image_webp, base: card.image }"
+				/>
+			</div>
+			<div class="initiative-card__content">
+				<div class="initiative-card__content-top text-sm">
+					<time
+						class="initiative-card__date"
+						:datetime="String(card.time_create)"
+					>
+						Создан {{ detDateArticle(card.time_create) }}
+					</time>
+					<time
+						class="initiative-card__date"
+						:datetime="String(card.time_update)"
+					>
+						Обновлен {{ detDateArticle(card.time_update) }}
+					</time>
+				</div>
+				<h3 class="initiative-card__title title title-h4">
+					{{ card.title }} | {{ card.id }}
+				</h3>
+				<p class="initiative-card__text text-md">
+					{{ card.content }}
+				</p>
+				<CustomButton
+					class="initiative-card__btn"
+					:theme="CustomButtonThemeSettings.PRIMARY_ACCENT_OUTLINE"
+					:size="CustomButtonSizeSettings.SM"
+				>
+					Подробнее
+				</CustomButton>
+			</div>
+		</div>
+	</NuxtLink>
 </template>
 
 <script setup lang="ts">
@@ -37,11 +49,10 @@ import { detDateArticle } from '~/helpers/dateHelpers'
 import { CustomButtonThemeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
 
 interface IInitiativeCardProps {
-  card: IInitiative
+	card: IInitiative
 }
 
-const props = defineProps<IInitiativeCardProps>()
-
+defineProps<IInitiativeCardProps>()
 </script>
 
 <style lang="scss">

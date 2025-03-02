@@ -1,55 +1,65 @@
 <template>
-  <ClientOnly>
-    <main class="lk-page">
-      <div class="container">
-        <div class="lk-page__inner">
-          <div class="lk-page__header">
-            <h1 class="lk-page__title title title-h1 color-primary">
-              Личный кабинет
-            </h1>
-          </div>
+	<ClientOnly>
+		<main class="lk-page">
+			<div class="container">
+				<div class="lk-page__inner">
+					<div class="lk-page__header">
+						<h1 class="lk-page__title title title-h1 color-primary">
+							Личный кабинет
+						</h1>
+					</div>
 
+					<div class="lk-page__body">
+						<!-- TODO: userform -->
 
-          <div class="lk-page__body">
-
-            <!-- TODO: userform -->
-
-            <div class="lk-page__project">
-              <form action="" @submit.prevent="onSubmit">
-                <legend class="title-h4">Добавить проект</legend>
-                <input v-model="projectForm.title" type="text" placeholder="title">
-                <textarea v-model="projectForm.content" type="text" placeholder="content"></textarea>
-                <CustomButton>
-                  Отправить
-                </CustomButton>
-              </form>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </main>
-  </ClientOnly>
+						<div class="lk-page__project">
+							<form
+								action=""
+								@submit.prevent="onSubmit"
+							>
+								<legend class="title-h4">
+									Добавить проект
+								</legend>
+								<input
+									v-model="projectForm.title"
+									type="text"
+									placeholder="title"
+								>
+								<textarea
+									v-model="projectForm.content"
+									type="text"
+									placeholder="content"
+								/>
+								<CustomButton>
+									Отправить
+								</CustomButton>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</ClientOnly>
 </template>
 
 <script setup lang="ts">
-import { ClientOnly } from '#components';
+import { ClientOnly } from '#components'
 import { useProjectsStore } from '~/store/api/projects'
 
 definePageMeta({
-  middleware: ['login'],
-  ssr: false
+	middleware: ['login'],
+	ssr: false,
 })
 
-const projectsStore = useProjectsStore();
+const projectsStore = useProjectsStore()
 
 const projectForm = ref({
-  title: '',
-  content: ''
+	title: '',
+	content: '',
 })
 
 async function onSubmit() {
-  const res = await projectsStore.CREATE_PROJECT(projectForm.value)
+	await projectsStore.CREATE_PROJECT(projectForm.value)
 }
 </script>
 
@@ -74,5 +84,4 @@ $b: '.lk-page';
     height: 250px;
   }
 }
-
 </style>

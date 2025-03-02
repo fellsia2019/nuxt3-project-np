@@ -1,42 +1,47 @@
 <template>
-  <div
-    class="accordion"
-    :class="[`accordion--theme-${theme}`, { 'accordion--is-opened': isOpened }]"
-  >
-    <div class="accordion__header" @click="toggleAccordion">
-      <div class="accordion__header-name title title-h3">
-        <slot name="header" />
-      </div>
+	<div
+		class="accordion"
+		:class="[`accordion--theme-${theme}`, { 'accordion--is-opened': isOpened }]"
+	>
+		<div
+			class="accordion__header"
+			@click="toggleAccordion"
+		>
+			<div class="accordion__header-name title title-h3">
+				<slot name="header" />
+			</div>
 
-      <div class="accordion__header-btn">
-        <CustomIconArrow class="accordion__header-icon" :isReverse="isOpened" />
-      </div>
-    </div>
-    <div class="accordion__body">
-      <div class="accordion__body-inner">
-        <slot />
-      </div>
-    </div>
-  </div>
+			<div class="accordion__header-btn">
+				<CustomIconArrow
+					class="accordion__header-icon"
+					:is-reverse="isOpened"
+				/>
+			</div>
+		</div>
+		<div class="accordion__body">
+			<div class="accordion__body-inner">
+				<slot />
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
 import { AccordionThemeSettings } from '~/types/common/Accordion'
 
 interface IAccordion {
-  theme?: AccordionThemeSettings;
+	theme?: AccordionThemeSettings
 }
 
-const props = withDefaults(defineProps<IAccordion>(), {
-  theme: AccordionThemeSettings.PRIMARY
+withDefaults(defineProps<IAccordion>(), {
+	theme: AccordionThemeSettings.PRIMARY,
 })
 
 const isOpened = ref(false)
 
 function toggleAccordion() {
-  isOpened.value = !isOpened.value
+	isOpened.value = !isOpened.value
 }
-
 </script>
 
 <style lang="scss">

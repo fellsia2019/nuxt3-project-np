@@ -1,84 +1,98 @@
 <template>
-  <div class="initiatives-block">
-    <div class="container">
-      <div class="initiatives-block__inner">
-        <h2 v-if="$slots.title" class="initiatives-block__title title title-h2">
-          <slot name="title" />
-        </h2>
+	<div class="initiatives-block">
+		<div class="container">
+			<div class="initiatives-block__inner">
+				<h2
+					v-if="$slots.title"
+					class="initiatives-block__title title title-h2"
+				>
+					<slot name="title" />
+				</h2>
 
-        <InitiativeList :initiatives="initiatives"/>
+				<InitiativeList :initiatives="initiatives" />
 
-        <div v-if="canLoadMore" class="initiatives-block__actions">
-          <CustomButton @click="showMore" :theme="CustomButtonThemeSettings.PRIMARY_ACCENT">
-            Показать ещё
-          </CustomButton>
-        </div>
-        <CustomPagination
-          v-if="pagination && pagination.total_pages > 1"
-          class="projects-block__actions"
-          :currentPage="pagination.current_page"
-          :countPages="pagination.total_pages"
-          :hiddenMoreBtn="!canLoadMore"
-          @show-more="showMore"
-          @change="onChangePagination"
-        />
-      </div>
-    </div>
+				<div
+					v-if="canLoadMore"
+					class="initiatives-block__actions"
+				>
+					<CustomButton
+						:theme="CustomButtonThemeSettings.PRIMARY_ACCENT"
+						@click="showMore"
+					>
+						Показать ещё
+					</CustomButton>
+				</div>
+				<CustomPagination
+					v-if="pagination && pagination.total_pages > 1"
+					class="projects-block__actions"
+					:current-page="pagination.current_page"
+					:count-pages="pagination.total_pages"
+					:hidden-more-btn="!canLoadMore"
+					@show-more="showMore"
+					@change="onChangePagination"
+				/>
+			</div>
+		</div>
 
-    <div class="initiatives-block__shapes initiatives-block__shapes--1">
-      <AnimationWrapper>
-        <AnimateFigure :items="figuresSquares" class="initiatives-block__animate-figure" />
-      </AnimationWrapper>
-    </div>
-    <div class="initiatives-block__shapes initiatives-block__shapes--2">
-      <AnimationWrapper>
-        <AnimateFigure :items="figuresSquares" class="initiatives-block__animate-figure" />
-      </AnimationWrapper>
-    </div>
-  </div>
+		<div class="initiatives-block__shapes initiatives-block__shapes--1">
+			<AnimationWrapper>
+				<AnimateFigure
+					:items="figuresSquares"
+					class="initiatives-block__animate-figure"
+				/>
+			</AnimationWrapper>
+		</div>
+		<div class="initiatives-block__shapes initiatives-block__shapes--2">
+			<AnimationWrapper>
+				<AnimateFigure
+					:items="figuresSquares"
+					class="initiatives-block__animate-figure"
+				/>
+			</AnimationWrapper>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
 import type { IInitiative } from '~/types/api/initiatives'
-import type { IPaginationApi } from '~/types/api/common';
+import type { IPaginationApi } from '~/types/api/common'
 
-import { CustomButtonThemeSettings } from '~/types/common/CustomButton';
+import { CustomButtonThemeSettings } from '~/types/common/CustomButton'
 
 interface IInitiativesProps {
-  initiatives: Array<IInitiative>;
-  canLoadMore?: boolean;
-  pagination?: IPaginationApi;
+	initiatives: Array<IInitiative>
+	canLoadMore?: boolean
+	pagination?: IPaginationApi
 }
 
 interface IInitiativesEmits {
-  (e: 'show-more'): void,
-  (e: 'change-page', page: number): void
+	(e: 'show-more'): void
+	(e: 'change-page', page: number): void
 }
 
-const props = withDefaults(defineProps<IInitiativesProps>(), {
-  canLoadMore: false,
-});
+withDefaults(defineProps<IInitiativesProps>(), {
+	canLoadMore: false,
+})
 const emits = defineEmits<IInitiativesEmits>()
 
 const figuresSquares = [
-  {
-    icon: 'square'
-  },
-  {
-    icon: 'square'
-  },
-  {
-    icon: 'square'
-  },
+	{
+		icon: 'square',
+	},
+	{
+		icon: 'square',
+	},
+	{
+		icon: 'square',
+	},
 ]
 
 function showMore() {
-  emits('show-more')
+	emits('show-more')
 }
 function onChangePagination(page: number) {
-  emits('change-page', page)
+	emits('change-page', page)
 }
-
 </script>
 
 <style lang="scss">
@@ -146,5 +160,4 @@ $b: '.initiatives-block';
     z-index: 2;
   }
 }
-
 </style>

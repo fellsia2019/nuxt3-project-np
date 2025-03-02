@@ -1,19 +1,22 @@
 <template>
-  <AnimateFigure :items="figuresLogo" class="main-logo" />
+	<AnimateFigure
+		:items="figuresLogo"
+		class="main-logo"
+	/>
 </template>
 
 <script setup lang="ts">
 const figuresLogo = [
-  {
-    icon: 'hexagon'
-  },
-  {
-    icon: 'square'
-  },
-  {
-    icon: 'triangle',
-    noRotate: true
-  },
+	{
+		icon: 'hexagon',
+	},
+	{
+		icon: 'square',
+	},
+	{
+		icon: 'triangle',
+		noRotate: true,
+	},
 ]
 </script>
 

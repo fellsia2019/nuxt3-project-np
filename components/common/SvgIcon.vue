@@ -1,18 +1,18 @@
 <template>
-  <svg class="svg-icon">
-    <use :href="`#icon-${icon}`" />
-  </svg>
+	<svg class="svg-icon">
+		<use :href="`#icon-${icon}`" />
+	</svg>
 </template>
 
 <script setup lang="ts">
 interface IProps {
-  icon: string;
+	icon: string
 }
 
-const props = defineProps<IProps>();
+defineProps<IProps>()
 </script>
 
-<style scoped>
+<style lang="scss">
 .svg-icon {
   max-width: 100%;
   max-height: 100%;

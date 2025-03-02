@@ -1,250 +1,283 @@
 <template>
-  <div class="todo-page">
-    <div class="container">
-      <h1 class="todo-page__title title title-h1 color-primary">
-        Что ещё нужно сделать
-      </h1>
-      <div class="todo-page__inner title-h4">
-        <div v-for="(block, i) in todoList" :key="`todo-block-${i}`">
-          <h2 class="title title-h2">{{ block.title }}</h2>
-          <ul >
-            <li
-              v-for="list in block.items"
-              :key="`todo-block-list-${i}-${block.title}`"
-              :class="{ '_done': list.done || (list.items?.length && list.items.every(el => el.done)) }"
-              @click="toggleTodoItem(list)"
-            >
-              <span v-html="list.item" />
-              <template v-if="list.items?.length">
-                <ul>
-                  <li
-                    v-for="supList in list.items"
-                    :class="{ '_done': supList.done }"
-                    @click.stop="toggleTodoItem(supList)"
-                  >
-                    <span v-html="supList.item" />
-                  </li>
-                </ul>
-              </template>
-            </li>
-          </ul>
-        </div>
-      </div>
+	<div class="todo-page">
+		<div class="container">
+			<h1 class="todo-page__title title title-h1 color-primary">
+				Что ещё нужно сделать
+			</h1>
+			<div class="todo-page__inner title-h4">
+				<div
+					v-for="(block, i) in todoList"
+					:key="`todo-block-${i}`"
+				>
+					<h2 class="title title-h2">
+						{{ block.title }}
+					</h2>
+					<ul>
+						<li
+							v-for="(list, j) in block.items"
+							:key="`todo-block-list-${i}-${j}-${block.title}`"
+							:class="{ _done: list.done || (list.items?.length && list.items.every(el => el.done)) }"
+							@click="toggleTodoItem(list)"
+						>
+							<span v-html="list.item" />
+							<template v-if="list.items?.length">
+								<ul>
+									<li
+										v-for="supList in list.items"
+										:key="`todo-block-list-li-${i}-${j}-${supList.item}`"
+										:class="{ _done: supList.done }"
+										@click.stop="toggleTodoItem(supList)"
+									>
+										<span v-html="supList.item" />
+									</li>
+								</ul>
+							</template>
+						</li>
+					</ul>
+				</div>
+			</div>
 
-      <div class="todo-page__form">
-        <select name="" id="" @change="onChangeTypeBlock">
-          <option :value="TypeBlock.FRONT">Добавить в фронтенд</option>
-          <option :value="TypeBlock.BACK">Добавить в бэкент</option>
-        </select>
-        <input v-model="form.item" type="text" placeholder="item">
-        <div class="todo-page__form-items">
-          <div v-for="(item, i) in form.items">
-            <input :value="item.item" type="text" placeholder="item" @input="(e) => onInputFormItem(e, i)">
-            <CustomButton @click="removeFormItem(i)" :size="CustomButtonSizeSettings.SM" :theme="CustomButtonThemeSettings.PRIMARY_OUTLINE">
-              X
-            </CustomButton>
-          </div>
-        </div>
-        <CustomButton @click="addFormItem" :size="CustomButtonSizeSettings.SM" :theme="CustomButtonThemeSettings.PRIMARY_OUTLINE">
-          Добавить айтем
-        </CustomButton>
-        <CustomButton @click="createTodo">
-          Добавить тудушку в {{ form.type === TypeBlock.FRONT ? 'Фронтенд' : 'Бэкенд' }}
-        </CustomButton>
-      </div>
-    </div>
-  </div>
+			<div class="todo-page__form">
+				<select
+					id=""
+					name=""
+					@change="onChangeTypeBlock"
+				>
+					<option :value="TypeBlock.FRONT">
+						Добавить в фронтенд
+					</option>
+					<option :value="TypeBlock.BACK">
+						Добавить в бэкент
+					</option>
+				</select>
+				<input
+					v-model="form.item"
+					type="text"
+					placeholder="item"
+				>
+				<div class="todo-page__form-items">
+					<div
+						v-for="(item, i) in form.items"
+						:key="`todo-page__form-item-${i}`"
+					>
+						<input
+							:value="item.item"
+							type="text"
+							placeholder="item"
+							@input="(e) => onInputFormItem(e, i)"
+						>
+						<CustomButton
+							:size="CustomButtonSizeSettings.SM"
+							:theme="CustomButtonThemeSettings.PRIMARY_OUTLINE"
+							@click="removeFormItem(i)"
+						>
+							X
+						</CustomButton>
+					</div>
+				</div>
+				<CustomButton
+					:size="CustomButtonSizeSettings.SM"
+					:theme="CustomButtonThemeSettings.PRIMARY_OUTLINE"
+					@click="addFormItem"
+				>
+					Добавить айтем
+				</CustomButton>
+				<CustomButton @click="createTodo">
+					Добавить тудушку в {{ form.type === TypeBlock.FRONT ? 'Фронтенд' : 'Бэкенд' }}
+				</CustomButton>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { CustomButtonSizeSettings, CustomButtonThemeSettings } from '~/types/common/CustomButton';
+import { CustomButtonSizeSettings, CustomButtonThemeSettings } from '~/types/common/CustomButton'
 
 enum TypeBlock {
-  FRONT = 'FRONT',
-  BACK = 'BACK'
+	FRONT = 'FRONT',
+	BACK = 'BACK',
 }
 
 const todoList = ref([
-  {
-    title: 'Фронт',
-    items: [
-      {
-        item: 'middelware',
-        done: false,
-        items: []
-      },
-      {
-        item: 'нормальный login/registaration',
-        done: false,
-        items: []
-      },
-      {
-        item: 'личный кабинет',
-        done: false,
-        items: [
-          {
-            item: 'редактирование формы юзера',
-            done: false,
-            items: []
-          },
-          {
-            item: 'добавление проектов',
-            done: false,
-            items: []
-          },
-          {
-            item: 'редактирование собственных проектов',
-            done: false,
-            items: []
-          }
-        ]
-      },
-      {
-        item: 'блоки на главной',
-        done: false,
-        items: [
-          {
-            item: 'новости',
-            done: false,
-            items: []
-          },
-          {
-            item: 'инициативы',
-            done: false,
-            items: []
-          }
-        ]
-      },
-      {
-        item: 'страницы',
-        done: false,
-        items: [
-          {
-            item: 'проекты',
-            done: false,
-            items: []
-          },
-          {
-            item: 'статьи',
-            done: false,
-            items: []
-          },
-          {
-            item: 'инициативы',
-            done: false,
-            items: []
-          }
-        ]
-      },
-      {
-        item: 'футер',
-        done: false,
-        items: []
-      },
-      {
-        item: 'нотификайки',
-        done: false,
-        items: [
-          {
-            item: 'создать глобальные нотифайки',
-            done: false,
-            items: []
-          },
-          {
-            item: 'добавить нотифайти в сторах',
-            done: false,
-            items: []
-          },
-          {
-            item: 'нотифайки с анимацией',
-            done: false,
-            items: []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Бэк',
-    items: [
-      {
-        item: 'визуальный редактор',
-        done: false,
-        items: []
-      },
-      {
-        item: 'картинки для деталок, с webp, оптимизировать код',
-        done: false,
-        items: []
-      }
-    ]
-  }
+	{
+		title: 'Фронт',
+		items: [
+			{
+				item: 'middelware',
+				done: false,
+				items: [],
+			},
+			{
+				item: 'нормальный login/registaration',
+				done: false,
+				items: [],
+			},
+			{
+				item: 'личный кабинет',
+				done: false,
+				items: [
+					{
+						item: 'редактирование формы юзера',
+						done: false,
+						items: [],
+					},
+					{
+						item: 'добавление проектов',
+						done: false,
+						items: [],
+					},
+					{
+						item: 'редактирование собственных проектов',
+						done: false,
+						items: [],
+					},
+				],
+			},
+			{
+				item: 'блоки на главной',
+				done: false,
+				items: [
+					{
+						item: 'новости',
+						done: false,
+						items: [],
+					},
+					{
+						item: 'инициативы',
+						done: false,
+						items: [],
+					},
+				],
+			},
+			{
+				item: 'страницы',
+				done: false,
+				items: [
+					{
+						item: 'проекты',
+						done: false,
+						items: [],
+					},
+					{
+						item: 'статьи',
+						done: false,
+						items: [],
+					},
+					{
+						item: 'инициативы',
+						done: false,
+						items: [],
+					},
+				],
+			},
+			{
+				item: 'футер',
+				done: false,
+				items: [],
+			},
+			{
+				item: 'нотификайки',
+				done: false,
+				items: [
+					{
+						item: 'создать глобальные нотифайки',
+						done: false,
+						items: [],
+					},
+					{
+						item: 'добавить нотифайти в сторах',
+						done: false,
+						items: [],
+					},
+					{
+						item: 'нотифайки с анимацией',
+						done: false,
+						items: [],
+					},
+				],
+			},
+		],
+	},
+	{
+		title: 'Бэк',
+		items: [
+			{
+				item: 'визуальный редактор',
+				done: false,
+				items: [],
+			},
+			{
+				item: 'картинки для деталок, с webp, оптимизировать код',
+				done: false,
+				items: [],
+			},
+		],
+	},
 ])
 
-function toggleTodoItem(list: { item: string; done: boolean; items: Array<any> }) {
-  const currentDoneState = list.done || (list.items?.length && list.items?.every(item => item.done))
-  list.done = !currentDoneState
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function toggleTodoItem(list: { item: string, done: boolean, items: Array<any> }) {
+	const currentDoneState = list.done || (list.items?.length && list.items?.every(item => item.done))
+	list.done = !currentDoneState
 
-  if (list.items?.length) {
-    list.items.forEach(item => item.done = list.done)
-  }
+	if (list.items?.length) {
+		list.items.forEach(item => item.done = list.done)
+	}
 
-  saveTodoListInLC()
+	saveTodoListInLC()
 }
 
 function saveTodoListInLC() {
-  window.localStorage.setItem('_todo_list_', JSON.stringify(todoList.value))
+	window.localStorage.setItem('_todo_list_', JSON.stringify(todoList.value))
 }
 
 onMounted(() => {
-  const todoListFromLC = window.localStorage.getItem('_todo_list_')
+	const todoListFromLC = window.localStorage.getItem('_todo_list_')
 
-  if (todoListFromLC) {
-    todoList.value = JSON.parse(todoListFromLC)
-  }
+	if (todoListFromLC) {
+		todoList.value = JSON.parse(todoListFromLC)
+	}
 })
 
-const form = ref({...{ item: '', done: false, items: [ { item: '', done: false, items: [] } ] }, type: TypeBlock.FRONT })
+const form = ref({ ...{ item: '', done: false, items: [{ item: '', done: false, items: [] }] }, type: TypeBlock.FRONT })
 
 function onInputFormItem(e: Event, i: number) {
-  // const formItem = form.value?.[i]
-  if (!form.value?.items?.length || !(e.target instanceof HTMLInputElement)) {
-    return
-  }
+	if (!form.value?.items?.length || !(e.target instanceof HTMLInputElement)) {
+		return
+	}
 
-  form.value.items[i].item = e.target.value
+	form.value.items[i].item = e.target.value
 }
 
 function addFormItem() {
-  form.value.items.push({ item: '', done: false, items: [] })
+	form.value.items.push({ item: '', done: false, items: [] })
 }
 
 function removeFormItem(i: number) {
-  form.value.items = [...form.value.items.slice(0, i), ...form.value.items.slice(i + 1)]
+	form.value.items = [...form.value.items.slice(0, i), ...form.value.items.slice(i + 1)]
 }
 
 function onChangeTypeBlock(e: Event) {
-  if (!(e.target instanceof HTMLSelectElement)) {
-    return
-  }
+	if (!(e.target instanceof HTMLSelectElement)) {
+		return
+	}
 
-  form.value.type = TypeBlock[e.target.value as TypeBlock]
+	form.value.type = TypeBlock[e.target.value as TypeBlock]
 }
 
 function createTodo() {
-  if (!form.value.item?.trim()) {
-    return
-  }
+	if (!form.value.item?.trim()) {
+		return
+	}
 
-  const index = form.value.type === TypeBlock.FRONT ? 0 : 1
-  todoList.value[index].items.push({ item: form.value.item, done: false, items: [ ...form.value.items ] })
+	const index = form.value.type === TypeBlock.FRONT ? 0 : 1
+	todoList.value[index].items.push({ item: form.value.item, done: false, items: [...form.value.items] })
 
-  // clear
-  form.value = {...{ item: '', done: false, items: [ { item: '', done: false, items: [] } ] }, type: TypeBlock.FRONT }
+	// clear
+	form.value = { ...{ item: '', done: false, items: [{ item: '', done: false, items: [] }] }, type: TypeBlock.FRONT }
 
-  saveTodoListInLC()
+	saveTodoListInLC()
 }
-
 </script>
 
 <style lang="scss">

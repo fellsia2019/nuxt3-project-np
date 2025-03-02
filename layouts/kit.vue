@@ -1,14 +1,14 @@
 <template>
-  <div class="kit-layout">
-    <CustomHeader />
-    <div class="kit-layout__main">
-      <div class="container">
-        <KitNavigation class="kit-layout__navigation" />
-      </div>
-      <NuxtPage />
-    </div>
-    <CustomFooter class="kit-layout__footer" />
-  </div>
+	<div class="kit-layout">
+		<CustomHeader />
+		<div class="kit-layout__main">
+			<div class="container">
+				<KitNavigation class="kit-layout__navigation" />
+			</div>
+			<NuxtPage />
+		</div>
+		<CustomFooter class="kit-layout__footer" />
+	</div>
 </template>
 
 <style lang="scss">

@@ -1,28 +1,26 @@
 <template>
-  <div class="animate-figure">
-    <div
-      v-for="(item, i) in items"
-      :key="`animate-figure__item-${item.icon}-${i}`"
-      class="animate-figure__item"
-      :class="`animate-figure__item--${i + 1}`"
-    >
-      <SvgIcon
-        class="animate-figure__item-icon"
-        :class="{ 'animate-figure__item-icon--no-rotate': item.noRotate }"
-        :icon="item.icon"
-      />
-    </div>
-  </div>
+	<div class="animate-figure">
+		<div
+			v-for="(item, i) in items"
+			:key="`animate-figure__item-${item.icon}-${i}`"
+			class="animate-figure__item"
+			:class="`animate-figure__item--${i + 1}`"
+		>
+			<SvgIcon
+				class="animate-figure__item-icon"
+				:class="{ 'animate-figure__item-icon--no-rotate': item.noRotate }"
+				:icon="item.icon"
+			/>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-
 interface IProps {
-  items: Array<{ icon: string; noRotate?: boolean }>;
+	items: Array<{ icon: string, noRotate?: boolean }>
 }
 
-const props = defineProps<IProps>();
-
+defineProps<IProps>()
 </script>
 
 <style lang="scss">

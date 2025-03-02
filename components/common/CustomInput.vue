@@ -1,51 +1,54 @@
 <template>
-  <div
-    class="custom-input"
-    :class="{
-      'custom-input--is-readonly': readonly,
-      'custom-input--is-disabled': disabled
-    }"
-  >
-    <input
-      :type="type"
-      class="custom-input__input"
-      :id="id"
-      placeholder="placeholder"
-      :autocomplete="autocomplete"
-      :readonly="readonly"
-      :value="modelValue"
-      @input="onInput"
-    >
-    <label :for="id" class="custom-input__label">
-      <slot />
-    </label>
-  </div>
+	<div
+		class="custom-input"
+		:class="{
+			'custom-input--is-readonly': readonly,
+			'custom-input--is-disabled': disabled,
+		}"
+	>
+		<input
+			:id="id"
+			:type="type"
+			class="custom-input__input"
+			placeholder="placeholder"
+			:autocomplete="autocomplete"
+			:readonly="readonly"
+			:value="modelValue"
+			@input="onInput"
+		>
+		<label
+			:for="id"
+			class="custom-input__label"
+		>
+			<slot />
+		</label>
+	</div>
 </template>
 
 <script lang="ts" setup>
-type modelValueType = string | number | null;
+type modelValueType = string | number | null
 
 interface ICustomInputEmits {
-  (e: 'update:modelValue', value: modelValueType): void
+	(e: 'update:modelValue', value: modelValueType): void
 }
 
 interface ICustomInputProps {
-  disabled?: boolean;
-  isError?: boolean;
-  isOutsideFocus?: boolean;
-  modelValue: modelValueType;
-  type?: string;
-  autocomplete?: string;
-  readonly?: boolean;
+	disabled?: boolean
+	isError?: boolean
+	isOutsideFocus?: boolean
+	modelValue: modelValueType
+	type?: string
+	autocomplete?: string
+	readonly?: boolean
 }
 
-const props = withDefaults(defineProps<ICustomInputProps>(), {
-  disabled: false,
-  isError: false,
-  isOutsideFocus: false,
-  modelValue: '',
-  type: 'text',
-  readonly: false,
+withDefaults(defineProps<ICustomInputProps>(), {
+	disabled: false,
+	isError: false,
+	isOutsideFocus: false,
+	modelValue: '',
+	type: 'text',
+	readonly: false,
 })
 
 const emits = defineEmits<ICustomInputEmits>()
@@ -53,9 +56,9 @@ const emits = defineEmits<ICustomInputEmits>()
 const id = useId()
 
 function onInput(e: Event) {
-  if (e.target instanceof HTMLInputElement) {
-    emits('update:modelValue', e.target.value)
-  }
+	if (e.target instanceof HTMLInputElement) {
+		emits('update:modelValue', e.target.value)
+	}
 }
 </script>
 

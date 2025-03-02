@@ -1,30 +1,30 @@
 <template>
-  <div
-    class="custom-icon-arrow"
-    :class="[
-      `custom-icon-arrow--direction-${direction} custom-icon-arrow--size-${size}`,
-      { 'custom-icon-arrow--is-reverse': isReverse }
-    ]"
-  >
-    <div class="custom-icon-arrow__item" />
-    <div class="custom-icon-arrow__item" />
-    <div class="custom-icon-arrow__item" />
-  </div>
+	<div
+		class="custom-icon-arrow"
+		:class="[
+			`custom-icon-arrow--direction-${direction} custom-icon-arrow--size-${size}`,
+			{ 'custom-icon-arrow--is-reverse': isReverse },
+		]"
+	>
+		<div class="custom-icon-arrow__item" />
+		<div class="custom-icon-arrow__item" />
+		<div class="custom-icon-arrow__item" />
+	</div>
 </template>
 
 <script setup lang="ts">
 import { CustomIconArrowDirectionSettings, CustomIconArrowSizeSettings } from '~/types/common/CustomIcons'
 
 interface IProps {
-  direction?: CustomIconArrowDirectionSettings;
-  size?: CustomIconArrowSizeSettings;
-  isReverse?: boolean;
+	direction?: CustomIconArrowDirectionSettings
+	size?: CustomIconArrowSizeSettings
+	isReverse?: boolean
 }
 
-const props = withDefaults(defineProps<IProps>(), {
-  direction: CustomIconArrowDirectionSettings.BOTTOM,
-  size: CustomIconArrowSizeSettings.MD,
-  isReverse: false
+withDefaults(defineProps<IProps>(), {
+	direction: CustomIconArrowDirectionSettings.BOTTOM,
+	size: CustomIconArrowSizeSettings.MD,
+	isReverse: false,
 })
 </script>
 

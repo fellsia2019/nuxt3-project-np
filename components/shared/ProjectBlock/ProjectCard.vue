@@ -1,34 +1,46 @@
 <template>
-  <NuxtLink :to="{ name: 'projects-id', params: { id: card.id } }" class="project-card">
-    <div class="project-card__inner">
-      <div class="project-card__preview">
-        <CommonImage img-class="project-card__preview-img" :image="{ webp: card.image_webp, base: card.image }"/>
-      </div>
-      <div class="project-card__content">
-        <div class="project-card__content-top text-sm">
-          <time class="project-card__date" :datetime="String(card.time_create)">
-            Создан {{ detDateArticle(card.time_create) }}
-          </time>
-          <time class="project-card__date" :datetime="String(card.time_update)">
-            Обновлен {{ detDateArticle(card.time_update) }}
-          </time>
-        </div>
-        <h3 class="project-card__title title title-h4">
-          {{ card.title }} | {{ card.id }}
-        </h3>
-        <p class="project-card__text text-md">
-          {{ card.content }}
-        </p>
-        <CustomButton
-          class="project-card__btn"
-          :theme="CustomButtonThemeSettings.PRIMARY_OUTLINE"
-          :size="CustomButtonSizeSettings.SM"
-        >
-          Подробнее
-        </CustomButton>
-      </div>
-    </div>
-  </NuxtLink>
+	<NuxtLink
+		:to="{ name: 'projects-id', params: { id: card.id } }"
+		class="project-card"
+	>
+		<div class="project-card__inner">
+			<div class="project-card__preview">
+				<CommonImage
+					img-class="project-card__preview-img"
+					:image="{ webp: card.image_webp, base: card.image }"
+				/>
+			</div>
+			<div class="project-card__content">
+				<div class="project-card__content-top text-sm">
+					<time
+						class="project-card__date"
+						:datetime="String(card.time_create)"
+					>
+						Создан {{ detDateArticle(card.time_create) }}
+					</time>
+					<time
+						class="project-card__date"
+						:datetime="String(card.time_update)"
+					>
+						Обновлен {{ detDateArticle(card.time_update) }}
+					</time>
+				</div>
+				<h3 class="project-card__title title title-h4">
+					{{ card.title }} | {{ card.id }}
+				</h3>
+				<p class="project-card__text text-md">
+					{{ card.content }}
+				</p>
+				<CustomButton
+					class="project-card__btn"
+					:theme="CustomButtonThemeSettings.PRIMARY_OUTLINE"
+					:size="CustomButtonSizeSettings.SM"
+				>
+					Подробнее
+				</CustomButton>
+			</div>
+		</div>
+	</NuxtLink>
 </template>
 
 <script setup lang="ts">
@@ -37,11 +49,10 @@ import { detDateArticle } from '~/helpers/dateHelpers'
 import { CustomButtonThemeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
 
 interface IProjectCardProps {
-  card: IProject
+	card: IProject
 }
 
-const props = defineProps<IProjectCardProps>()
-
+defineProps<IProjectCardProps>()
 </script>
 
 <style lang="scss">

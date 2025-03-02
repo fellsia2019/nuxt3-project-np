@@ -1,15 +1,29 @@
 <template>
-  <div class="banner" :class="[`banner--theme-${theme}`, { 'banner--mob-full-width': mobFullWidth }]">
-    <div :class="withContainer ? 'container' : ''">
-      <div class="banner__inner">
-        <CommonImage img-class="banner__bg" :image="image"/>
-        <div class="banner__content">
-          <h1 class="banner__title title title-h1" :class="`color-${theme}`" v-html="title"></h1>
-          <div v-if="description" class="banner__description" v-html="description"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div
+		class="banner"
+		:class="[`banner--theme-${theme}`, { 'banner--mob-full-width': mobFullWidth }]"
+	>
+		<div :class="withContainer ? 'container' : ''">
+			<div class="banner__inner">
+				<CommonImage
+					img-class="banner__bg"
+					:image="image"
+				/>
+				<div class="banner__content">
+					<h1
+						class="banner__title title title-h1"
+						:class="`color-${theme}`"
+						v-html="title"
+					/>
+					<div
+						v-if="description"
+						class="banner__description"
+						v-html="description"
+					/>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -17,19 +31,18 @@ import type { IImageData } from '~/types/common/Image'
 import { TemplateThemes } from '~/types/common/Themes'
 
 interface IProps {
-  title: string;
-  description?: string | null;
-  image: IImageData;
-  withContainer?: boolean;
-  theme?: TemplateThemes;
-  mobFullWidth?: boolean;
+	title: string
+	description?: string | null
+	image: IImageData
+	withContainer?: boolean
+	theme?: TemplateThemes
+	mobFullWidth?: boolean
 }
 
-const props = withDefaults(defineProps<IProps>(), {
-  theme: TemplateThemes.DEFAULT,
-  mobFullWidth: true
+withDefaults(defineProps<IProps>(), {
+	theme: TemplateThemes.DEFAULT,
+	mobFullWidth: true,
 })
-
 </script>
 
 <style lang="scss">

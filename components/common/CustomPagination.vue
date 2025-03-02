@@ -1,131 +1,137 @@
 <template>
-  <div class="custom-pagination" :class="[`custom-pagination--theme-${theme}`, { 'custom-pagination--is-disabled': isDisabled }]">
-    <div class="custom-pagination__inner">
-      <CustomButton
-        v-show="!hiddenMoreBtn"
-        class="custom-pagination__show-more"
-        :disabled="isDisabledShowMore || isDisabled"
-        :theme="theme"
-        @click="showMore"
-      >
-        Показать ещё
-      </CustomButton>
-      <div class="custom-pagination__list">
-         <div
-          v-if="isVisibleFirstPage"
-          class="custom-pagination__item"
-          @click="change(1)"
-        >
-          <span class="custom-pagination__item-inner">
-            {{ 1 }}
-          </span>
-        </div>
-        <div v-if="isVisibleFirstPage" class="custom-pagination__item custom-pagination__item--dots">
-          <span class="custom-pagination__item-inner">
-            ...
-          </span>
-        </div>
+	<div
+		class="custom-pagination"
+		:class="[`custom-pagination--theme-${theme}`, { 'custom-pagination--is-disabled': isDisabled }]"
+	>
+		<div class="custom-pagination__inner">
+			<CustomButton
+				v-show="!hiddenMoreBtn"
+				class="custom-pagination__show-more"
+				:disabled="isDisabledShowMore || isDisabled"
+				:theme="theme"
+				@click="showMore"
+			>
+				Показать ещё
+			</CustomButton>
+			<div class="custom-pagination__list">
+				<div
+					v-if="isVisibleFirstPage"
+					class="custom-pagination__item"
+					@click="change(1)"
+				>
+					<span class="custom-pagination__item-inner">
+						{{ 1 }}
+					</span>
+				</div>
+				<div
+					v-if="isVisibleFirstPage"
+					class="custom-pagination__item custom-pagination__item--dots"
+				>
+					<span class="custom-pagination__item-inner">
+						...
+					</span>
+				</div>
 
-        <div
-          v-for="page in pages"
-          :key="`custom-pagination__item-${page}`"
-          class="custom-pagination__item"
-          :class="{ 'custom-pagination__item--is-active': page === currentPage }"
-          @click="change(page)"
-        >
-          <span class="custom-pagination__item-inner">
-            {{ page }}
-          </span>
-        </div>
+				<div
+					v-for="page in pages"
+					:key="`custom-pagination__item-${page}`"
+					class="custom-pagination__item"
+					:class="{ 'custom-pagination__item--is-active': page === currentPage }"
+					@click="change(page)"
+				>
+					<span class="custom-pagination__item-inner">
+						{{ page }}
+					</span>
+				</div>
 
-        <div v-if="isVisibleLastPage" class="custom-pagination__item custom-pagination__item--dots">
-          <span class="custom-pagination__item-inner">
-            ...
-          </span>
-        </div>
-        <div
-          v-if="isVisibleLastPage"
-          class="custom-pagination__item"
-          @click="change(countPages)"
-        >
-          <span class="custom-pagination__item-inner">
-            {{ countPages }}
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
+				<div
+					v-if="isVisibleLastPage"
+					class="custom-pagination__item custom-pagination__item--dots"
+				>
+					<span class="custom-pagination__item-inner">
+						...
+					</span>
+				</div>
+				<div
+					v-if="isVisibleLastPage"
+					class="custom-pagination__item"
+					@click="change(countPages)"
+				>
+					<span class="custom-pagination__item-inner">
+						{{ countPages }}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
+import range from 'lodash-es/range'
 import { CustomPaginationThemeSettings } from '~/types/common/CustomPagination'
-import { type IBreakpoint } from '~/types/common/Breakpoint'
-
-import range from 'lodash-es/range';
+import type { IBreakpoint } from '~/types/common/Breakpoint'
 
 interface IProps {
-  currentPage: number;
-  countPages: number;
-  initialDisplayCount?: number;
-  initialDisplayCountMobile?: number;
-  isDisabled?: boolean;
-  hiddenMoreBtn?: boolean;
-  theme?: CustomPaginationThemeSettings;
+	currentPage: number
+	countPages: number
+	initialDisplayCount?: number
+	initialDisplayCountMobile?: number
+	isDisabled?: boolean
+	hiddenMoreBtn?: boolean
+	theme?: CustomPaginationThemeSettings
 }
 interface IEmits {
-  (e: 'change', page: number): void,
-  (e: 'show-more'): void,
+	(e: 'change', page: number): void
+	(e: 'show-more'): void
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  initialDisplayCount: 5,
-  initialDisplayCountMobile: 3,
-  theme: CustomPaginationThemeSettings.PRIMARY
+	initialDisplayCount: 5,
+	initialDisplayCountMobile: 3,
+	theme: CustomPaginationThemeSettings.PRIMARY,
 })
 const emits = defineEmits<IEmits>()
 
 const breakpoint = inject<Ref<IBreakpoint>>('breakpoint')
 
 const adaptiveDisplayCount = computed(() => {
-  return breakpoint?.value?.isMobile ? props.initialDisplayCountMobile : props.initialDisplayCount;
+	return breakpoint?.value?.isMobile ? props.initialDisplayCountMobile : props.initialDisplayCount
 })
 
 const displayCount = computed(() => {
-  return props.countPages >= adaptiveDisplayCount.value
-    ? adaptiveDisplayCount.value
-    : props.countPages;
+	return props.countPages >= adaptiveDisplayCount.value
+		? adaptiveDisplayCount.value
+		: props.countPages
 })
 
 const pages = computed<Array<number>>(() => {
-  const maxIndex = props.countPages - displayCount.value + 1;
-  const delta = Math.floor(displayCount.value / 2);
-  const startIndex = Math.min((props.currentPage - delta < 1 ? 1 : props.currentPage - delta), maxIndex);
+	const maxIndex = props.countPages - displayCount.value + 1
+	const delta = Math.floor(displayCount.value / 2)
+	const startIndex = Math.min((props.currentPage - delta < 1 ? 1 : props.currentPage - delta), maxIndex)
 
-  return range(startIndex, startIndex + displayCount.value);
+	return range(startIndex, startIndex + displayCount.value)
 })
 
 const isVisibleFirstPage = computed(() => {
-  return pages.value[0] > 1;
+	return pages.value[0] > 1
 })
 
 const isVisibleLastPage = computed(() => {
-  return (pages.value?.at(-1) || Number.POSITIVE_INFINITY) < props.countPages;
+	return (pages.value?.at(-1) || Number.POSITIVE_INFINITY) < props.countPages
 })
 
 const isDisabledShowMore = computed(() => {
-  return props.currentPage === props.countPages;
+	return props.currentPage === props.countPages
 })
 
 function change(page: number) {
-  emits('change', page)
+	emits('change', page)
 }
 
 function showMore() {
-  emits('show-more')
+	emits('show-more')
 }
-
 </script>
-
 
 <style lang="scss">
 $b: '.custom-pagination';
@@ -192,7 +198,6 @@ $btn-size-sm: 40px;
         }
       }
     }
-
 
     &::before {
       content: '';

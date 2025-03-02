@@ -1,21 +1,21 @@
 export function getUrlWithQuery(url: string, query: { [key: string]: string | number } | null = null) {
-  let fetchUrl = url
+	let fetchUrl = url
 
-  if (query) {
-    const startSymbol = (new URL(url))?.search ? '&' : '?'
+	if (query) {
+		const startSymbol = (new URL(url))?.search ? '&' : '?'
 
-    const queryList = []
+		const queryList = []
 
-    for (let key in query) {
-      const v = query[key]
+		for (const key in query) {
+			const v = query[key]
 
-      queryList.push(`${key}=${v}`)
-    }
+			queryList.push(`${key}=${v}`)
+		}
 
-    if (queryList?.length) {
-      fetchUrl += `${startSymbol}${queryList.join('&')}`
-    }
-  }
+		if (queryList?.length) {
+			fetchUrl += `${startSymbol}${queryList.join('&')}`
+		}
+	}
 
-  return fetchUrl
+	return fetchUrl
 }

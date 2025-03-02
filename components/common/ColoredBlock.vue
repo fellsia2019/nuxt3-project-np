@@ -1,34 +1,40 @@
 <template>
-  <div
-    class="colored-block"
-    :class="[`bg-color-${currentColor}`, { 'colored-block--is-visible-window': isVisibleWindow }]"
-  >
-    <div class="colored-block__btn" @click="toggleWindow">
-      <SvgIcon icon="paint" />
-    </div>
+	<div
+		class="colored-block"
+		:class="[`bg-color-${currentColor}`, { 'colored-block--is-visible-window': isVisibleWindow }]"
+	>
+		<div
+			class="colored-block__btn"
+			@click="toggleWindow"
+		>
+			<SvgIcon icon="paint" />
+		</div>
 
-    <div class="colored-block__body">
-      <slot />
-    </div>
+		<div class="colored-block__body">
+			<slot />
+		</div>
 
-    <div v-if="isVisibleWindow" class="colored-block__window">
-      <div class="colored-block__window-list">
-        <div
-          class="colored-block__window-item colored-block__window-item--transparent"
-          @click="changeColor(null)"
-        >
-          Без цвета
-        </div>
-        <div
-          v-for="color in AllBaseColors"
-          :key="`colored-block__window-item-${color}`"
-          class="colored-block__window-item"
-          :class="`bg-color-${color}`"
-          @click="changeColor(color)"
-        />
-      </div>
-    </div>
-  </div>
+		<div
+			v-if="isVisibleWindow"
+			class="colored-block__window"
+		>
+			<div class="colored-block__window-list">
+				<div
+					class="colored-block__window-item colored-block__window-item--transparent"
+					@click="changeColor(null)"
+				>
+					Без цвета
+				</div>
+				<div
+					v-for="color in AllBaseColors"
+					:key="`colored-block__window-item-${color}`"
+					class="colored-block__window-item"
+					:class="`bg-color-${color}`"
+					@click="changeColor(color)"
+				/>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -38,12 +44,12 @@ const currentColor = ref<AllBaseColors | null>(null)
 const isVisibleWindow = ref(false)
 
 function toggleWindow() {
-  isVisibleWindow.value = !isVisibleWindow.value
+	isVisibleWindow.value = !isVisibleWindow.value
 }
 
 function changeColor(color: AllBaseColors | null) {
-  currentColor.value = color
-  toggleWindow()
+	currentColor.value = color
+	toggleWindow()
 }
 </script>
 

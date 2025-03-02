@@ -1,78 +1,86 @@
 <template>
-  <div class="projects-block">
-    <div class="container">
-      <div class="projects-block__inner">
-        <h2 v-if="$slots.title" class="projects-block__title title title-h2">
-          <slot name="title" />
-        </h2>
+	<div class="projects-block">
+		<div class="container">
+			<div class="projects-block__inner">
+				<h2
+					v-if="$slots.title"
+					class="projects-block__title title title-h2"
+				>
+					<slot name="title" />
+				</h2>
 
-        <ProjectList :projects="projects"/>
+				<ProjectList :projects="projects" />
 
-        <CustomPagination
-          v-if="pagination && pagination.total_pages > 1"
-          class="projects-block__actions"
-          :currentPage="pagination.current_page"
-          :countPages="pagination.total_pages"
-          :hiddenMoreBtn="!canLoadMore"
-          @show-more="showMore"
-          @change="onChangePagination"
-        />
-      </div>
-    </div>
+				<CustomPagination
+					v-if="pagination && pagination.total_pages > 1"
+					class="projects-block__actions"
+					:current-page="pagination.current_page"
+					:count-pages="pagination.total_pages"
+					:hidden-more-btn="!canLoadMore"
+					@show-more="showMore"
+					@change="onChangePagination"
+				/>
+			</div>
+		</div>
 
-    <div class="projects-block__shapes projects-block__shapes--1">
-      <AnimationWrapper>
-        <AnimateFigure :items="figuresHexagons" class="projects-block__animate-figure" />
-      </AnimationWrapper>
-    </div>
-    <div class="projects-block__shapes projects-block__shapes--2">
-      <AnimationWrapper>
-        <AnimateFigure :items="figuresHexagons" class="projects-block__animate-figure" />
-      </AnimationWrapper>
-    </div>
-  </div>
+		<div class="projects-block__shapes projects-block__shapes--1">
+			<AnimationWrapper>
+				<AnimateFigure
+					:items="figuresHexagons"
+					class="projects-block__animate-figure"
+				/>
+			</AnimationWrapper>
+		</div>
+		<div class="projects-block__shapes projects-block__shapes--2">
+			<AnimationWrapper>
+				<AnimateFigure
+					:items="figuresHexagons"
+					class="projects-block__animate-figure"
+				/>
+			</AnimationWrapper>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
 import type { IProject } from '~/types/api/projects'
-import type { IPaginationApi } from '~/types/api/common';
+import type { IPaginationApi } from '~/types/api/common'
 
 interface IProjectProps {
-  projects: Array<IProject>;
-  canLoadMore?: boolean;
-  pagination?: IPaginationApi;
+	projects: Array<IProject>
+	canLoadMore?: boolean
+	pagination?: IPaginationApi
 }
 
 interface IProjectEmits {
-  (e: 'show-more'): void,
-  (e: 'change-page', page: number): void
+	(e: 'show-more'): void
+	(e: 'change-page', page: number): void
 }
 
-const props = withDefaults(defineProps<IProjectProps>(), {
-  canLoadMore: false,
-});
+withDefaults(defineProps<IProjectProps>(), {
+	canLoadMore: false,
+})
 const emits = defineEmits<IProjectEmits>()
 
 const figuresHexagons = [
-  {
-    icon: 'hexagon'
-  },
-  {
-    icon: 'hexagon'
-  },
-  {
-    icon: 'hexagon'
-  },
+	{
+		icon: 'hexagon',
+	},
+	{
+		icon: 'hexagon',
+	},
+	{
+		icon: 'hexagon',
+	},
 ]
 
 function showMore() {
-  emits('show-more')
+	emits('show-more')
 }
 
 function onChangePagination(page: number) {
-  emits('change-page', page)
+	emits('change-page', page)
 }
-
 </script>
 
 <style lang="scss">

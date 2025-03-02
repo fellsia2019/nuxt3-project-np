@@ -1,25 +1,35 @@
 <template>
-  <div class="user-button">
-    <div v-if="userStore?.IS_AUTH" class="user-button__inner">
-      <SvgIcon class="user-button__logout-icon" icon="logout" @click="userStore.LOGOUT" />
-      <NuxtLink
-        :to="{ name: 'lk' }"
-        class=" link link--primary"
-      >
-        {{ userStore.user?.username }}
-      </NuxtLink>
-    </div>
-    <NuxtLink
-      v-else
-      :to="{ name: 'login' }"
-      class="user-button__inner"
-    >
-      <CustomButton :size="CustomButtonSizeSettings.SM">
-        <SvgIcon class="user-button__user-icon" icon="user" />
-        <span>Вход</span>
-      </CustomButton>
-    </NuxtLink>
-  </div>
+	<div class="user-button">
+		<div
+			v-if="userStore?.IS_AUTH"
+			class="user-button__inner"
+		>
+			<SvgIcon
+				class="user-button__logout-icon"
+				icon="logout"
+				@click="userStore.LOGOUT"
+			/>
+			<NuxtLink
+				:to="{ name: 'lk' }"
+				class=" link link--primary"
+			>
+				{{ userStore.user?.username }}
+			</NuxtLink>
+		</div>
+		<NuxtLink
+			v-else
+			:to="{ name: 'login' }"
+			class="user-button__inner"
+		>
+			<CustomButton :size="CustomButtonSizeSettings.SM">
+				<SvgIcon
+					class="user-button__user-icon"
+					icon="user"
+				/>
+				<span>Вход</span>
+			</CustomButton>
+		</NuxtLink>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -27,7 +37,6 @@ import { CustomButtonSizeSettings } from '~/types/common/CustomButton'
 import { useUserStore } from '~/store/api/user'
 
 const userStore = useUserStore()
-
 </script>
 
 <style lang="scss">

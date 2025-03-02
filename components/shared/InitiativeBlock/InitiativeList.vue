@@ -1,23 +1,22 @@
 <template>
-  <div class="initiatives-list">
-    <InitiativeCard
-      v-for="card in initiatives"
-      :key="`initiatives-list-item-${card.id}`"
-      class="initiatives-list__card"
-      :card="card"
-    />
-  </div>
+	<div class="initiatives-list">
+		<InitiativeCard
+			v-for="card in initiatives"
+			:key="`initiatives-list-item-${card.id}`"
+			class="initiatives-list__card"
+			:card="card"
+		/>
+	</div>
 </template>
 
 <script setup lang="ts">
 import type { IInitiative } from '~/types/api/initiatives'
 
 interface IInitiativesListProps {
-  initiatives: Array<IInitiative>
+	initiatives: Array<IInitiative>
 }
 
-const props = defineProps<IInitiativesListProps>()
-
+defineProps<IInitiativesListProps>()
 </script>
 
 <style lang="scss">

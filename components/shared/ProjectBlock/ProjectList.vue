@@ -1,23 +1,22 @@
 <template>
-  <div class="project-list">
-    <ProjectCard
-      v-for="card in projects"
-      :key="`project-list-item-${card.id}`"
-      class="project-list__card"
-      :card="card"
-    />
-  </div>
+	<div class="project-list">
+		<ProjectCard
+			v-for="card in projects"
+			:key="`project-list-item-${card.id}`"
+			class="project-list__card"
+			:card="card"
+		/>
+	</div>
 </template>
 
 <script setup lang="ts">
 import type { IProject } from '~/types/api/projects'
 
 interface IProjectListProps {
-  projects: Array<IProject>
+	projects: Array<IProject>
 }
 
-const props = defineProps<IProjectListProps>()
-
+defineProps<IProjectListProps>()
 </script>
 
 <style lang="scss">

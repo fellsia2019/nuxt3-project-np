@@ -1,75 +1,76 @@
 <template>
-  <div
-    v-show="isVisible"
-    class="custom-notification"
-    :style="rootStyle"
-  >
-    <div class="container custom-notification__container">
-      <div class="custom-notification__inner">
-        <div class="custom-notification__body">
-          <TransitionGroup name="notifications">
-            <div
-              v-for="notification in notificationStore?.NOTIFICATIONS"
-              :key="`custom-notification__item-${notification.id}`"
-              class="custom-notification__item"
-              :class="`custom-notification__item--status-${notification.status}`"
-            >
-              <div class="custom-notification__item-inner">
-                <div
-                  v-if="notification.title"
-                  v-html="notification.title"
-                  class="custom-notification__item-title fw-600"
-                />
-                <div
-                  v-if="notification.text"
-                  v-html="notification.text"
-                  class="custom-notification__item-text"
-                />
-                <div
-                  v-if="notification.id"
-                  class="custom-notification__item-close"
-                  @click="close(notification.id)"
-                >
-                  <SvgIcon icon="cross" />
-                </div>
-              </div>
-            </div>
-          </TransitionGroup>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div
+		v-show="isVisible"
+		class="custom-notification"
+		:style="rootStyle"
+	>
+		<div class="container custom-notification__container">
+			<div class="custom-notification__inner">
+				<div class="custom-notification__body">
+					<TransitionGroup name="notifications">
+						<div
+							v-for="notification in notificationStore?.NOTIFICATIONS"
+							:key="`custom-notification__item-${notification.id}`"
+							class="custom-notification__item"
+							:class="`custom-notification__item--status-${notification.status}`"
+						>
+							<div class="custom-notification__item-inner">
+								<div
+									v-if="notification.title"
+									class="custom-notification__item-title fw-600"
+									v-html="notification.title"
+								/>
+								<div
+									v-if="notification.text"
+									class="custom-notification__item-text"
+									v-html="notification.text"
+								/>
+								<div
+									v-if="notification.id"
+									class="custom-notification__item-close"
+									@click="close(notification.id)"
+								>
+									<SvgIcon icon="cross" />
+								</div>
+							</div>
+						</div>
+					</TransitionGroup>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>
 import { useNotificationStore } from '~/store/common/notification'
 
-const notificationStore = useNotificationStore();
+const notificationStore = useNotificationStore()
 const isVisible = ref(false)
 const animationTime = 500 // ms
 const timeoutId = ref<ReturnType<typeof setTimeout> | null>(null)
 
 const rootStyle = computed(() => {
-  return {
-    '--animation-time': `${animationTime}ms`
-  }
+	return {
+		'--animation-time': `${animationTime}ms`,
+	}
 })
 
 function close(id: number) {
-  notificationStore.REMOVE_NOTIFICATION(id)
+	notificationStore.REMOVE_NOTIFICATION(id)
 }
 
 watch(() => notificationStore.NOTIFICATIONS.length, (newVal) => {
-  if (newVal) {
-    isVisible.value = true
-    if (timeoutId.value) {
-      clearTimeout(timeoutId.value)
-    }
-  } else {
-    timeoutId.value = setTimeout(() => {
-      isVisible.value = false
-    }, animationTime);
-  }
+	if (newVal) {
+		isVisible.value = true
+		if (timeoutId.value) {
+			clearTimeout(timeoutId.value)
+		}
+	}
+	else {
+		timeoutId.value = setTimeout(() => {
+			isVisible.value = false
+		}, animationTime)
+	}
 })
 </script>
 

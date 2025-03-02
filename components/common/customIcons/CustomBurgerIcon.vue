@@ -1,17 +1,20 @@
 <template>
-  <div class="custom-burger-icon" :class="{ 'custom-burger-icon--is-active': isActive }">
-    <div class="custom-burger-icon__item"></div>
-    <div class="custom-burger-icon__item"></div>
-    <div class="custom-burger-icon__item"></div>
-  </div>
+	<div
+		class="custom-burger-icon"
+		:class="{ 'custom-burger-icon--is-active': isActive }"
+	>
+		<div class="custom-burger-icon__item" />
+		<div class="custom-burger-icon__item" />
+		<div class="custom-burger-icon__item" />
+	</div>
 </template>
 
 <script setup lang="ts">
 interface IProps {
-  isActive?: boolean;
+	isActive?: boolean
 }
 
-const props = defineProps<IProps>()
+defineProps<IProps>()
 </script>
 
 <style lang="scss">

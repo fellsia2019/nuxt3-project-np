@@ -1,50 +1,56 @@
 <template>
-  <main class="home-page">
-    <div class="container">
-      <div class="home-page__header">
-        <h1 class="home-page__title title title-h1">
-          Главная страница
-        </h1>
+	<main class="home-page">
+		<div class="container">
+			<div class="home-page__header">
+				<h1 class="home-page__title title title-h1">
+					Главная страница
+				</h1>
 
-        <p>
-          Это обычный пет-проект.
-          <br>
-          Он не нацелен на получение прибыли или любой другой коммерческой, финансовой, материальной и любой другой выгоды.
-          <br>
-          Прошу не обращать особое внимание на дизайн, он создавался внезапно и на коленке.
-          <br>
-          Первостепенная задача этого проекта продемонстрировать уровень hard скиллов
-        </p>
-      </div>
-    </div>
+				<p>
+					Это обычный пет-проект.
+					<br>
+					Он не нацелен на получение прибыли или любой другой коммерческой, финансовой, материальной и любой другой выгоды.
+					<br>
+					Прошу не обращать особое внимание на дизайн, он создавался внезапно и на коленке.
+					<br>
+					Первостепенная задача этого проекта продемонстрировать уровень hard скиллов
+				</p>
+			</div>
+		</div>
 
-    <div class="home-page__body">
-      <ProjectBlock
-        v-if="projectsStore?.projects?.length"
-        class="home-page__block"
-        title="Проекты"
-        :projects="projectsStore.projects"
-      >
-        <template #title>
-          <NuxtLink class="link" :to="{ name: 'projects' }">
-            Проекты
-          </NuxtLink>
-        </template>
-      </ProjectBlock>
+		<div class="home-page__body">
+			<ProjectBlock
+				v-if="projectsStore?.projects?.length"
+				class="home-page__block"
+				title="Проекты"
+				:projects="projectsStore.projects"
+			>
+				<template #title>
+					<NuxtLink
+						class="link"
+						:to="{ name: 'projects' }"
+					>
+						Проекты
+					</NuxtLink>
+				</template>
+			</ProjectBlock>
 
-      <InitiativeBlock
-        v-if="initiativesStore?.initiatives?.length"
-        class="home-page__block"
-        :initiatives="initiativesStore.initiatives"
-      >
-        <template #title>
-          <NuxtLink class="link" :to="{ name: 'initiatives' }">
-            Инициативы
-          </NuxtLink>
-        </template>
-      </InitiativeBlock>
-    </div>
-  </main>
+			<InitiativeBlock
+				v-if="initiativesStore?.initiatives?.length"
+				class="home-page__block"
+				:initiatives="initiativesStore.initiatives"
+			>
+				<template #title>
+					<NuxtLink
+						class="link"
+						:to="{ name: 'initiatives' }"
+					>
+						Инициативы
+					</NuxtLink>
+				</template>
+			</InitiativeBlock>
+		</div>
+	</main>
 </template>
 
 <script setup lang="ts">
@@ -52,11 +58,11 @@ import { useProjectsStore } from '~/store/api/projects'
 import { useInitiativesStore } from '~/store/api/initiatives'
 
 useHead({
-  title: 'Главная страница'
+	title: 'Главная страница',
 })
 
-const projectsStore = useProjectsStore();
-const initiativesStore = useInitiativesStore();
+const projectsStore = useProjectsStore()
+const initiativesStore = useInitiativesStore()
 
 await useAsyncData('projects', () => Promise.all([projectsStore.LOAD_PROJECTS(), initiativesStore.LOAD_INITIATIVES()]).then(() => true))
 </script>

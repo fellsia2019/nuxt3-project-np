@@ -1,69 +1,92 @@
 <template>
-  <div class="custom-dropdown" :class="{ 'custom-dropdown--is-opened': isOpened }" ref="rootEl">
-    <div class="custom-dropdown__inner">
-      <div class="custom-dropdown__head" @click="toggle">
-        <CustomInput
-          class="custom-dropdown__input"
-          :modelValue="searchValueModel"
-          :placeholder="placeholder"
-          :readonly="!withSearch"
-          @update:modelValue="onInputSearch"
-        >
-          <div class="custom-dropdown__label">
-            <span>
-              {{ placeholder }}
-            </span>
-            <SvgIcon v-if="withSearch" icon="search" class="custom-dropdown__icon-search" />
-          </div>
-        </CustomInput>
-        <div class="custom-dropdown__icon-arrow">
-          <CustomIconArrow :isReverse="isOpened" :size="CustomIconArrowSizeSettings.SM" />
-        </div>
-      </div>
+	<div
+		ref="rootEl"
+		class="custom-dropdown"
+		:class="{ 'custom-dropdown--is-opened': isOpened }"
+	>
+		<div class="custom-dropdown__inner">
+			<div
+				class="custom-dropdown__head"
+				@click="toggle"
+			>
+				<CustomInput
+					class="custom-dropdown__input"
+					:model-value="searchValueModel"
+					:placeholder="placeholder"
+					:readonly="!withSearch"
+					@update:model-value="onInputSearch"
+				>
+					<div class="custom-dropdown__label">
+						<span>
+							{{ placeholder }}
+						</span>
+						<SvgIcon
+							v-if="withSearch"
+							icon="search"
+							class="custom-dropdown__icon-search"
+						/>
+					</div>
+				</CustomInput>
+				<div class="custom-dropdown__icon-arrow">
+					<CustomIconArrow
+						:is-reverse="isOpened"
+						:size="CustomIconArrowSizeSettings.SM"
+					/>
+				</div>
+			</div>
 
-      <div v-if="options?.length" class="custom-dropdown__window">
-        <ul v-if="searchedOptions?.length" class="custom-dropdown__window-list">
-          <li
-            v-for="option in searchedOptions"
-            :key="`custom-dropdown__window-item-${option.id}`"
-            class="custom-dropdown__window-item"
-            @click="select(option)"
-          >
-            <span v-html="option.name" />
-          </li>
-        </ul>
-        <div v-else class="custom-dropdown__window-void">
-          Ничего не найдено
-        </div>
-      </div>
-    </div>
-  </div>
+			<div
+				v-if="options?.length"
+				class="custom-dropdown__window"
+			>
+				<ul
+					v-if="searchedOptions?.length"
+					class="custom-dropdown__window-list"
+				>
+					<li
+						v-for="option in searchedOptions"
+						:key="`custom-dropdown__window-item-${option.id}`"
+						class="custom-dropdown__window-item"
+						@click="select(option)"
+					>
+						<span v-html="option.name" />
+					</li>
+				</ul>
+				<div
+					v-else
+					class="custom-dropdown__window-void"
+				>
+					Ничего не найдено
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { type IDropdownOption } from '~/types/common/CustomDropdown'
+import type { IDropdownOption } from '~/types/common/CustomDropdown'
 import { CustomIconArrowSizeSettings } from '~/types/common/CustomIcons'
 
-type modelValueType = string | number | null;
+type modelValueType = string | number | null
 
 interface IEmits {
-  (e: 'update:modelValue', value: modelValueType): void
+	(e: 'update:modelValue', value: modelValueType): void
 }
 
 interface IProps {
-  withSearch?: boolean;
-  options: Array<IDropdownOption>;
-  placeholder?: string;
-  withPreinitAfterClear?: boolean;
-  modelValue: modelValueType;
-  selectAllOptionId?: string;
+	withSearch?: boolean
+	options: Array<IDropdownOption>
+	placeholder?: string
+	withPreinitAfterClear?: boolean
+	modelValue: modelValueType
+	selectAllOptionId?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  withSearch: true,
-  placeholder: 'Список',
-  withPreinitAfterClear: false,
-  selectAllOptionId: 'all'
+	withSearch: true,
+	placeholder: 'Список',
+	withPreinitAfterClear: false,
+	selectAllOptionId: 'all',
 })
 
 const emits = defineEmits<IEmits>()
@@ -74,93 +97,93 @@ const isOpened = ref(false)
 const searchValue = ref('')
 
 const searchValueModel = computed({
-  get() {
-    return props.withSearch ?
-      isOpened.value
-        ? searchValue.value
-        : caption.value
-      : caption.value
-  },
-  set(value: string) {
-    searchValue.value = value;
-  }
+	get() {
+		return props.withSearch
+			? isOpened.value
+				? searchValue.value
+				: caption.value
+			: caption.value
+	},
+	set(value: string) {
+		searchValue.value = value
+	},
 })
 
 const searchedOptions = computed<Array<IDropdownOption>>(() => {
-  const search = searchValue.value.trim().toLowerCase()
-  return search.length
-    ? props.options.filter(option => option.name.trim().toLowerCase().includes(search))
-    : props.options
+	const search = searchValue.value.trim().toLowerCase()
+	return search.length
+		? props.options.filter(option => option.name.trim().toLowerCase().includes(search))
+		: props.options
 })
 
 const caption = computed(() => {
-  const captionFromOptions = props.options.find(
-    (item) => item.id === props.modelValue
-  )
+	const captionFromOptions = props.options.find(
+		item => item.id === props.modelValue,
+	)
 
-  return captionFromOptions
-    ? captionFromOptions.name
-    : ''
+	return captionFromOptions
+		? captionFromOptions.name
+		: ''
 })
 
 function clearSearch() {
-  searchValueModel.value = '';
+	searchValueModel.value = ''
 }
 
 function selectHadler(id: number | string) {
-  emits('update:modelValue', id)
+	emits('update:modelValue', id)
 }
 
 function toggle() {
-  isOpened.value = !isOpened.value;
+	isOpened.value = !isOpened.value
 
-  if (!isOpened.value) {
-    clearSearch();
-  }
+	if (!isOpened.value) {
+		clearSearch()
+	}
 }
 
 function select(option: IDropdownOption) {
-  selectHadler(option.id)
+	selectHadler(option.id)
 
-  if (props.withSearch) {
-    clearSearch();
-  }
+	if (props.withSearch) {
+		clearSearch()
+	}
 
-  toggle();
+	toggle()
 }
 
 function closeOther(e: Event) {
-  if (!e?.target || !(e.target instanceof HTMLElement)) {
-    return
-  }
+	if (!e?.target || !(e.target instanceof HTMLElement)) {
+		return
+	}
 
-  const el = e.target.closest('.custom-dropdown');
+	const el = e.target.closest('.custom-dropdown')
 
-  if (
-    !(
-      e.target.classList.contains('custom-dropdown') ||
-      (el && el === rootEl.value)
-    )
-  ) {
-    isOpened.value = false;
-    clearSearch();
-  }
+	if (
+		!(
+			e.target.classList.contains('custom-dropdown')
+			|| (el && el === rootEl.value)
+		)
+	) {
+		isOpened.value = false
+		clearSearch()
+	}
 }
 
 function onInputSearch(value: modelValueType) {
-  searchValue.value = String(value);
+	searchValue.value = String(value)
 }
 
 onMounted(() => {
-  if (import.meta.server) {
-    return
-  }
+	if (import.meta.server) {
+		return
+	}
 
-  window.addEventListener('click', closeOther);
+	window.addEventListener('click', closeOther)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('click', closeOther);
+	window.removeEventListener('click', closeOther)
 })
 </script>
 

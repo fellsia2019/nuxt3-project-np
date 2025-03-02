@@ -1,113 +1,120 @@
 <template>
-  <header ref="rootElement" class="custom-header">
-    <div class="custom-header__wrapper">
-      <div class="container">
-        <div class="custom-header__inner">
-          <NuxtLink :to="{ name: 'index' }" class="custom-header__logo">
-            <MainLogo />
-          </NuxtLink>
+	<header
+		ref="rootElement"
+		class="custom-header"
+	>
+		<div class="custom-header__wrapper">
+			<div class="container">
+				<div class="custom-header__inner">
+					<NuxtLink
+						:to="{ name: 'index' }"
+						class="custom-header__logo"
+					>
+						<MainLogo />
+					</NuxtLink>
 
-          <nav class="custom-header__nav">
-            <ul class="custom-header__nav-list">
-              <li v-for="item in navigation" :key="`custom-header__nav-item-${item.name}`" class="custom-header__nav-item">
-                <NuxtLink class="custom-header__nav-link link" :to="{ name: item.routeName }">
-                  {{ item.name }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </nav>
+					<nav class="custom-header__nav">
+						<ul class="custom-header__nav-list">
+							<li
+								v-for="item in navigation"
+								:key="`custom-header__nav-item-${item.name}`"
+								class="custom-header__nav-item"
+							>
+								<NuxtLink
+									class="custom-header__nav-link link"
+									:to="{ name: item.routeName }"
+								>
+									{{ item.name }}
+								</NuxtLink>
+							</li>
+						</ul>
+					</nav>
 
-          <div class="custom-header__actions">
-            <UserButton class="custom-header__actions-item" />
-          </div>
+					<div class="custom-header__actions">
+						<UserButton class="custom-header__actions-item" />
+					</div>
 
-          <CustomBurgerIcon
-            class="custom-header__burger"
-            :is-active="isOpenedBurgerMenu"
-            @click="setStateIsOpenedBurgerMenu(!isOpenedBurgerMenu)"
-          />
-        </div>
-      </div>
-    </div>
+					<CustomBurgerIcon
+						class="custom-header__burger"
+						:is-active="isOpenedBurgerMenu"
+						@click="setStateIsOpenedBurgerMenu(!isOpenedBurgerMenu)"
+					/>
+				</div>
+			</div>
+		</div>
 
-    <CustomHeaderBurger
-      v-if="isOpenedBurgerMenu"
-      class="custom-header__burger-menu"
-      :navigation="navigation"
-      @close="setStateIsOpenedBurgerMenu(false)"
-    />
-
-  </header>
+		<CustomHeaderBurger
+			v-if="isOpenedBurgerMenu"
+			class="custom-header__burger-menu"
+			:navigation="navigation"
+			@close="setStateIsOpenedBurgerMenu(false)"
+		/>
+	</header>
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '~/store/api/user'
-
-const rootElement = ref<HTMLElement | null>(null);
+const rootElement = ref<HTMLElement | null>(null)
 const resizeObserver = ref<ResizeObserver | null>(null)
-
-const userStore = useUserStore()
 
 const isOpenedBurgerMenu = ref(false)
 
 const navigation = [
-  {
-    routeName: 'projects',
-    name: 'Проекты'
-  },
-  {
-    routeName: 'initiatives',
-    name: 'Инициативы'
-  },
-  {
-    routeName: 'todo',
-    name: 'Список дел'
-  },
-  {
-    routeName: 'login',
-    name: 'login'
-  },
-  {
-    routeName: 'kit',
-    name: 'kit'
-  },
-  {
-    routeName: 'lk',
-    name: 'Личный кабинет'
-  },
+	{
+		routeName: 'projects',
+		name: 'Проекты',
+	},
+	{
+		routeName: 'initiatives',
+		name: 'Инициативы',
+	},
+	{
+		routeName: 'todo',
+		name: 'Список дел',
+	},
+	{
+		routeName: 'login',
+		name: 'login',
+	},
+	{
+		routeName: 'kit',
+		name: 'kit',
+	},
+	{
+		routeName: 'lk',
+		name: 'Личный кабинет',
+	},
 ]
 
 function saveSettingInRootVars() {
-  nextTick(() => {
-    if (!rootElement.value) {
-      return
-    }
+	nextTick(() => {
+		if (!rootElement.value) {
+			return
+		}
 
-    const height = rootElement.value.clientHeight
+		const height = rootElement.value.clientHeight
 
-    document.documentElement.style.setProperty('--header-height', `${height}px`)
-  })
+		document.documentElement.style.setProperty('--header-height', `${height}px`)
+	})
 }
 
 function setStateIsOpenedBurgerMenu(state: boolean) {
-  isOpenedBurgerMenu.value = state
+	isOpenedBurgerMenu.value = state
 }
 
 onMounted(() => {
-  if (import.meta.server) {
-    return
-  }
+	if (import.meta.server) {
+		return
+	}
 
-  resizeObserver.value = new ResizeObserver(saveSettingInRootVars)
-  saveSettingInRootVars()
+	resizeObserver.value = new ResizeObserver(saveSettingInRootVars)
+	saveSettingInRootVars()
 
-  if (rootElement.value) {
-    resizeObserver.value.observe(rootElement.value)
-  }
+	if (rootElement.value) {
+		resizeObserver.value.observe(rootElement.value)
+	}
 
-  window.addEventListener('resize', saveSettingInRootVars)
+	window.addEventListener('resize', saveSettingInRootVars)
 })
-
 </script>
 
 <style lang="scss">

@@ -1,13 +1,13 @@
 <template>
-  <div class="default-layout">
-    <CustomHeader />
-    <div class="default-layout__main">
-      <NuxtPage />
-    </div>
-    <CustomFooter class="default-layout__footer" />
-    <LoadingSpinner />
-    <CustomNotification />
-  </div>
+	<div class="default-layout">
+		<CustomHeader />
+		<div class="default-layout__main">
+			<NuxtPage />
+		</div>
+		<CustomFooter class="default-layout__footer" />
+		<LoadingSpinner />
+		<CustomNotification />
+	</div>
 </template>
 
 <style lang="scss">

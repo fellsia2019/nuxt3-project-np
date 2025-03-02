@@ -1,7 +1,10 @@
 <template>
-  <form class="default-form-layout" @submit.prevent="$emit('submit')">
-    <slot />
-  </form>
+	<form
+		class="default-form-layout"
+		@submit.prevent="$emit('submit')"
+	>
+		<slot />
+	</form>
 </template>
 
 <style lang="scss">

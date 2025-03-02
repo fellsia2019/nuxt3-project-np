@@ -1,52 +1,62 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
-import path from 'path';
+import path from 'path'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
-  devtools: { enabled: false },
 
-  app: {
-    head: {
-      meta: [
-        {
-          name: 'viewport',
-          content: 'width=device-width, initial-scale=1'
-        },
-        {
-          charset: 'utf-8'
-        }
-      ]
-    },
-  },
+	modules: ['@pinia/nuxt', '@nuxt/eslint'],
 
-  components: [
-    {
-      path: '~/components',
-      global: true,
-      pathPrefix: false
-    }
-  ],
+	components: [
+		{
+			path: '~/components',
+			global: true,
+			pathPrefix: false,
+		},
+	],
+	devtools: { enabled: false },
 
-  css: ['~/assets/styles/main.scss'],
+	app: {
+		head: {
+			meta: [
+				{
+					name: 'viewport',
+					content: 'width=device-width, initial-scale=1',
+				},
+				{
+					charset: 'utf-8',
+				},
+			],
+		},
+	},
 
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: '@use "~/assets/styles/global/variables.scss" as *; @use "~/assets/styles/global/mixins.scss" as *;',
-        }
-      }
-    },
+	css: ['~/assets/styles/main.scss'],
+	compatibilityDate: '2024-11-01',
 
-    plugins: [
-      createSvgIconsPlugin({
-        iconDirs: [path.resolve(process.cwd(), 'assets/icons')],
-        symbolId: 'icon-[dir]-[name]',
-      }),
-    ],
-  },
+	vite: {
+		css: {
+			preprocessorOptions: {
+				scss: {
+					additionalData: '@use "~/assets/styles/global/variables.scss" as *; @use "~/assets/styles/global/mixins.scss" as *;',
+				},
+			},
+		},
 
-  modules: ['@pinia/nuxt'],
+		plugins: [
+			createSvgIconsPlugin({
+				iconDirs: [path.resolve(process.cwd(), 'assets/icons')],
+				symbolId: 'icon-[dir]-[name]',
+			}),
+		],
+	},
+
+	eslint: {
+		checker: true,
+		config: {
+			stylistic: {
+				indent: 'tab',
+				quotes: 'single',
+			},
+		},
+	},
 })
