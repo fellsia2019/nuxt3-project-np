@@ -41,6 +41,10 @@ export const useConfigApiStore = defineStore('configApi', () => {
 				path: 'initiative',
 				allowOnlyWithAuth: [HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.PATCH],
 			},
+			articles: {
+				path: 'article',
+				allowOnlyWithAuth: [HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.PATCH],
+			},
 		},
 	}))
 

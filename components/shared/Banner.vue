@@ -106,6 +106,12 @@ $b: '.banner';
         background: filterImg($color-primary-accent);
       }
     }
+
+		#{$b}--theme-danger & {
+      &::before {
+        background: filterImg($color-danger);
+      }
+    }
   }
 
   // .banner__bg

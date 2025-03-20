@@ -80,6 +80,26 @@ $b: '.custom-button';
     }
   }
 
+	// .custom-button--themes-danger-outline
+	&--themes-danger-outline {
+    background-color: transparent;
+    color: $color-danger;
+    border-color: $color-danger;
+    box-shadow: 0 0 15px rgba($color-danger, 0.5);
+
+    &:hover {
+      background-color: $color-danger;
+      color: $color-main;
+      box-shadow: 0 0 15px rgba($color-danger, 1);
+    }
+    &:active {
+      background-color: transparent;
+      color: $color-danger;
+      border-color: $color-danger;
+      box-shadow: 0 0 15px rgba($color-danger, 0.5);
+    }
+  }
+
   // .custom-button--themes-primary
   &--themes-primary {
     background-color: $color-primary;

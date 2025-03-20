@@ -33,6 +33,17 @@
 								:with-search="false"
 							/>
 						</div>
+						<div class="">
+							<CustomCheckbox v-model="checkboxValue">
+								я принимаю
+								<a
+									href="/"
+									class="link link--primary"
+									target="_blank"
+								>условия</a>
+								сделки
+							</CustomCheckbox>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -51,6 +62,7 @@ const inputValue = ref('')
 
 const dropdownValueSearch = ref('')
 const dropdownValue = ref('')
+const checkboxValue = ref(false)
 
 const dropdownOptions: Array<IDropdownOption> = [
 	{

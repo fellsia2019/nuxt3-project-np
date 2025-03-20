@@ -68,20 +68,16 @@ const navigation = [
 		name: 'Инициативы',
 	},
 	{
+		routeName: 'articles',
+		name: 'Статьи',
+	},
+	{
 		routeName: 'todo',
 		name: 'Список дел',
 	},
 	{
-		routeName: 'login',
-		name: 'login',
-	},
-	{
 		routeName: 'kit',
 		name: 'kit',
-	},
-	{
-		routeName: 'lk',
-		name: 'Личный кабинет',
 	},
 ]
 

@@ -49,6 +49,21 @@
 					</NuxtLink>
 				</template>
 			</InitiativeBlock>
+
+			<ArticleBlock
+				v-if="articlesStore?.articles?.length"
+				class="home-page__block"
+				:articles="articlesStore.articles"
+			>
+				<template #title>
+					<NuxtLink
+						class="link"
+						:to="{ name: 'articles' }"
+					>
+						Статьи
+					</NuxtLink>
+				</template>
+			</ArticleBlock>
 		</div>
 	</main>
 </template>
@@ -56,6 +71,7 @@
 <script setup lang="ts">
 import { useProjectsStore } from '~/store/api/projects'
 import { useInitiativesStore } from '~/store/api/initiatives'
+import { useArticlesStore } from '~/store/api/articles'
 
 useHead({
 	title: 'Главная страница',
@@ -63,8 +79,9 @@ useHead({
 
 const projectsStore = useProjectsStore()
 const initiativesStore = useInitiativesStore()
+const articlesStore = useArticlesStore()
 
-await useAsyncData('projects', () => Promise.all([projectsStore.LOAD_PROJECTS(), initiativesStore.LOAD_INITIATIVES()]).then(() => true))
+await useAsyncData('projects', () => Promise.all([projectsStore.LOAD_PROJECTS(), initiativesStore.LOAD_INITIATIVES(), articlesStore.LOAD_ARTICLES()]).then(() => true))
 </script>
 
 <style lang="scss">

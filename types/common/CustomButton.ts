@@ -10,6 +10,7 @@ export enum CustomButtonThemeSettings {
 	PRIMARY_ACCENT = 'primary-accent',
 	PRIMARY_ACCENT_OUTLINE = 'primary-accent-outline',
 	DANGER = 'danger',
+	DANGER_OUTLINE = 'danger-outline',
 	WARNING = 'warning',
 	DARK = 'dark',
 	SUCCESS = 'success',
