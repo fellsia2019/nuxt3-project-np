@@ -33,8 +33,9 @@
 				</p>
 				<CustomButton
 					class="initiative-card__btn"
-					:theme="CustomButtonThemeSettings.PRIMARY_ACCENT_OUTLINE"
+					:theme="AllBaseColors.PRIMARY_ACCENT"
 					:size="CustomButtonSizeSettings.SM"
+					:mode="CustomButtonModeSettings.OUTLINE"
 				>
 					Подробнее
 				</CustomButton>
@@ -46,7 +47,8 @@
 <script setup lang="ts">
 import type { IInitiative } from '~/types/api/initiatives'
 import { detDateArticle } from '~/helpers/dateHelpers'
-import { CustomButtonThemeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
+import { CustomButtonModeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
+import { AllBaseColors } from '~/types/common/Themes'
 
 interface IInitiativeCardProps {
 	card: IInitiative

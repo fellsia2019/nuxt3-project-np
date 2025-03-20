@@ -28,19 +28,19 @@
 
 <script setup lang="ts">
 import type { IImageData } from '~/types/common/Image'
-import { TemplateThemes } from '~/types/common/Themes'
+import { AllBaseColors } from '~/types/common/Themes'
 
 interface IProps {
 	title: string
 	description?: string | null
 	image: IImageData
 	withContainer?: boolean
-	theme?: TemplateThemes
+	theme?: AllBaseColors
 	mobFullWidth?: boolean
 }
 
 withDefaults(defineProps<IProps>(), {
-	theme: TemplateThemes.DEFAULT,
+	theme: AllBaseColors.PRIMARY,
 	mobFullWidth: true,
 })
 </script>
@@ -89,9 +89,75 @@ $b: '.banner';
       touch-action: none;
     }
 
-    #{$b}--theme-default & {
+		#{$b}--theme-light & {
+      &::before {
+        background: filterImg($color-light);
+      }
+    }
+
+		#{$b}--theme-light-2 & {
+      &::before {
+        background: filterImg($color-light-2);
+      }
+    }
+
+		#{$b}--theme-secondary & {
+      &::before {
+        background: filterImg($color-secondary);
+      }
+    }
+
+		#{$b}--theme-secondary-2 & {
+      &::before {
+        background: filterImg($color-secondary-2);
+      }
+    }
+
+		#{$b}--theme-secondary-3 & {
+      &::before {
+        background: filterImg($color-secondary-3);
+      }
+    }
+
+		#{$b}--theme-main & {
+      &::before {
+        background: filterImg($color-main);
+      }
+    }
+
+		#{$b}--theme-main-light & {
+      &::before {
+        background: filterImg($color-main-light);
+      }
+    }
+
+    #{$b}--theme-dark & {
       &::before {
         background: filterImg($color-dark);
+      }
+    }
+
+		#{$b}--theme-danger & {
+      &::before {
+        background: filterImg($color-danger);
+      }
+    }
+
+		#{$b}--theme-warning & {
+      &::before {
+        background: filterImg($color-warning);
+      }
+    }
+
+		#{$b}--theme-success & {
+      &::before {
+        background: filterImg($color-success);
+      }
+    }
+
+		#{$b}--theme-dark-success & {
+      &::before {
+        background: filterImg($color-dark-success);
       }
     }
 
@@ -104,12 +170,6 @@ $b: '.banner';
     #{$b}--theme-primary-accent & {
       &::before {
         background: filterImg($color-primary-accent);
-      }
-    }
-
-		#{$b}--theme-danger & {
-      &::before {
-        background: filterImg($color-danger);
       }
     }
   }

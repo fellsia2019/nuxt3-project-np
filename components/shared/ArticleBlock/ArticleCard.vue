@@ -33,8 +33,9 @@
 				</p>
 				<CustomButton
 					class="article-card__btn"
-					:theme="CustomButtonThemeSettings.DANGER_OUTLINE"
+					:theme="AllBaseColors.DANGER"
 					:size="CustomButtonSizeSettings.SM"
+					:mode="CustomButtonModeSettings.OUTLINE"
 				>
 					Подробнее
 				</CustomButton>
@@ -46,7 +47,8 @@
 <script setup lang="ts">
 import type { IArticle } from '~/types/api/articles'
 import { detDateArticle } from '~/helpers/dateHelpers'
-import { CustomButtonThemeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
+import { CustomButtonModeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
+import { AllBaseColors } from '~/types/common/Themes'
 
 interface IArticleCardProps {
 	card: IArticle

@@ -1,10 +1,3 @@
-export enum TemplateThemes {
-	PRIMARY = 'primary',
-	PRIMARY_ACCENT = 'primary-accent',
-	DEFAULT = 'default',
-	DANGER = 'danger',
-}
-
 export enum AllBaseColors {
 	LIGHT = 'light',
 	LIGHT_2 = 'light-2',

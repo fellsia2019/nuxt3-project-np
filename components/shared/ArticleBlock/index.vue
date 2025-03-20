@@ -11,20 +11,10 @@
 
 				<ArticleList :articles="articles" />
 
-				<div
-					v-if="canLoadMore"
-					class="articles-block__actions"
-				>
-					<CustomButton
-						:theme="CustomButtonThemeSettings.PRIMARY_ACCENT"
-						@click="showMore"
-					>
-						Показать ещё
-					</CustomButton>
-				</div>
 				<CustomPagination
 					v-if="pagination && pagination.total_pages > 1"
 					class="projects-block__actions"
+					:theme="AllBaseColors.DANGER"
 					:current-page="pagination.current_page"
 					:count-pages="pagination.total_pages"
 					:hidden-more-btn="!canLoadMore"
@@ -56,8 +46,7 @@
 <script setup lang="ts">
 import type { IArticle } from '~/types/api/articles'
 import type { IPaginationApi } from '~/types/api/common'
-
-import { CustomButtonThemeSettings } from '~/types/common/CustomButton'
+import { AllBaseColors } from '~/types/common/Themes'
 
 interface IArticlesProps {
 	articles: Array<IArticle>

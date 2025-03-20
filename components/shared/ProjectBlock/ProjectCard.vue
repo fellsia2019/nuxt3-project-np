@@ -33,7 +33,8 @@
 				</p>
 				<CustomButton
 					class="project-card__btn"
-					:theme="CustomButtonThemeSettings.PRIMARY_OUTLINE"
+					:theme="AllBaseColors.PRIMARY"
+					:mode="CustomButtonModeSettings.OUTLINE"
 					:size="CustomButtonSizeSettings.SM"
 				>
 					Подробнее
@@ -46,7 +47,8 @@
 <script setup lang="ts">
 import type { IProject } from '~/types/api/projects'
 import { detDateArticle } from '~/helpers/dateHelpers'
-import { CustomButtonThemeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
+import { CustomButtonModeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
+import { AllBaseColors } from '~/types/common/Themes'
 
 interface IProjectCardProps {
 	card: IProject
