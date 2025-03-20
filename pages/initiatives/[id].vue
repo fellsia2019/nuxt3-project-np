@@ -11,13 +11,13 @@
 				base: initiativesStore?.initiative?.image_detail || '',
 				webp: initiativesStore?.initiative?.image_detail_webp || '',
 			}"
-			:theme="TemplateThemes.PRIMARY_ACCENT"
+			:theme="AllBaseColors.PRIMARY_ACCENT"
 		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { TemplateThemes } from '~/types/common/Themes'
+import { AllBaseColors } from '~/types/common/Themes'
 
 import { useInitiativesStore } from '~/store/api/initiatives'
 

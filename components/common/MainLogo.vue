@@ -14,6 +14,9 @@ const figuresLogo = [
 		icon: 'square',
 	},
 	{
+		icon: 'circle',
+	},
+	{
 		icon: 'triangle',
 		noRotate: true,
 	},

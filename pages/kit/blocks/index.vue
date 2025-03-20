@@ -17,7 +17,7 @@
 
 					<ColoredBlock>
 						<div
-							v-for="theme in AccordionThemeSettings"
+							v-for="theme in AllBaseColors"
 							:key="`kit-blocks__block-item-${theme}`"
 							class="kit-blocks__block-item"
 						>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { AccordionThemeSettings } from '~/types/common/Accordion'
+import { AllBaseColors } from '~/types/common/Themes'
 
 definePageMeta({
 	layout: 'kit',

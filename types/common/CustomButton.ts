@@ -4,14 +4,7 @@ export enum CustomButtonSizeSettings {
 	SM = 'sm',
 }
 
-export enum CustomButtonThemeSettings {
-	PRIMARY = 'primary',
-	PRIMARY_OUTLINE = 'primary-outline',
-	PRIMARY_ACCENT = 'primary-accent',
-	PRIMARY_ACCENT_OUTLINE = 'primary-accent-outline',
-	DANGER = 'danger',
-	DANGER_OUTLINE = 'danger-outline',
-	WARNING = 'warning',
-	DARK = 'dark',
-	SUCCESS = 'success',
+export enum CustomButtonModeSettings {
+	FILL = 'fill',
+	OUTLINE = 'outline',
 }

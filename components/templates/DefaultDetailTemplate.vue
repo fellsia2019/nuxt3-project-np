@@ -28,18 +28,18 @@
 
 <script lang="ts" setup>
 import type { IImageData } from '~/types/common/Image'
-import { TemplateThemes } from '~/types/common/Themes'
+import { AllBaseColors } from '~/types/common/Themes'
 
 interface IProps {
 	title: string
 	html?: string
 	content?: string
 	detailImg: IImageData
-	theme?: TemplateThemes
+	theme?: AllBaseColors
 }
 
 withDefaults(defineProps<IProps>(), {
-	theme: TemplateThemes.DEFAULT,
+	theme: AllBaseColors.PRIMARY,
 })
 </script>
 

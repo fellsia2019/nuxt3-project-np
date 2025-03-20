@@ -11,13 +11,13 @@
 				base: projectsStore?.project?.image_detail || '',
 				webp: projectsStore?.project?.image_detail_webp || '',
 			}"
-			:theme="TemplateThemes.PRIMARY"
+			:theme="AllBaseColors.PRIMARY"
 		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { TemplateThemes } from '~/types/common/Themes'
+import { AllBaseColors } from '~/types/common/Themes'
 
 import { useProjectsStore } from '~/store/api/projects'
 

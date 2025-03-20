@@ -27,14 +27,14 @@
 </template>
 
 <script setup lang="ts">
-import { AccordionThemeSettings } from '~/types/common/Accordion'
+import { AllBaseColors } from '~/types/common/Themes'
 
 interface IAccordion {
-	theme?: AccordionThemeSettings
+	theme?: AllBaseColors
 }
 
 withDefaults(defineProps<IAccordion>(), {
-	theme: AccordionThemeSettings.PRIMARY,
+	theme: AllBaseColors.PRIMARY,
 })
 
 const isOpened = ref(false)
@@ -54,16 +54,76 @@ $b: '.accordion';
   --color-active: var(--bg);
   color: var(--color);
 
-  // .accordion--theme-dark
-  &--theme-dark {
+	// .accordion--theme-light
+	&--theme-light {
+    --bg: #{$color-light};
+    --color: #{$color-main};
+  }
+
+	// .accordion--theme-light-2
+	&--theme-light-2 {
+    --bg: #{$color-light-2};
+    --color: #{$color-main};
+  }
+
+	// .accordion--theme-secondary
+	&--theme-secondary {
+    --bg: #{$color-secondary};
+    --color: #{$color-main};
+  }
+
+	// .accordion--theme-secondary-2
+	&--theme-secondary-2 {
+    --bg: #{$color-secondary-2};
+    --color: #{$color-main};
+  }
+
+	// .accordion--theme-secondary-3
+	&--theme-secondary-3 {
+    --bg: #{$color-secondary-3};
+    --color: #{$color-main};
+  }
+
+	// .accordion--theme-main
+	&--theme-main {
     --bg: #{$color-main};
     --color: #{$color-light};
   }
 
-  // .accordion--theme-light
-  &--theme-light {
-    --bg: #{$color-light};
-    --color: #{$color-main};
+	// .accordion--theme-main-light
+	&--theme-main-light {
+    --bg: #{$color-main-light};
+    --color: #{$color-light};
+  }
+
+  // .accordion--theme-dark
+  &--theme-dark {
+    --bg: #{$color-dark};
+    --color: #{$color-light};
+  }
+
+	// .accordion--theme-danger
+	&--theme-danger {
+    --bg: #{$color-danger};
+    --color: #{$color-light};
+  }
+
+	// .accordion--theme-warning
+	&--theme-warning {
+    --bg: #{$color-warning};
+    --color: #{$color-light};
+  }
+
+	// .accordion--theme-success
+	&--theme-success {
+    --bg: #{$color-success};
+    --color: #{$color-light};
+  }
+
+	// .accordion--theme-dark-success
+	&--theme-dark-success {
+    --bg: #{$color-dark-success};
+    --color: #{$color-light};
   }
 
   // .accordion--theme-primary

@@ -68,7 +68,8 @@
 						>
 						<CustomButton
 							:size="CustomButtonSizeSettings.SM"
-							:theme="CustomButtonThemeSettings.PRIMARY_OUTLINE"
+							:theme="AllBaseColors.PRIMARY"
+							:mode="CustomButtonModeSettings.OUTLINE"
 							@click="removeFormItem(i)"
 						>
 							X
@@ -77,7 +78,8 @@
 				</div>
 				<CustomButton
 					:size="CustomButtonSizeSettings.SM"
-					:theme="CustomButtonThemeSettings.PRIMARY_OUTLINE"
+					:theme="AllBaseColors.PRIMARY"
+					:mode="CustomButtonModeSettings.OUTLINE"
 					@click="addFormItem"
 				>
 					Добавить айтем
@@ -91,7 +93,8 @@
 </template>
 
 <script setup lang="ts">
-import { CustomButtonSizeSettings, CustomButtonThemeSettings } from '~/types/common/CustomButton'
+import { CustomButtonModeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
+import { AllBaseColors } from '~/types/common/Themes'
 
 enum TypeBlock {
 	FRONT = 'FRONT',

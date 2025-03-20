@@ -11,13 +11,13 @@
 				base: articlesStore?.article?.image_detail || '',
 				webp: articlesStore?.article?.image_detail_webp || '',
 			}"
-			:theme="TemplateThemes.DANGER"
+			:theme="AllBaseColors.DANGER"
 		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { TemplateThemes } from '~/types/common/Themes'
+import { AllBaseColors } from '~/types/common/Themes'
 
 import { useArticlesStore } from '~/store/api/articles'
 

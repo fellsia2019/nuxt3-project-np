@@ -68,8 +68,8 @@
 
 <script setup lang="ts">
 import range from 'lodash-es/range'
-import { CustomPaginationThemeSettings } from '~/types/common/CustomPagination'
 import type { IBreakpoint } from '~/types/common/Breakpoint'
+import { AllBaseColors } from '~/types/common/Themes'
 
 interface IProps {
 	currentPage: number
@@ -78,7 +78,7 @@ interface IProps {
 	initialDisplayCountMobile?: number
 	isDisabled?: boolean
 	hiddenMoreBtn?: boolean
-	theme?: CustomPaginationThemeSettings
+	theme?: AllBaseColors
 }
 interface IEmits {
 	(e: 'change', page: number): void
@@ -88,7 +88,7 @@ interface IEmits {
 const props = withDefaults(defineProps<IProps>(), {
 	initialDisplayCount: 5,
 	initialDisplayCountMobile: 3,
-	theme: CustomPaginationThemeSettings.PRIMARY,
+	theme: AllBaseColors.PRIMARY,
 })
 const emits = defineEmits<IEmits>()
 
@@ -141,6 +141,83 @@ $btn-size-sm: 40px;
 
 #{$b} {
   user-select: none;
+	--theme-color: transparent;
+	--text-color: #{$color-light};
+
+	// .custom-pagination--theme-light
+	&--theme-light {
+		--theme-color: #{$color-light};
+		--text-color: #{$color-main};
+  }
+
+	// .custom-pagination--theme-light-2
+	&--theme-light-2 {
+		--theme-color: #{$color-light-2};
+		--text-color: #{$color-main};
+  }
+
+	// .custom-pagination--theme-secondary
+	&--theme-secondary {
+		--theme-color: #{$color-secondary};
+		--text-color: #{$color-main};
+  }
+
+	// .custom-pagination--theme-secondary-2
+	&--theme-secondary-2 {
+		--theme-color: #{$color-secondary-2};
+		--text-color: #{$color-main};
+  }
+
+	// .custom-pagination--theme-secondary-3
+	&--theme-secondary-3 {
+		--theme-color: #{$color-secondary-3};
+		--text-color: #{$color-main};
+  }
+
+	// .custom-pagination--theme-main
+	&--theme-main {
+		--theme-color: #{$color-main};
+  }
+
+	// .custom-pagination--theme-main-light
+	&--theme-main-light {
+		--theme-color: #{$color-main-light};
+  }
+
+	// .custom-pagination--theme-dark
+	&--theme-dark {
+		--theme-color: #{$color-dark};
+  }
+
+  // .custom-pagination--theme-danger
+  &--theme-danger {
+		--theme-color: #{$color-danger};
+  }
+
+	// .custom-pagination--theme-warning
+	&--theme-warning {
+		--theme-color: #{$color-warning};
+  }
+
+	// .custom-pagination--theme-success
+	&--theme-success {
+		--theme-color: #{$color-success};
+  }
+
+	// .custom-pagination--theme-darksuccess
+	&--theme-dark-success {
+		--theme-color: #{$color-dark-success};
+  }
+
+  // .custom-pagination--theme-primary
+  &--theme-primary {
+		--theme-color: #{$color-primary};
+  }
+
+  // .custom-pagination--theme-primary-accent
+  &--theme-primary-accent {
+		--theme-color: #{$color-primary-accent};
+  }
 
   // .custom-pagination__inner
   &__inner {
@@ -187,15 +264,7 @@ $btn-size-sm: 40px;
 
     &:not(#{$b}__item--is-active) {
       &:hover {
-        #{$b}--theme-primary & {
-          color: $color-primary;
-        }
-        #{$b}--theme-light & {
-          color: $color-light;
-        }
-        #{$b}--theme-primary-accent & {
-          color: $color-primary-accent;
-        }
+				color: var(--theme-color);
       }
     }
 
@@ -210,44 +279,19 @@ $btn-size-sm: 40px;
       touch-action: none;
       border: 1px solid;
       transition: transform 0.3s ease;
-
-      #{$b}--theme-primary & {
-        border-color: $color-primary;
-      }
-      #{$b}--theme-light & {
-        border-color: $color-light;
-      }
-      #{$b}--theme-primary-accent & {
-        border-color: $color-primary-accent;
-      }
+			border-color: var(--theme-color);
     }
 
     // .custom-pagination__item--is-active
     &--is-active {
       pointer-events: none;
       touch-action: none;
-      color: $color-light;
+      color: var(--text-color);
 
-      #{$b}--theme-primary & {
-        &::before {
-          background-color: $color-primary;
-          border-color: $color-primary;
-        }
-      }
-      #{$b}--theme-light & {
-        color: $color-dark;
-
-        &::before {
-          background-color: $color-light;
-          border-color: $color-light;
-        }
-      }
-      #{$b}--theme-primary-accent & {
-        &::before {
-          background-color: $color-primary-accent;
-          border-color: $color-primary-accent;
-        }
-      }
+			&::before {
+				background-color: var(--theme-color);
+				border-color: var(--theme-color);
+			}
     }
 
     // .custom-pagination__item--dots

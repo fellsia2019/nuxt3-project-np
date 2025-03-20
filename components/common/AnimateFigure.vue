@@ -80,6 +80,7 @@ $b: '.animate-figure';
 
     // .animate-figure__item-icon
     &-icon {
+			position: relative;
       width: 100%;
       height: 100%;
     }
