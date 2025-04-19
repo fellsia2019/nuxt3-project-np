@@ -26,7 +26,7 @@
 					</time>
 				</div>
 				<h3 class="article-card__title title title-h4">
-					{{ card.title }} | {{ card.id }}
+					{{ card.title }}
 				</h3>
 				<p class="article-card__text text-md">
 					{{ card.content }}

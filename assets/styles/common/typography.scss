@@ -1,5 +1,6 @@
 @use "~/assets/styles/global/mixins.scss" as *;
 @use "~/assets/styles/global/variables.scss" as *;
+@use "~/assets/styles/common/font-styles.scss";
 
 $b: '.typography';
 
@@ -22,4 +23,38 @@ $b: '.typography';
     border-radius: 12px;
     float: left;
   }
+
+	h1 {
+		@extend .title-h1;
+	}
+	h2 {
+		@extend .title-h2;
+	}
+	h3 {
+		@extend .title-h3;
+	}
+	h4 {
+		@extend .title-h4;
+	}
+
+	table {
+		border-collapse: collapse;
+
+		td, th {
+			padding: 10px 15px;
+			border: 1px solid currentColor;
+		}
+	}
+
+	b, strong {
+		font-weight: bolder;
+	}
+
+	ol {
+		@extend .order-list;
+	}
+
+	ul {
+		@extend .unorder-list;
+	}
 }

@@ -21,7 +21,7 @@
 			:to="{ name: 'login' }"
 			class="user-button__inner"
 		>
-			<CustomButton :size="CustomButtonSizeSettings.SM">
+			<CustomButton :size="CustomButtonSizeSettings.SM" :mode="CustomButtonModeSettings.OUTLINE">
 				<SvgIcon
 					class="user-button__user-icon"
 					icon="user"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { CustomButtonSizeSettings } from '~/types/common/CustomButton'
+import { CustomButtonSizeSettings, CustomButtonModeSettings } from '~/types/common/CustomButton'
 import { useUserStore } from '~/store/api/user'
 
 const userStore = useUserStore()
