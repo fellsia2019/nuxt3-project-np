@@ -8,6 +8,7 @@
   // .title-h1
   &-h1 {
     font-size: 60px;
+		word-wrap: break-word;
 
     @include tablet {
       font-size: 40px;
@@ -21,6 +22,7 @@
   // .title-h2
   &-h2 {
     font-size: 42px;
+		word-wrap: break-word;
 
     @include tablet {
       font-size: 36px;
