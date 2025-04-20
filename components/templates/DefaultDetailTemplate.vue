@@ -11,8 +11,16 @@
 						:description="content"
 						:image="detailImg"
 						:theme="theme"
+						:time-create="timeCreate"
 					/>
 				</div>
+
+				<SpeechSynthesisPlayer
+					v-if="html?.length && html?.length > 500"
+					class="default-detai-template__speech-synthesis"
+					:theme="theme"
+					:text="html"
+				/>
 
 				<div class="default-detai-template__body">
 					<div
@@ -36,6 +44,7 @@ interface IProps {
 	content?: string
 	detailImg: IImageData
 	theme?: AllBaseColors
+	timeCreate?: number | null
 }
 
 withDefaults(defineProps<IProps>(), {
@@ -62,6 +71,11 @@ $b: '.default-detai-template';
       margin-bottom: 16px;
     }
   }
+
+	// .default-detai-template__speech-synthesis
+	&__speech-synthesis {
+		margin-bottom: 40px;
+	}
 
   // .default-detai-template__content
   &__content {

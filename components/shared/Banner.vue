@@ -9,6 +9,12 @@
 					img-class="banner__bg"
 					:image="image"
 				/>
+				<time
+					v-if="timeCreate"
+					class="banner__time"
+				>
+					{{ getDateArticle(timeCreate) }}
+				</time>
 				<div class="banner__content">
 					<h1
 						class="banner__title title title-h1"
@@ -29,6 +35,7 @@
 <script setup lang="ts">
 import type { IImageData } from '~/types/common/Image'
 import { AllBaseColors } from '~/types/common/Themes'
+import { getDateArticle } from '~/helpers/dateHelpers'
 
 interface IProps {
 	title: string
@@ -37,6 +44,7 @@ interface IProps {
 	withContainer?: boolean
 	theme?: AllBaseColors
 	mobFullWidth?: boolean
+	timeCreate?: number | null
 }
 
 withDefaults(defineProps<IProps>(), {
@@ -183,6 +191,13 @@ $b: '.banner';
     height: 100%;
     object-fit: cover;
   }
+
+	// .banner__time
+	&__time {
+		position: relative;
+		display: block;
+		margin-bottom: 24px;
+	}
 
   // .banner__content
   &__content {

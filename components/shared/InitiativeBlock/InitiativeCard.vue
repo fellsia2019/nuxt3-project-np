@@ -16,17 +16,17 @@
 						class="initiative-card__date"
 						:datetime="String(card.time_create)"
 					>
-						Создан {{ detDateArticle(card.time_create) }}
+						Создан {{ getDateArticle(card.time_create) }}
 					</time>
 					<time
 						class="initiative-card__date"
 						:datetime="String(card.time_update)"
 					>
-						Обновлен {{ detDateArticle(card.time_update) }}
+						Обновлен {{ getDateArticle(card.time_update) }}
 					</time>
 				</div>
 				<h3 class="initiative-card__title title title-h4">
-					{{ card.title }} | {{ card.id }}
+					{{ card.title }}
 				</h3>
 				<p class="initiative-card__text text-md">
 					{{ card.content }}
@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import type { IInitiative } from '~/types/api/initiatives'
-import { detDateArticle } from '~/helpers/dateHelpers'
+import { getDateArticle } from '~/helpers/dateHelpers'
 import { CustomButtonModeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
 import { AllBaseColors } from '~/types/common/Themes'
 
@@ -113,7 +113,7 @@ $b: '.initiative-card';
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+		gap: 16px;
     background-color: $color-dark-primary-accent-2;
     border-radius: 16px;
     padding: 16px;
@@ -124,14 +124,8 @@ $b: '.initiative-card';
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 5px 12px;
-      margin-bottom: 16px;
       color: $color-secondary-3;
     }
-  }
-
-  // .initiative-card__title
-  &__title {
-    margin-bottom: 16px;
   }
 
   // .initiative-card__text
@@ -143,7 +137,7 @@ $b: '.initiative-card';
   // .initiative-card__btn
   &__btn {
     align-self: flex-start;
-    margin-top: 16px;
+    margin-top: auto;
 
     @include tablet {
       width: 100%;

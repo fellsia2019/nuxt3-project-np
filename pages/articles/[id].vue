@@ -12,6 +12,7 @@
 				webp: articlesStore?.article?.image_detail_webp || '',
 			}"
 			:theme="AllBaseColors.DANGER"
+			:time-create="articlesStore?.article?.time_create"
 		/>
 	</div>
 </template>

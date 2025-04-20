@@ -2,7 +2,7 @@
 	<footer class="custom-footer">
 		<div class="container">
 			<div class="custom-footer__inner">
-				footer
+				@MushketCO, <span>{{ (new Date()).getFullYear() }}</span>
 			</div>
 		</div>
 	</footer>

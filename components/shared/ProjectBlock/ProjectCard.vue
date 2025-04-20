@@ -16,17 +16,17 @@
 						class="project-card__date"
 						:datetime="String(card.time_create)"
 					>
-						Создан {{ detDateArticle(card.time_create) }}
+						Создан {{ getDateArticle(card.time_create) }}
 					</time>
 					<time
 						class="project-card__date"
 						:datetime="String(card.time_update)"
 					>
-						Обновлен {{ detDateArticle(card.time_update) }}
+						Обновлен {{ getDateArticle(card.time_update) }}
 					</time>
 				</div>
 				<h3 class="project-card__title title title-h4">
-					{{ card.title }} | {{ card.id }}
+					{{ card.title }}
 				</h3>
 				<p class="project-card__text text-md">
 					{{ card.content }}
@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import type { IProject } from '~/types/api/projects'
-import { detDateArticle } from '~/helpers/dateHelpers'
+import { getDateArticle } from '~/helpers/dateHelpers'
 import { CustomButtonModeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
 import { AllBaseColors } from '~/types/common/Themes'
 
@@ -98,7 +98,7 @@ $b: '.project-card';
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+		gap: 16px;
     background-color: $color-dark-primary-2;
     border-radius: 16px;
     padding: 16px;
@@ -110,14 +110,8 @@ $b: '.project-card';
       align-items: center;
       flex-wrap: wrap;
       gap: 5px 12px;
-      margin-bottom: 16px;
       color: $color-secondary-3;
     }
-  }
-
-  // .project-card__title
-  &__title {
-    margin-bottom: 16px;
   }
 
   // .project-card__text
@@ -129,7 +123,7 @@ $b: '.project-card';
   // .project-card__btn
   &__btn {
     align-self: flex-start;
-    margin-top: 16px;
+    margin-top: auto;
 
     @include tablet {
       width: 100%;

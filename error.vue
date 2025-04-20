@@ -1,5 +1,5 @@
 <template>
-  <div class="error-page">
+	<div class="error-page">
 		<div class="error-page__content">
 			<h1 class="error-page__title">
 				<span class="error-page__title-stroke">{{ error.statusCode }}</span>
@@ -16,9 +16,13 @@
 					Упс. Произошла ошибка.
 				</span>
 			</div>
-			<NuxtLink v-if="!isServerError" to="/" class="link link--danger">Вернуться на главную</NuxtLink>
+			<NuxtLink
+				v-if="!isServerError"
+				to="/"
+				class="link link--danger"
+			>Вернуться на главную</NuxtLink>
 		</div>
-  </div>
+	</div>
 </template>
 
 <script setup lang="ts">

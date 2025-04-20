@@ -12,6 +12,7 @@
 				webp: projectsStore?.project?.image_detail_webp || '',
 			}"
 			:theme="AllBaseColors.PRIMARY"
+			:time-create="projectsStore?.project?.time_create"
 		/>
 	</div>
 </template>

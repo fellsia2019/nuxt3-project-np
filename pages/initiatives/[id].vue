@@ -12,6 +12,7 @@
 				webp: initiativesStore?.initiative?.image_detail_webp || '',
 			}"
 			:theme="AllBaseColors.PRIMARY_ACCENT"
+			:time-create="initiativesStore?.initiative?.time_create"
 		/>
 	</div>
 </template>

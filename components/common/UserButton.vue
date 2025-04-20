@@ -21,7 +21,10 @@
 			:to="{ name: 'login' }"
 			class="user-button__inner"
 		>
-			<CustomButton :size="CustomButtonSizeSettings.SM" :mode="CustomButtonModeSettings.OUTLINE">
+			<CustomButton
+				:size="CustomButtonSizeSettings.SM"
+				:mode="CustomButtonModeSettings.OUTLINE"
+			>
 				<SvgIcon
 					class="user-button__user-icon"
 					icon="user"

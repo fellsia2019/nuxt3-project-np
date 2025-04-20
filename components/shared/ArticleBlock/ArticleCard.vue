@@ -16,13 +16,13 @@
 						class="article-card__date"
 						:datetime="String(card.time_create)"
 					>
-						Создан {{ detDateArticle(card.time_create) }}
+						Создан {{ getDateArticle(card.time_create) }}
 					</time>
 					<time
 						class="article-card__date"
 						:datetime="String(card.time_update)"
 					>
-						Обновлен {{ detDateArticle(card.time_update) }}
+						Обновлен {{ getDateArticle(card.time_update) }}
 					</time>
 				</div>
 				<h3 class="article-card__title title title-h4">
@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import type { IArticle } from '~/types/api/articles'
-import { detDateArticle } from '~/helpers/dateHelpers'
+import { getDateArticle } from '~/helpers/dateHelpers'
 import { CustomButtonModeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
 import { AllBaseColors } from '~/types/common/Themes'
 
