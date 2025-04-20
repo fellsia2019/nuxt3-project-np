@@ -1,11 +1,11 @@
 <template>
 	<div
-		class="default-detai-template"
-		:class="`default-detai-template--theme-${theme}`"
+		class="default-detail-template"
+		:class="`default-detail-template--theme-${theme}`"
 	>
 		<div class="container">
-			<div class="default-detai-template__inner">
-				<div class="default-detai-template__header">
+			<div class="default-detail-template__inner">
+				<div class="default-detail-template__header">
 					<Banner
 						:title="title"
 						:description="content"
@@ -17,15 +17,15 @@
 
 				<SpeechSynthesisPlayer
 					v-if="html?.length && html?.length > 500"
-					class="default-detai-template__speech-synthesis"
+					class="default-detail-template__speech-synthesis"
 					:theme="theme"
 					:text="html"
 				/>
 
-				<div class="default-detai-template__body">
+				<div class="default-detail-template__body">
 					<div
 						v-if="html?.length"
-						class="default-detai-template__html typography"
+						class="default-detail-template__html typography"
 						v-html="html"
 					/>
 				</div>
@@ -53,17 +53,17 @@ withDefaults(defineProps<IProps>(), {
 </script>
 
 <style lang="scss">
-$b: '.default-detai-template';
+$b: '.default-detail-template';
 
 #{$b} {
 
-  // .default-detai-template__header
+  // .default-detail-template__header
   &__header {
     position: relative;
     margin-bottom: 40px;
   }
 
-  // .default-detai-template__title
+  // .default-detail-template__title
   &__title {
     max-width: 800px;
 
@@ -72,12 +72,12 @@ $b: '.default-detai-template';
     }
   }
 
-	// .default-detai-template__speech-synthesis
+	// .default-detail-template__speech-synthesis
 	&__speech-synthesis {
 		margin-bottom: 40px;
 	}
 
-  // .default-detai-template__content
+  // .default-detail-template__content
   &__content {
     max-width: 900px;
   }
