@@ -116,7 +116,7 @@ export const useProjectsStore = defineStore('projects', {
 					},
 				)
 
-				if (response?.ok && response?.data?.id) {
+				if (response?.ok && typeof response?.data === 'object' && Object.hasOwn(response?.data, 'id')) {
 					const notificationStore = useNotificationStore()
 					notificationStore.PUSH_NOTIFICATION({ title: 'Успех!', text: 'Проект успешно создан.', status: NotificationStatus.SUCCESS })
 
@@ -124,8 +124,7 @@ export const useProjectsStore = defineStore('projects', {
 				}
 
 				if (!response?.ok && response?.data) {
-					setNotificationFromResponseError(response?.data)
-
+					setNotificationFromResponseError(response?.data as TResponseError)
 					return false
 				}
 			}
