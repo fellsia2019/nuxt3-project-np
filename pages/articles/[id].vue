@@ -1,9 +1,10 @@
 <template>
 	<div
 		v-if="articlesStore?.article?.id"
-		class="detail-project-page"
+		class="detail-articles-page"
 	>
 		<DefaultDetailTemplate
+			class="detail-articles-page__section"
 			:title="articlesStore?.article?.title"
 			:content="articlesStore?.article?.content"
 			:html="articlesStore?.article?.detail_text"
@@ -13,6 +14,15 @@
 			}"
 			:theme="AllBaseColors.DANGER"
 			:time-create="articlesStore?.article?.time_create"
+		/>
+
+		<RecommendedBlock
+			v-if="articlesStore?.articles?.length"
+			class="detail-articles-page__section"
+			:theme="AllBaseColors.DANGER"
+			:cards="articlesStore?.articles"
+			route-name="projects-id"
+			title="Другие статьи"
 		/>
 	</div>
 </template>
@@ -27,5 +37,28 @@ const id: string = Array.isArray(route.params.id) ? route.params.id?.[0] : route
 
 const articlesStore = useArticlesStore()
 
-await useAsyncData('project-detail', () => articlesStore.LOAD_ARTICLE(id).then(() => true))
+const init = async () => {
+	await articlesStore.LOAD_ARTICLE(id)
+	await articlesStore.LOAD_ARTICLES({ withReplace: true, page: 1, params: { id__exclude: id } })
+}
+
+useAsyncData('article-detail', () => init().then(() => true))
 </script>
+
+<style lang="scss">
+$b: '.detail-articles-page';
+
+#{$b} {
+
+	// .detail-articles-page__section
+	&__section {
+		&:not(:last-child) {
+			margin-bottom: 80px;
+
+			@include tablet {
+				margin-bottom: 48px;
+			}
+		}
+	}
+}
+</style>

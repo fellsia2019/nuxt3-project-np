@@ -1,14 +1,5 @@
-export interface IInitiative {
-	id: number
+import type { IBaseMaterial } from '~/types/api/base'
+
+export interface IInitiative extends IBaseMaterial {
 	article_ids: Array<number>
-	title: string
-	content: string
-	detail_text: string
-	time_create: number
-	time_update: number
-	is_published: boolean
-	image: null | string
-	image_webp: null | string
-	image_detail: null | string
-	image_detail_webp: null | string
 }

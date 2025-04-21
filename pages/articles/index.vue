@@ -31,11 +31,11 @@ const articlesStore = useArticlesStore()
 await useAsyncData('articles', () => articlesStore.LOAD_ARTICLES().then(() => true))
 
 function showMore() {
-	articlesStore.LOAD_ARTICLES(false, articlesStore.NEXT_PAGE_NUMBER)
+	articlesStore.LOAD_ARTICLES({ withReplace: false, page: articlesStore.NEXT_PAGE_NUMBER })
 }
 
 function onChangePage(page: number) {
-	articlesStore.LOAD_ARTICLES(true, page)
+	articlesStore.LOAD_ARTICLES({ page })
 }
 </script>
 

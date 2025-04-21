@@ -1,9 +1,10 @@
 <template>
 	<div
 		v-if="initiativesStore?.initiative?.id"
-		class="detail-project-page"
+		class="detail-initiatives-page"
 	>
 		<DefaultDetailTemplate
+			class="detail-initiatives-page__section"
 			:title="initiativesStore?.initiative?.title"
 			:content="initiativesStore?.initiative?.content"
 			:html="initiativesStore?.initiative?.detail_text"
@@ -14,6 +15,26 @@
 			:theme="AllBaseColors.PRIMARY_ACCENT"
 			:time-create="initiativesStore?.initiative?.time_create"
 		/>
+
+		<ArticleBlock
+			v-if="articlesStore?.articles?.length"
+			class="detail-initiatives-page__section"
+			:articles="articlesStore.articles"
+			:with-figures="false"
+		>
+			<template #title>
+				Статьи
+			</template>
+		</ArticleBlock>
+
+		<RecommendedBlock
+			v-if="initiativesStore?.initiatives?.length"
+			class="detail-initiatives-page__section"
+			:theme="AllBaseColors.PRIMARY_ACCENT"
+			:cards="initiativesStore.initiatives"
+			route-name="projects-id"
+			title="Другие инициативы"
+		/>
 	</div>
 </template>
 
@@ -21,11 +42,41 @@
 import { AllBaseColors } from '~/types/common/Themes'
 
 import { useInitiativesStore } from '~/store/api/initiatives'
+import { useArticlesStore } from '~/store/api/articles'
 
 const route = useRoute()
 const id: string = Array.isArray(route.params.id) ? route.params.id?.[0] : route.params.id
 
 const initiativesStore = useInitiativesStore()
+const articlesStore = useArticlesStore()
 
-await useAsyncData('project-detail', () => initiativesStore.LOAD_INITIATIVE(id).then(() => true))
+const init = async () => {
+	await initiativesStore.LOAD_INITIATIVE(id)
+	await initiativesStore.LOAD_INITIATIVES({ withReplace: true, page: 1, params: { id__exclude: id } })
+	if (!initiativesStore.initiative?.article_ids?.length) {
+		articlesStore.CLEAR()
+		return
+	}
+	await articlesStore.LOAD_ARTICLES({ withReplace: true, page: 1, params: { id__in: initiativesStore.initiative?.article_ids.join(',') } })
+}
+
+useAsyncData('initiative-detail', () => init().then(() => true))
 </script>
+
+<style lang="scss">
+$b: '.detail-initiatives-page';
+
+#{$b} {
+
+	// .detail-initiatives-page__section
+	&__section {
+		&:not(:last-child) {
+			margin-bottom: 80px;
+
+			@include tablet {
+				margin-bottom: 48px;
+			}
+		}
+	}
+}
+</style>

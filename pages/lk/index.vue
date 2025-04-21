@@ -61,6 +61,10 @@ const projectForm = ref({
 async function onSubmit() {
 	await projectsStore.CREATE_PROJECT(projectForm.value)
 }
+
+onBeforeUnmount(() => {
+	projectsStore.CLEAR()
+})
 </script>
 
 <style lang="scss">

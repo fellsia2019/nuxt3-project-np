@@ -4,6 +4,7 @@ import type { IProject } from '~/types/api/projects'
 import type { TPaginationResponse, IPaginationApi, TResponseError, IApiViewListParams } from '~/types/api/common'
 import { NotificationStatus } from '~/types/common/Notification'
 
+import { paginationPlaceholder } from '~/placeholders/api/pagination.placeholder'
 import { useNotificationStore } from '~/store/common/notification'
 import { useLoadingStore } from '~/store/common/loading'
 import { HttpMethod } from '~/types/ApiService'
@@ -20,15 +21,7 @@ export const useProjectsStore = defineStore('projects', {
 	state: (): IProjectsApiState => ({
 		projects: [],
 		project: null,
-		pagination: {
-			count: 0,
-			next: null,
-			previous: null,
-			limit: 0,
-			offset: 0,
-			total_pages: Number.POSITIVE_INFINITY,
-			current_page: 0,
-		},
+		pagination: paginationPlaceholder,
 	}),
 
 	getters: {
@@ -63,7 +56,7 @@ export const useProjectsStore = defineStore('projects', {
 				const pageNumber = Math.min(data.page || 1, this.pagination.total_pages)
 
 				const response = await useCustomFetch<TPaginationResponse<Array<IProject>>>('projects', {
-					query: { page: pageNumber },
+					query: { page: pageNumber, ...(data.params || {}) },
 				})
 
 				if (response?.ok && response?.data) {
@@ -142,6 +135,12 @@ export const useProjectsStore = defineStore('projects', {
 			finally {
 				this.SET_LOADING(false)
 			}
+		},
+
+		CLEAR() {
+			this.projects = []
+			this.project = null
+			this.pagination = paginationPlaceholder
 		},
 	},
 })

@@ -197,6 +197,7 @@ $b: '.banner';
 		position: relative;
 		display: block;
 		margin-bottom: 24px;
+		z-index: 2;
 	}
 
   // .banner__content

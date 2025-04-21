@@ -1,5 +1,8 @@
 <template>
-	<div class="initiatives-block">
+	<div
+		class="initiatives-block"
+		:class="{ 'initiatives-block--with-figures': withFigures }"
+	>
 		<div class="container">
 			<div class="initiatives-block__inner">
 				<h2
@@ -24,7 +27,10 @@
 			</div>
 		</div>
 
-		<div class="initiatives-block__shapes initiatives-block__shapes--1">
+		<div
+			v-if="withFigures"
+			class="initiatives-block__shapes initiatives-block__shapes--1"
+		>
 			<AnimationWrapper>
 				<AnimateFigure
 					:items="figuresSquares"
@@ -32,7 +38,10 @@
 				/>
 			</AnimationWrapper>
 		</div>
-		<div class="initiatives-block__shapes initiatives-block__shapes--2">
+		<div
+			v-if="withFigures"
+			class="initiatives-block__shapes initiatives-block__shapes--2"
+		>
 			<AnimationWrapper>
 				<AnimateFigure
 					:items="figuresSquares"
@@ -52,6 +61,7 @@ interface IInitiativesProps {
 	initiatives: Array<IInitiative>
 	canLoadMore?: boolean
 	pagination?: IPaginationApi
+	withFigures?: boolean
 }
 
 interface IInitiativesEmits {
@@ -61,6 +71,7 @@ interface IInitiativesEmits {
 
 withDefaults(defineProps<IInitiativesProps>(), {
 	canLoadMore: false,
+	withFigures: true,
 })
 const emits = defineEmits<IInitiativesEmits>()
 
@@ -88,12 +99,15 @@ function onChangePagination(page: number) {
 $b: '.initiatives-block';
 
 #{$b} {
-  position: relative;
-  padding: 32px 0;
+	// .initiatives-block--with-figures
+	&--with-figures {
+		position: relative;
+		padding: 32px 0;
 
-  @include mobile {
-    padding: 18px 0;
-  }
+		@include mobile {
+			padding: 18px 0;
+		}
+	}
 
   // .initiatives-block__title
   &__title {

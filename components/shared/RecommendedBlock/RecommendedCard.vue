@@ -5,30 +5,35 @@
 		:class="`recommended-card--theme-${theme}`"
 	>
 		<div class="recommended-card__inner">
-			<div class="recommended-card__preview">
-				<CommonImage
-					img-class="recommended-card__preview-img"
-					:image="{ webp: card.image_webp, base: card.image }"
-				/>
+			<div class="recommended-card__inner-top">
+				<div class="recommended-card__preview">
+					<CommonImage
+						img-class="recommended-card__preview-img"
+						:image="{ webp: card.image_webp, base: card.image }"
+					/>
+				</div>
+				<div class="recommended-card__inner-head">
+					<h3 class="recommended-card__title title title-h4">
+						{{ card.title }}
+					</h3>
+
+					<div class="recommended-card__content-top text-sm">
+						<time
+							class="recommended-card__date"
+							:datetime="String(card.time_create)"
+						>
+							Создан {{ getDateArticle(card.time_create) }}
+						</time>
+						<time
+							class="recommended-card__date"
+							:datetime="String(card.time_update)"
+						>
+							Обновлен {{ getDateArticle(card.time_update) }}
+						</time>
+					</div>
+				</div>
 			</div>
 			<div class="recommended-card__content">
-				<div class="recommended-card__content-top text-sm">
-					<time
-						class="recommended-card__date"
-						:datetime="String(card.time_create)"
-					>
-						Создан {{ getDateArticle(card.time_create) }}
-					</time>
-					<time
-						class="recommended-card__date"
-						:datetime="String(card.time_update)"
-					>
-						Обновлен {{ getDateArticle(card.time_update) }}
-					</time>
-				</div>
-				<h3 class="recommended-card__title title title-h4">
-					{{ card.title }}
-				</h3>
 				<p class="recommended-card__text text-md">
 					{{ card.content }}
 				</p>
@@ -46,13 +51,14 @@
 </template>
 
 <script lang="ts" setup>
+import type { IBaseMaterial } from '~/types/api/base'
 import { AllBaseColors } from '~/types/common/Themes'
-import { getDateArticle } from '~/helpers/dateHelpers'
 import { CustomButtonModeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
+import { getDateArticle } from '~/helpers/dateHelpers'
 
 interface IProps {
 	theme?: AllBaseColors
-	card: unknown
+	card: IBaseMaterial
 	routeName: string
 }
 
@@ -68,13 +74,12 @@ $b: '.recommended-card';
 #{$b} {
 	position: relative;
   display: block;
-  border-radius: 16px;
+  border-radius: 8px;
   transition: $td;
 	color: var(--text-color);
 	overflow: hidden;
-
 	--theme-color: transparent;
-	--text-color: #{$color-light};
+	--text-color: #{$color-light-real};
 	--text-color-2: #{$color-secondary};
 
 	&::before {
@@ -86,7 +91,9 @@ $b: '.recommended-card';
 		height: 100%;
 		z-index: 1;
 		background-color: var(--theme-color);
-		opacity: 0.1;
+		opacity: 0.05;
+		pointer-events: none;
+		touch-action: none;
 	}
 
 	&:hover {
@@ -175,10 +182,6 @@ $b: '.recommended-card';
 		--theme-color: #{$color-primary-accent};
   }
 
-  &:hover {
-    box-shadow: 0 0 10px 0 $color-dark-primary-2;
-  }
-
   // .recommended-card__inner
   &__inner {
 		position: relative;
@@ -196,6 +199,8 @@ $b: '.recommended-card';
 			transform: translateX(-50%);
 			transition: 0.5s ease all;
 			z-index: 1;
+			pointer-events: none;
+			touch-action: none;
 		}
 
 		&::before {
@@ -210,23 +215,61 @@ $b: '.recommended-card';
 			height: 100%;
 			max-height: 0;
 		}
+
+		// .recommended-card__inner-top
+		&-top {
+			position: relative;
+			z-index: 2;
+
+			@include gridcols(2, 0px);
+
+			@include tablet {
+				padding: 12px 12px 0 12px;
+				gap: 16px;
+				grid-template-columns: 140px auto;
+			}
+		}
+
+		// .recommended-card__inner-head
+		&-head {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			padding: 16px;
+
+			@include tablet {
+				padding: 0;
+				display: contents;
+			}
+		}
   }
 
   // .recommended-card__preview
   &__preview {
+		position: relative;
     width: 100%;
     height: fit-content;
     aspect-ratio: 320/200;
-    margin-bottom: 16px;
+		z-index: 2;
 
     // .recommended-card__preview-img
     &-img {
       width: 100%;
       height: 100%;
-      border-radius: 16px;
+      border-radius: 8px;
       object-fit: cover;
     }
   }
+
+	// .recommended-card__title
+	&__title {
+		@include tablet {
+			grid-row-start: 1;
+			grid-row-end: 2;
+			grid-column-start: 1;
+			grid-column-end: 3;
+		}
+	}
 
   // .recommended-card__content
   &__content {
@@ -245,6 +288,15 @@ $b: '.recommended-card';
       align-items: center;
       flex-wrap: wrap;
       gap: 5px 12px;
+			margin-top: auto;
+
+			@include tablet {
+				margin-top: 0;
+				gap: 12px;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: center;
+			}
     }
   }
 
@@ -265,7 +317,9 @@ $b: '.recommended-card';
 
   // .recommended-card__date
   &__date {
-    white-space: nowrap;
+		@include tablet-min {
+			white-space: nowrap;
+		}
   }
 }
 </style>

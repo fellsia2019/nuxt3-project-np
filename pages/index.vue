@@ -81,7 +81,7 @@ const projectsStore = useProjectsStore()
 const initiativesStore = useInitiativesStore()
 const articlesStore = useArticlesStore()
 
-await useAsyncData('projects', () => Promise.all([projectsStore.LOAD_PROJECTS(), initiativesStore.LOAD_INITIATIVES(), articlesStore.LOAD_ARTICLES()]).then(() => true))
+await useAsyncData('main-page', () => Promise.all([projectsStore.LOAD_PROJECTS(), initiativesStore.LOAD_INITIATIVES(), articlesStore.LOAD_ARTICLES()]).then(() => true))
 </script>
 
 <style lang="scss">

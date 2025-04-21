@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 
 import type { IArticle } from '~/types/api/articles'
-import type { TPaginationResponse, IPaginationApi } from '~/types/api/common'
+import type { TPaginationResponse, IPaginationApi, IApiViewListParams } from '~/types/api/common'
 
+import { paginationPlaceholder } from '~/placeholders/api/pagination.placeholder'
 import { useLoadingStore } from '~/store/common/loading'
 import { HttpMethod } from '~/types/ApiService'
 
@@ -18,15 +19,7 @@ export const useArticlesStore = defineStore('articles', {
 	state: (): IArticlesApiState => ({
 		articles: [],
 		article: null,
-		pagination: {
-			count: 0,
-			next: null,
-			previous: null,
-			limit: 0,
-			offset: 0,
-			total_pages: Number.POSITIVE_INFINITY,
-			current_page: 0,
-		},
+		pagination: paginationPlaceholder,
 	}),
 
 	getters: {
@@ -50,7 +43,7 @@ export const useArticlesStore = defineStore('articles', {
 			loadingStore.SET_LOADING(isLoading, LOADING_SLUG)
 		},
 
-		async LOAD_ARTICLES(withReplace: boolean = true, page: number = 1) {
+		async LOAD_ARTICLES(data: IApiViewListParams = { withReplace: true }) {
 			try {
 				if (this.IS_LOADING) {
 					return
@@ -58,14 +51,14 @@ export const useArticlesStore = defineStore('articles', {
 
 				this.SET_LOADING(true)
 
-				const pageNumber = Math.min(page, this.pagination.total_pages)
+				const pageNumber = Math.min(data.page || 1, this.pagination.total_pages)
 
 				const response = await useCustomFetch<TPaginationResponse<Array<IArticle>>>('articles', {
-					query: { page: pageNumber },
+					query: { page: pageNumber, ...(data.params || {}) },
 				})
 
 				if (response?.ok && response?.data) {
-					this.articles = withReplace ? response.data?.results : [...this.articles, ...(response.data?.results || [])]
+					this.articles = data.withReplace ? response.data?.results : [...this.articles, ...(response.data?.results || [])]
 					this.pagination = response.data?.pagination
 				}
 			}
@@ -103,6 +96,12 @@ export const useArticlesStore = defineStore('articles', {
 			finally {
 				this.SET_LOADING(false)
 			}
+		},
+
+		CLEAR() {
+			this.articles = []
+			this.article = null
+			this.pagination = paginationPlaceholder
 		},
 	},
 })

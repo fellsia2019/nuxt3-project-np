@@ -1,5 +1,8 @@
 <template>
-	<div class="projects-block">
+	<div
+		class="projects-block"
+		:class="{ 'projects-block--with-figures': withFigures }"
+	>
 		<div class="container">
 			<div class="projects-block__inner">
 				<h2
@@ -23,7 +26,10 @@
 			</div>
 		</div>
 
-		<div class="projects-block__shapes projects-block__shapes--1">
+		<div
+			v-if="withFigures"
+			class="projects-block__shapes projects-block__shapes--1"
+		>
 			<AnimationWrapper>
 				<AnimateFigure
 					:items="figuresHexagons"
@@ -31,7 +37,10 @@
 				/>
 			</AnimationWrapper>
 		</div>
-		<div class="projects-block__shapes projects-block__shapes--2">
+		<div
+			v-if="withFigures"
+			class="projects-block__shapes projects-block__shapes--2"
+		>
 			<AnimationWrapper>
 				<AnimateFigure
 					:items="figuresHexagons"
@@ -50,6 +59,7 @@ interface IProjectProps {
 	projects: Array<IProject>
 	canLoadMore?: boolean
 	pagination?: IPaginationApi
+	withFigures?: boolean
 }
 
 interface IProjectEmits {
@@ -59,6 +69,7 @@ interface IProjectEmits {
 
 withDefaults(defineProps<IProjectProps>(), {
 	canLoadMore: false,
+	withFigures: true,
 })
 const emits = defineEmits<IProjectEmits>()
 
@@ -87,12 +98,15 @@ function onChangePagination(page: number) {
 $b: '.projects-block';
 
 #{$b} {
-  position: relative;
-  padding: 32px 0;
+  // .projects-block--with-figures
+	&--with-figures {
+		position: relative;
+		padding: 32px 0;
 
-  @include mobile {
-    padding: 18px 0;
-  }
+		@include mobile {
+			padding: 18px 0;
+		}
+	}
 
   // .projects-block__title
   &__title {

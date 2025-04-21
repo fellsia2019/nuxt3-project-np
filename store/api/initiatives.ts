@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import type { IInitiative } from '~/types/api/initiatives'
 import type { TPaginationResponse, IPaginationApi, IApiViewListParams } from '~/types/api/common'
 
+import { paginationPlaceholder } from '~/placeholders/api/pagination.placeholder'
 import { useLoadingStore } from '~/store/common/loading'
 import { HttpMethod } from '~/types/ApiService'
 
@@ -18,15 +19,7 @@ export const useInitiativesStore = defineStore('initiatives', {
 	state: (): IInitiativesApiState => ({
 		initiatives: [],
 		initiative: null,
-		pagination: {
-			count: 0,
-			next: null,
-			previous: null,
-			limit: 0,
-			offset: 0,
-			total_pages: Number.POSITIVE_INFINITY,
-			current_page: 0,
-		},
+		pagination: paginationPlaceholder,
 	}),
 
 	getters: {
@@ -103,6 +96,12 @@ export const useInitiativesStore = defineStore('initiatives', {
 			finally {
 				this.SET_LOADING(false)
 			}
+		},
+
+		CLEAR() {
+			this.initiatives = []
+			this.initiative = null
+			this.pagination = paginationPlaceholder
 		},
 	},
 })

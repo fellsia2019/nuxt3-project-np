@@ -4,6 +4,7 @@
 		class="detail-project-page"
 	>
 		<DefaultDetailTemplate
+			class="detail-project-page__section"
 			:title="projectsStore?.project?.title"
 			:content="projectsStore?.project?.content"
 			:html="projectsStore?.project?.detail_text"
@@ -15,15 +16,25 @@
 			:time-create="projectsStore?.project?.time_create"
 		/>
 
+		<InitiativeBlock
+			v-if="initiativesStore?.initiatives?.length"
+			class="detail-project-page__section"
+			:initiatives="initiativesStore.initiatives"
+			:with-figures="false"
+		>
+			<template #title>
+				Инициативы
+			</template>
+		</InitiativeBlock>
+
 		<RecommendedBlock
+			v-if="projectsStore.projects?.length"
+			class="detail-project-page__section"
 			:theme="AllBaseColors.PRIMARY"
 			:cards="projectsStore.projects"
 			route-name="projects-id"
+			title="Другие проекты"
 		/>
-
-		<pre>
-			{{ initiativesStore.initiatives }}
-		</pre>
 	</div>
 </template>
 
@@ -43,6 +54,7 @@ const init = async () => {
 	await projectsStore.LOAD_PROJECT(id)
 	await projectsStore.LOAD_PROJECTS({ withReplace: true, page: 1, params: { id__exclude: id } })
 	if (!projectsStore.project?.initiative_ids?.length) {
+		initiativesStore.CLEAR()
 		return
 	}
 	await initiativesStore.LOAD_INITIATIVES({ withReplace: true, page: 1, params: { id__in: projectsStore.project?.initiative_ids.join(',') } })
@@ -54,3 +66,21 @@ useHead({
 	title: projectsStore?.project?.title,
 })
 </script>
+
+<style lang="scss">
+$b: '.detail-project-page';
+
+#{$b} {
+
+	// .detail-project-page__section
+	&__section {
+		&:not(:last-child) {
+			margin-bottom: 80px;
+
+			@include tablet {
+				margin-bottom: 48px;
+			}
+		}
+	}
+}
+</style>

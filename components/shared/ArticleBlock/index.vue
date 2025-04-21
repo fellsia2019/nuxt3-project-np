@@ -1,5 +1,8 @@
 <template>
-	<div class="articles-block">
+	<div
+		class="articles-block"
+		:class="{ 'articles-block--with-figures': withFigures }"
+	>
 		<div class="container">
 			<div class="articles-block__inner">
 				<h2
@@ -24,7 +27,10 @@
 			</div>
 		</div>
 
-		<div class="articles-block__shapes articles-block__shapes--1">
+		<div
+			v-if="withFigures"
+			class="articles-block__shapes articles-block__shapes--1"
+		>
 			<AnimationWrapper>
 				<AnimateFigure
 					:items="figuresSquares"
@@ -32,7 +38,10 @@
 				/>
 			</AnimationWrapper>
 		</div>
-		<div class="articles-block__shapes articles-block__shapes--2">
+		<div
+			v-if="withFigures"
+			class="articles-block__shapes articles-block__shapes--2"
+		>
 			<AnimationWrapper>
 				<AnimateFigure
 					:items="figuresSquares"
@@ -52,6 +61,7 @@ interface IArticlesProps {
 	articles: Array<IArticle>
 	canLoadMore?: boolean
 	pagination?: IPaginationApi
+	withFigures?: boolean
 }
 
 interface IIArticlesEmits {
@@ -61,6 +71,7 @@ interface IIArticlesEmits {
 
 withDefaults(defineProps<IArticlesProps>(), {
 	canLoadMore: false,
+	withFigures: true,
 })
 const emits = defineEmits<IIArticlesEmits>()
 
@@ -88,12 +99,15 @@ function onChangePagination(page: number) {
 $b: '.articles-block';
 
 #{$b} {
-  position: relative;
-  padding: 32px 0;
+  // .articles-block--with-figures
+	&--with-figures {
+		position: relative;
+		padding: 32px 0;
 
-  @include mobile {
-    padding: 18px 0;
-  }
+		@include mobile {
+			padding: 18px 0;
+		}
+	}
 
   // .articles-block__title
   &__title {
