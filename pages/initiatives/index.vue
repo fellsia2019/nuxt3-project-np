@@ -31,11 +31,11 @@ const initiativesStore = useInitiativesStore()
 await useAsyncData('initiatives', () => initiativesStore.LOAD_INITIATIVES().then(() => true))
 
 function showMore() {
-	initiativesStore.LOAD_INITIATIVES(false, initiativesStore.NEXT_PAGE_NUMBER)
+	initiativesStore.LOAD_INITIATIVES({ withReplace: false, page: initiativesStore.NEXT_PAGE_NUMBER })
 }
 
 function onChangePage(page: number) {
-	initiativesStore.LOAD_INITIATIVES(true, page)
+	initiativesStore.LOAD_INITIATIVES({ page })
 }
 </script>
 

@@ -2,6 +2,7 @@ import { useConfigApiStore } from '~/store/api/_config'
 import { HttpMethod } from '~/types/ApiService'
 import { useUserStore } from '~/store/api/user'
 import { getUrlWithQuery } from '~/helpers/queryHelpers'
+import type { IFetchResponse } from '~/types/api/common'
 
 interface IOptions {
 	query?: { [key: string]: string | number }
@@ -10,13 +11,13 @@ interface IOptions {
 	body?: { [key: string]: unknown }
 }
 
-export async function useCustomFetch(
+export async function useCustomFetch<T>(
 	route: string,
 	options?: IOptions,
 	addionalToUrl?: string,
 	noCheckAuth?: boolean,
 	noCheckTokenVerify?: boolean,
-): Promise<unknown> {
+): Promise<IFetchResponse<T> | null> {
 	const store = useConfigApiStore()
 	const userStore = useUserStore()
 	const currentService = store.services
@@ -39,7 +40,7 @@ export async function useCustomFetch(
 
 				router.push({ name: 'login' })
 			}
-			return
+			return null
 		}
 
 		if (userStore.ACCESS_TOKEN) {
@@ -54,7 +55,7 @@ export async function useCustomFetch(
 
 						router.push({ name: 'login' })
 					}
-					return
+					return null
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 import type { IArticle } from '~/types/api/articles'
-import type { TPaginationResponse, IPaginationApi, IFetchResponse } from '~/types/api/common'
+import type { TPaginationResponse, IPaginationApi } from '~/types/api/common'
 
 import { useLoadingStore } from '~/store/common/loading'
 import { HttpMethod } from '~/types/ApiService'
@@ -60,7 +60,7 @@ export const useArticlesStore = defineStore('articles', {
 
 				const pageNumber = Math.min(page, this.pagination.total_pages)
 
-				const response: IFetchResponse<TPaginationResponse<Array<IArticle>>> | null = await useCustomFetch('articles', {
+				const response = await useCustomFetch<TPaginationResponse<Array<IArticle>>>('articles', {
 					query: { page: pageNumber },
 				})
 
@@ -85,7 +85,7 @@ export const useArticlesStore = defineStore('articles', {
 
 				this.SET_LOADING(true)
 
-				const response: IFetchResponse<IArticle> | null = await useCustomFetch(
+				const response = await useCustomFetch<IArticle>(
 					'articles',
 					{
 						method: HttpMethod.GET,

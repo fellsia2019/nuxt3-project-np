@@ -18,3 +18,11 @@ export interface IFetchResponse<T> {
 	status: number
 	data: T
 }
+
+export interface IApiViewListParams {
+	withReplace?: boolean
+	page?: number
+	params?: { [key: string]: string | number }
+}
+
+export type TResponseError = string | { [key: string]: Array<string> } | Array<string>

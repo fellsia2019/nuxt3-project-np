@@ -35,11 +35,11 @@ const projectsStore = useProjectsStore()
 await useAsyncData('projects', () => projectsStore.LOAD_PROJECTS().then(() => true))
 
 function showMore() {
-	projectsStore.LOAD_PROJECTS(false, projectsStore.NEXT_PAGE_NUMBER)
+	projectsStore.LOAD_PROJECTS({ withReplace: false, page: projectsStore.NEXT_PAGE_NUMBER })
 }
 
 function onChangePage(page: number) {
-	projectsStore.LOAD_PROJECTS(true, page)
+	projectsStore.LOAD_PROJECTS({ page })
 }
 </script>
 

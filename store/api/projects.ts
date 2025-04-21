@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 import type { IProject } from '~/types/api/projects'
-import type { TPaginationResponse, IPaginationApi, IFetchResponse } from '~/types/api/common'
+import type { TPaginationResponse, IPaginationApi, TResponseError, IApiViewListParams } from '~/types/api/common'
 import { NotificationStatus } from '~/types/common/Notification'
 
 import { useNotificationStore } from '~/store/common/notification'
@@ -52,7 +52,7 @@ export const useProjectsStore = defineStore('projects', {
 			loadingStore.SET_LOADING(isLoading, LOADING_SLUG)
 		},
 
-		async LOAD_PROJECTS(withReplace: boolean = true, page: number = 1) {
+		async LOAD_PROJECTS(data: IApiViewListParams = { withReplace: true }) {
 			try {
 				if (this.IS_LOADING) {
 					return
@@ -60,14 +60,14 @@ export const useProjectsStore = defineStore('projects', {
 
 				this.SET_LOADING(true)
 
-				const pageNumber = Math.min(page, this.pagination.total_pages)
+				const pageNumber = Math.min(data.page || 1, this.pagination.total_pages)
 
-				const response: IFetchResponse<TPaginationResponse<Array<IProject>>> | null = await useCustomFetch('projects', {
+				const response = await useCustomFetch<TPaginationResponse<Array<IProject>>>('projects', {
 					query: { page: pageNumber },
 				})
 
 				if (response?.ok && response?.data) {
-					this.projects = withReplace ? response.data?.results : [...this.projects, ...(response.data?.results || [])]
+					this.projects = data.withReplace ? response.data?.results : [...this.projects, ...(response.data?.results || [])]
 					this.pagination = response.data?.pagination
 				}
 			}
@@ -87,7 +87,7 @@ export const useProjectsStore = defineStore('projects', {
 
 				this.SET_LOADING(true)
 
-				const response: IFetchResponse<IProject> = await useCustomFetch(
+				const response = await useCustomFetch<IProject>(
 					'projects',
 					{
 						method: HttpMethod.GET,
@@ -115,7 +115,7 @@ export const useProjectsStore = defineStore('projects', {
 
 				this.SET_LOADING(true)
 
-				const response = await useCustomFetch(
+				const response = await useCustomFetch<IProject | TResponseError>(
 					'projects',
 					{
 						method: HttpMethod.POST,

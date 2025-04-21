@@ -1,8 +1,8 @@
 import { NotificationStatus } from '~/types/common/Notification'
-
+import type { TResponseError } from '@/types/api/common'
 import { useNotificationStore } from '~/store/common/notification'
 
-export default function (error: string | { [key: string]: Array<string> } | Array<string>) {
+export default function (error: TResponseError) {
 	let errorMessage = ''
 
 	if (typeof error === 'string') {

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 import type { IInitiative } from '~/types/api/initiatives'
-import type { TPaginationResponse, IPaginationApi, IFetchResponse } from '~/types/api/common'
+import type { TPaginationResponse, IPaginationApi, IApiViewListParams } from '~/types/api/common'
 
 import { useLoadingStore } from '~/store/common/loading'
 import { HttpMethod } from '~/types/ApiService'
@@ -50,7 +50,7 @@ export const useInitiativesStore = defineStore('initiatives', {
 			loadingStore.SET_LOADING(isLoading, LOADING_SLUG)
 		},
 
-		async LOAD_INITIATIVES(withReplace: boolean = true, page: number = 1) {
+		async LOAD_INITIATIVES(data: IApiViewListParams = { withReplace: true }) {
 			try {
 				if (this.IS_LOADING) {
 					return
@@ -58,14 +58,14 @@ export const useInitiativesStore = defineStore('initiatives', {
 
 				this.SET_LOADING(true)
 
-				const pageNumber = Math.min(page, this.pagination.total_pages)
+				const pageNumber = Math.min(data.page || 1, this.pagination.total_pages)
 
-				const response: IFetchResponse<TPaginationResponse<Array<IInitiative>>> | null = await useCustomFetch('initiatives', {
-					query: { page: pageNumber },
+				const response = await useCustomFetch<TPaginationResponse<Array<IInitiative>>>('initiatives', {
+					query: { page: pageNumber, ...(data.params || {}) },
 				})
 
 				if (response?.ok && response?.data) {
-					this.initiatives = withReplace ? response.data?.results : [...this.initiatives, ...(response.data?.results || [])]
+					this.initiatives = data.withReplace ? response.data?.results : [...this.initiatives, ...(response.data?.results || [])]
 					this.pagination = response.data?.pagination
 				}
 			}
@@ -85,7 +85,7 @@ export const useInitiativesStore = defineStore('initiatives', {
 
 				this.SET_LOADING(true)
 
-				const response: IFetchResponse<IInitiative> | null = await useCustomFetch(
+				const response = await useCustomFetch<IInitiative>(
 					'initiatives',
 					{
 						method: HttpMethod.GET,
