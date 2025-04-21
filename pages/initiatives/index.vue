@@ -8,7 +8,10 @@
 					</h1>
 				</div>
 			</div>
-			<div class="initiatives-page__body">
+			<div
+				ref="iniativesNode"
+				class="initiatives-page__body"
+			>
 				<InitiativeBlock
 					v-if="initiativesStore?.initiatives?.length"
 					class="home-page__block"
@@ -25,17 +28,26 @@
 
 <script setup lang="ts">
 import { useInitiativesStore } from '~/store/api/initiatives'
+import { scrollToBlock } from '~/helpers/scrollHelper'
+
+const iniativesNode = ref<HTMLElement | null>(null)
 
 const initiativesStore = useInitiativesStore()
 
 await useAsyncData('initiatives', () => initiativesStore.LOAD_INITIATIVES().then(() => true))
 
 function showMore() {
-	initiativesStore.LOAD_INITIATIVES({ withReplace: false, page: initiativesStore.NEXT_PAGE_NUMBER })
+	initiativesStore.LOAD_INITIATIVES({ page: initiativesStore.NEXT_PAGE_NUMBER })
 }
 
-function onChangePage(page: number) {
-	initiativesStore.LOAD_INITIATIVES({ page })
+async function onChangePage(page: number) {
+	initiativesStore.LOAD_INITIATIVES({ withReplace: true, page })
+
+	await nextTick()
+
+	if (iniativesNode.value) {
+		scrollToBlock(iniativesNode.value, true, 10)
+	}
 }
 </script>
 

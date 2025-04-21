@@ -8,7 +8,10 @@
 					</h1>
 				</div>
 			</div>
-			<div class="projects-page__body">
+			<div
+				ref="projectsNode"
+				class="projects-page__body"
+			>
 				<ProjectBlock
 					v-if="projectsStore?.projects?.length"
 					class="home-page__block"
@@ -25,21 +28,30 @@
 
 <script setup lang="ts">
 import { useProjectsStore } from '~/store/api/projects'
+import { scrollToBlock } from '~/helpers/scrollHelper'
 
 useHead({
 	title: 'Проекты',
 })
+
+const projectsNode = ref<HTMLElement | null>(null)
 
 const projectsStore = useProjectsStore()
 
 await useAsyncData('projects', () => projectsStore.LOAD_PROJECTS().then(() => true))
 
 function showMore() {
-	projectsStore.LOAD_PROJECTS({ withReplace: false, page: projectsStore.NEXT_PAGE_NUMBER })
+	projectsStore.LOAD_PROJECTS({ page: projectsStore.NEXT_PAGE_NUMBER })
 }
 
-function onChangePage(page: number) {
-	projectsStore.LOAD_PROJECTS({ page })
+async function onChangePage(page: number) {
+	projectsStore.LOAD_PROJECTS({ withReplace: true, page })
+
+	await nextTick()
+
+	if (projectsNode.value) {
+		scrollToBlock(projectsNode.value, true, 10)
+	}
 }
 </script>
 

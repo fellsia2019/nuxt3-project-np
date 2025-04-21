@@ -10,9 +10,15 @@
 					</div>
 
 					<div class="lk-page__body">
-						<!-- TODO: userform -->
+						<UserForm
+							v-if="userStore.user"
+							:user="userStore.user"
+						/>
 
-						<div class="lk-page__project">
+						<div
+							v-if="false"
+							class="lk-page__project"
+						>
 							<form
 								action=""
 								@submit.prevent="onSubmit"
@@ -45,6 +51,7 @@
 <script setup lang="ts">
 import { ClientOnly } from '#components'
 import { useProjectsStore } from '~/store/api/projects'
+import { useUserStore } from '~/store/api/user'
 
 definePageMeta({
 	middleware: ['login'],
@@ -52,6 +59,7 @@ definePageMeta({
 })
 
 const projectsStore = useProjectsStore()
+const userStore = useUserStore()
 
 const projectForm = ref({
 	title: '',
@@ -61,10 +69,6 @@ const projectForm = ref({
 async function onSubmit() {
 	await projectsStore.CREATE_PROJECT(projectForm.value)
 }
-
-onBeforeUnmount(() => {
-	projectsStore.CLEAR()
-})
 </script>
 
 <style lang="scss">
@@ -72,20 +76,24 @@ $b: '.lk-page';
 
 #{$b} {
 
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  input {
-    height: 40px;
-  }
-  input, textarea {
-    padding: 5px 20px;
-    border: 1px solid $color-primary;
-  }
-  textarea {
-    height: 250px;
-  }
+	// .lk-page__inner
+	&__inner {
+		max-width: 800px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 32px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	// .lk-page__body
+	&__body {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 32px;
+	}
 }
 </style>
