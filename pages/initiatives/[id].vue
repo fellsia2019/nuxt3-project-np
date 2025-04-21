@@ -32,7 +32,7 @@
 			class="detail-initiatives-page__section"
 			:theme="AllBaseColors.PRIMARY_ACCENT"
 			:cards="initiativesStore.initiatives"
-			route-name="projects-id"
+			route-name="initiatives-id"
 			title="Другие инициативы"
 		/>
 	</div>

@@ -1,0 +1,40 @@
+@use "~/assets/styles/global/mixins.scss" as *;
+@use "~/assets/styles/global/variables.scss" as *;
+
+$b: '.slider-pagination';
+
+#{$b} {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	width: 100% !important;
+	--width: 46px;
+
+	@include tablet {
+		--width: 32px;
+	}
+
+	// .slider-pagination__dot
+	&__dot {
+		max-width: 8px;
+		width: var(--width);
+		height: 8px;
+		background-color: currentColor;
+		opacity: 0.4;
+		transition: all 0.5s ease;
+		border-radius: 8px;
+		cursor: pointer;
+		will-change: transform, width, max-width;
+
+		// .slider-pagination--is-active
+		&--is-active {
+			max-width: var(--width);
+			opacity: 1;
+		}
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+}

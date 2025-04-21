@@ -15,8 +15,16 @@
 				<div class="recommended-block__body">
 					<Swiper
 						class="recommended-block__swiper"
+						:modules="modules"
 						:slides-per-view="1"
 						:space-between="24"
+						:pagination="{
+							el: paginationNode,
+							bulletClass: 'slider-pagination__dot',
+							bulletActiveClass: 'slider-pagination__dot--is-active',
+							clickable: true,
+							dynamicBullets: true,
+						}"
 						:breakpoints="{
 							767: {
 								slidesPerView: 2,
@@ -37,6 +45,8 @@
 						</SwiperSlide>
 					</Swiper>
 				</div>
+
+				<div class="recommended-block__pagination slider-pagination" :class="`color-${theme}`" ref="paginationNode" />
 			</div>
 		</div>
 	</div>
@@ -44,6 +54,7 @@
 
 <script lang="ts" setup>
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Pagination } from 'swiper/modules'
 import { AllBaseColors } from '~/types/common/Themes'
 import type { IBaseMaterial } from '~/types/api/base'
 import 'swiper/css'
@@ -58,6 +69,9 @@ interface IProps {
 withDefaults(defineProps<IProps>(), {
 	theme: AllBaseColors.PRIMARY,
 })
+
+const modules = [Pagination]
+const paginationNode = ref(null)
 </script>
 
 <style lang="scss">
@@ -85,6 +99,11 @@ $b: '.recommended-block';
 	// .recommended-block__card
 	&__card {
 		height: 100%;
+	}
+
+	// .recommended-block__pagination
+	&__pagination {
+		margin-top: 32px;
 	}
 }
 </style>

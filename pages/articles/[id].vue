@@ -21,7 +21,7 @@
 			class="detail-articles-page__section"
 			:theme="AllBaseColors.DANGER"
 			:cards="articlesStore?.articles"
-			route-name="projects-id"
+			route-name="articles-id"
 			title="Другие статьи"
 		/>
 	</div>
