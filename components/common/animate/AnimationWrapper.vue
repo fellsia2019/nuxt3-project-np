@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<IProps>(), {
 		threshold: [0.15, 0.25, 0.5, 0.75, 1],
 	}),
 	parallaxEnabled: true,
-	awaitNextTick: false,
+	awaitNextTick: true,
 })
 
 const isVisible = ref(false)

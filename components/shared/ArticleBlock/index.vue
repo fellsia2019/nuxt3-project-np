@@ -12,7 +12,14 @@
 					<slot name="title" />
 				</h2>
 
-				<ArticleList :articles="articles" />
+				<ArticlesSlider
+					v-if="isSlider"
+					:articles="articles"
+				/>
+				<ArticleList
+					v-else
+					:articles="articles"
+				/>
 
 				<CustomPagination
 					v-if="pagination && pagination.total_pages > 1"
@@ -62,6 +69,7 @@ interface IArticlesProps {
 	canLoadMore?: boolean
 	pagination?: IPaginationApi
 	withFigures?: boolean
+	isSlider?: boolean
 }
 
 interface IIArticlesEmits {
@@ -72,6 +80,7 @@ interface IIArticlesEmits {
 withDefaults(defineProps<IArticlesProps>(), {
 	canLoadMore: false,
 	withFigures: true,
+	isSlider: false,
 })
 const emits = defineEmits<IIArticlesEmits>()
 

@@ -24,6 +24,7 @@
 				class="home-page__block"
 				title="Проекты"
 				:projects="projectsStore.projects"
+				:is-slider="true"
 			>
 				<template #title>
 					<NuxtLink
@@ -39,6 +40,7 @@
 				v-if="initiativesStore?.initiatives?.length"
 				class="home-page__block"
 				:initiatives="initiativesStore.initiatives"
+				:is-slider="true"
 			>
 				<template #title>
 					<NuxtLink
@@ -54,6 +56,7 @@
 				v-if="articlesStore?.articles?.length"
 				class="home-page__block"
 				:articles="articlesStore.articles"
+				:is-slider="true"
 			>
 				<template #title>
 					<NuxtLink

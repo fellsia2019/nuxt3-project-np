@@ -46,7 +46,11 @@
 					</Swiper>
 				</div>
 
-				<div class="recommended-block__pagination slider-pagination" :class="`color-${theme}`" ref="paginationNode" />
+				<div
+					ref="paginationNode"
+					class="recommended-block__pagination slider-pagination"
+					:class="`color-${theme}`"
+				/>
 			</div>
 		</div>
 	</div>

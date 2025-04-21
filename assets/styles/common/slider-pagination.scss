@@ -15,6 +15,11 @@ $b: '.slider-pagination';
 		--width: 32px;
 	}
 
+	&--is-hidden,
+	&.swiper-pagination-lock {
+		display: none !important;
+	}
+
 	// .slider-pagination__dot
 	&__dot {
 		max-width: 8px;

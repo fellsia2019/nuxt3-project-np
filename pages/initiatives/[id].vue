@@ -21,6 +21,7 @@
 			class="detail-initiatives-page__section"
 			:articles="articlesStore.articles"
 			:with-figures="false"
+			:is-slider="true"
 		>
 			<template #title>
 				Статьи

@@ -21,6 +21,7 @@
 			class="detail-project-page__section"
 			:initiatives="initiativesStore.initiatives"
 			:with-figures="false"
+			:is-slider="true"
 		>
 			<template #title>
 				Инициативы

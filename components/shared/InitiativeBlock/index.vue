@@ -12,7 +12,14 @@
 					<slot name="title" />
 				</h2>
 
-				<InitiativeList :initiatives="initiatives" />
+				<InitiativesSlider
+					v-if="isSlider"
+					:initiatives="initiatives"
+				/>
+				<InitiativeList
+					v-else
+					:initiatives="initiatives"
+				/>
 
 				<CustomPagination
 					v-if="pagination && pagination.total_pages > 1"
@@ -62,6 +69,7 @@ interface IInitiativesProps {
 	canLoadMore?: boolean
 	pagination?: IPaginationApi
 	withFigures?: boolean
+	isSlider?: boolean
 }
 
 interface IInitiativesEmits {
@@ -72,6 +80,7 @@ interface IInitiativesEmits {
 withDefaults(defineProps<IInitiativesProps>(), {
 	canLoadMore: false,
 	withFigures: true,
+	isSlider: false,
 })
 const emits = defineEmits<IInitiativesEmits>()
 

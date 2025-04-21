@@ -68,7 +68,6 @@ withDefaults(defineProps<IProps>(), {
 </script>
 
 <style lang="scss">
-@use "sass:color";
 $b: '.recommended-card';
 
 #{$b} {

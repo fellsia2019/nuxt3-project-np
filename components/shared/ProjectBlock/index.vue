@@ -12,7 +12,14 @@
 					<slot name="title" />
 				</h2>
 
-				<ProjectList :projects="projects" />
+				<ProjectsSlider
+					v-if="isSlider"
+					:projects="projects"
+				/>
+				<ProjectList
+					v-else
+					:projects="projects"
+				/>
 
 				<CustomPagination
 					v-if="pagination && pagination.total_pages > 1"
@@ -60,6 +67,7 @@ interface IProjectProps {
 	canLoadMore?: boolean
 	pagination?: IPaginationApi
 	withFigures?: boolean
+	isSlider?: boolean
 }
 
 interface IProjectEmits {
@@ -70,6 +78,7 @@ interface IProjectEmits {
 withDefaults(defineProps<IProjectProps>(), {
 	canLoadMore: false,
 	withFigures: true,
+	isSlider: false,
 })
 const emits = defineEmits<IProjectEmits>()
 
