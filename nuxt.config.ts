@@ -31,6 +31,14 @@ export default defineNuxtConfig({
 	},
 
 	css: ['~/assets/styles/main.scss'],
+	runtimeConfig: {
+		public: {
+			apiSecure: process.env.API_SECURE === 'true',
+			apiDomain: process.env.API_DOMAIN,
+			apiPrefix: process.env.API_PREFIX,
+			apiPort: process.env.API_PORT,
+		},
+	},
 	compatibilityDate: '2024-11-01',
 
 	vite: {

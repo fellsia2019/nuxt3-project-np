@@ -3,11 +3,13 @@ import { domainParser } from '~/helpers/routeHelpers'
 import { type IApiService, type IDomain, HttpMethod } from '~/types/ApiService'
 
 export const useConfigApiStore = defineStore('configApi', () => {
+	const runtimeConfig = useRuntimeConfig()
+
 	const domainMain: IDomain = {
-		secure: false,
-		domain: '127.0.0.1', // сделать из env
-		prefix: 'api/v1',
-		port: 8000,
+		secure: Boolean(runtimeConfig.public.apiSecure),
+		domain: String(runtimeConfig.public.apiDomain),
+		prefix: String(runtimeConfig.public.apiPrefix),
+		port: Number(runtimeConfig.public.apiPort),
 	}
 
 	const services = computed<IApiService>(() => ({
