@@ -1,12 +1,12 @@
 services:
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ${DOCKER_USER}/nuxt-prod:latest
     ports:
       - "3000:3000"
-    # volumes:
-    #   - ./public:/app/public  # Статика (hot-reload без пересборки)
+    env_file:
+      - .env  # Подключаем переменные окружения
+    volumes:
+      - ./logs:/var/log  # Монтируем логи PM2
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
@@ -18,6 +18,3 @@ services:
         limits:
           cpus: "0.5"
           memory: 512M
-
-volumes:
-  nuxt-logs:  # Для хранения логов PM2
