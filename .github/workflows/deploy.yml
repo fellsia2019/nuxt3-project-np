@@ -21,7 +21,7 @@ jobs:
       # --- Шаг 3: Собираем образ и пушим ---
       - name: Build and Push Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USER }}/nuxt-prod:latest .
+          docker build --no-cache -t ${{ secrets.DOCKER_USER }}/nuxt-prod:latest .
           docker push ${{ secrets.DOCKER_USER }}/nuxt-prod:latest
 
       # --- Шаг 4: Деплой на сервер через SSH ---

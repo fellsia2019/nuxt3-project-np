@@ -5,8 +5,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - ./public:/app/public  # Статика (hot-reload без пересборки)
+    # volumes:
+    #   - ./public:/app/public  # Статика (hot-reload без пересборки)
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
