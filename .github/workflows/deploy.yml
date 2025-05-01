@@ -29,11 +29,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /var/www/ar69tem/data/www/deep-cosmo.ru/opt/nuxt-app
-            echo "DOCKER_USER=$DOCKER_USER" > .env
-            echo "API_SECURE=true" >> .env
-            echo "API_DOMAIN=api.deep-cosmo.ru" >> .env
-            echo "API_PREFIX=api/v1" >> .env
-            sed 's/^/DEBUG: /' .env
             docker compose down --rmi all
             cat .env
             docker compose pull
