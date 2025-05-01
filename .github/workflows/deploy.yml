@@ -34,6 +34,7 @@ jobs:
           script: |
             cd /var/www/ar69tem/data/www/deep-cosmo.ru/nuxt3-project-np
             docker compose down || true
-            docker compose pull
-            docker compose up -d
+            # docker compose pull
+            docker rmi ${{ secrets.DOCKER_USER }}/nuxt-prod:latest  # Удаляем старый образ
+            docker compose up -d --build
             docker image prune -f  # Очистка старых образов
