@@ -28,6 +28,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            whoami
+            pwd
+            ls -la
+            docker --version
             cd /var/www/ar69tem/data/www/deep-cosmo.ru/opt/nuxt-app
             docker compose down --rmi all
             docker compose pull
