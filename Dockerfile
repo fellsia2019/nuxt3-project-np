@@ -1,19 +1,30 @@
+# ====================== Билд-стадия ======================
 FROM node:22-alpine as builder
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
 
+# Копируем зависимости и ставим их
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev  # Только продакшен-зависимости
+
+# Копируем исходники и билдим
+COPY . .
+RUN npm run build  # Собираем Nuxt 3 в .output/
+
+# ====================== Продакшен-стадия ======================
 FROM node:22-alpine
 WORKDIR /app
-COPY --from=builder /app/.output /app/.output
-COPY --from=builder /app/public /app/public
-COPY --from=builder /app/package.json /app/
-COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/ecosystem.config.js /app/
 
-RUN npm install -g pm2
+# 1. Копируем только нужное из билд-стадии
+COPY --from=builder /app/.output /app/.output          # Собранный Nuxt
+COPY --from=builder /app/public /app/public           # Статика
+COPY --from=builder /app/package.json /app/           # Для возможных runtime-зависимостей
+COPY --from=builder /app/node_modules /app/node_modules  # Готовые модули (sharp и др.)
 
-# Ключевое изменение - запускаем Nuxt напрямую через PM2
-CMD ["pm2-runtime", "start", "ecosystem.config.js"]
+# 2. Настраиваем безопасность (не запускаем от root!)
+RUN chown -R node:node /app && \
+    chmod -R 755 /app && \
+    find /app/node_modules -type f -exec chmod 644 {} +
+
+# 3. Запускаем от обычного пользователя
+USER node
+CMD ["node", "/app/.output/server/index.mjs"]  # Чистый Node.js, без PM2
