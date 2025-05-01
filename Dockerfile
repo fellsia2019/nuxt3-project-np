@@ -4,21 +4,21 @@ WORKDIR /app
 
 # Копируем зависимости и ставим их
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev  # Только продакшен-зависимости
+RUN npm ci
 
 # Копируем исходники и билдим
 COPY . .
-RUN npm run build  # Собираем Nuxt 3 в .output/
+RUN npm run build
 
 # ====================== Продакшен-стадия ======================
 FROM node:22-alpine
 WORKDIR /app
 
 # 1. Копируем только нужное из билд-стадии
-COPY --from=builder /app/.output /app/.output          # Собранный Nuxt
-COPY --from=builder /app/public /app/public           # Статика
-COPY --from=builder /app/package.json /app/           # Для возможных runtime-зависимостей
-COPY --from=builder /app/node_modules /app/node_modules  # Готовые модули (sharp и др.)
+COPY --from=builder /app/.output /app/.output
+COPY --from=builder /app/public /app/public
+COPY --from=builder /app/package.json /app/
+COPY --from=builder /app/node_modules /app/node_modules
 
 # 2. Настраиваем безопасность (не запускаем от root!)
 RUN chown -R node:node /app && \
@@ -27,4 +27,4 @@ RUN chown -R node:node /app && \
 
 # 3. Запускаем от обычного пользователя
 USER node
-CMD ["node", "/app/.output/server/index.mjs"]  # Чистый Node.js, без PM2
+CMD ["node", "/app/.output/server/index.mjs"]
