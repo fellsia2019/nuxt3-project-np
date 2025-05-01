@@ -27,5 +27,5 @@ RUN chown -R node:node /app && \
 
 # 3. Запускаем от обычного пользователя
 USER node
-CMD ["sh", "-c", "API_SECURE=${API_SECURE} API_DOMAIN=${API_DOMAIN} API_PREFIX=${API_PREFIX} API_PORT=${API_PORT} node /app/.output/server/index.mjs"]
+CMD ["sh", "-c", "NUXT_API_SECURE=${NUXT_API_SECURE} NUXT_API_DOMAIN=${NUXT_API_DOMAIN} NUXT_API_PREFIX=${NUXT_API_PREFIX} node /app/.output/server/index.mjs"]
 # CMD ["node", "/app/.output/server/index.mjs"]

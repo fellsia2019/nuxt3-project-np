@@ -33,11 +33,6 @@ export default defineNuxtConfig({
 	css: ['~/assets/styles/main.scss'],
 
 	runtimeConfig: {
-		apiSecure: process.env.NUXT_API_SECURE === 'true',
-    apiDomain: process.env.NUXT_API_DOMAIN || '',
-    apiPrefix: process.env.NUXT_API_PREFIX || '',
-    apiPort: process.env.NUXT_API_PORT || '',
-
 		public: {
 			apiSecure: process.env.NUXT_API_SECURE === 'true',
 			apiDomain: process.env.NUXT_API_DOMAIN,
@@ -53,13 +48,6 @@ export default defineNuxtConfig({
 	},
 
 	vite: {
-		define: {
-      'process.env.NUXT_API_SECURE': process.env.NUXT_API_SECURE === 'true',
-      'process.env.NUXT_API_DOMAIN': JSON.stringify(process.env.NUXT_API_DOMAIN),
-      'process.env.NUXT_API_PREFIX': JSON.stringify(process.env.NUXT_API_PREFIX),
-      'process.env.NUXT_API_PORT': JSON.stringify(process.env.NUXT_API_PORT)
-    },
-
 		css: {
 			preprocessorOptions: {
 				scss: {
