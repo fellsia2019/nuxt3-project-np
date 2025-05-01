@@ -33,8 +33,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /var/www/ar69tem/data/www/deep-cosmo.ru/nuxt3-project-np
-            docker compose down || true
+            docker compose down --rmi all  # Удаляет контейнеры + образы
+            docker compose up -d --build  # Собирает с нуля
             # docker compose pull
             docker rmi ${{ secrets.DOCKER_USER }}/nuxt-prod:latest  # Удаляем старый образ
-            docker compose up -d --build
+            # docker compose up -d --build
             docker image prune -f  # Очистка старых образов
