@@ -31,6 +31,7 @@ export default defineNuxtConfig({
 	},
 
 	css: ['~/assets/styles/main.scss'],
+
 	runtimeConfig: {
 		public: {
 			apiSecure: process.env.API_SECURE === 'true',
@@ -39,6 +40,7 @@ export default defineNuxtConfig({
 			apiPort: process.env.API_PORT,
 		},
 	},
+
 	compatibilityDate: '2024-11-01',
 
 	nitro: {
