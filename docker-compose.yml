@@ -2,9 +2,9 @@ services:
   frontend:
     image: ${DOCKER_USER}/nuxt-prod:latest
     environment:
-      API_SECURE: "true"
-      API_DOMAIN: "api.deep-cosmo.ru"
-      API_PREFIX: "api/v1"
+      NUXT_API_SECURE: "true"
+      NUXT_API_DOMAIN: "api.deep-cosmo.ru"
+      NUXT_API_PREFIX: "api/v1"
     ports:
       - "3000:3000"
     env_file:

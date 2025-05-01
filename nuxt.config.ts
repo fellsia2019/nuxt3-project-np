@@ -33,11 +33,16 @@ export default defineNuxtConfig({
 	css: ['~/assets/styles/main.scss'],
 
 	runtimeConfig: {
+		apiSecure: process.env.NUXT_API_SECURE === 'true',
+    apiDomain: process.env.NUXT_API_DOMAIN || '',
+    apiPrefix: process.env.NUXT_API_PREFIX || '',
+    apiPort: process.env.NUXT_API_PORT || '',
+
 		public: {
-			apiSecure: process.env.API_SECURE === 'true',
-			apiDomain: process.env.API_DOMAIN,
-			apiPrefix: process.env.API_PREFIX,
-			apiPort: process.env.API_PORT,
+			apiSecure: process.env.NUXT_API_SECURE === 'true',
+			apiDomain: process.env.NUXT_API_DOMAIN,
+			apiPrefix: process.env.NUXT_API_PREFIX,
+			apiPort: process.env.NUXT_API_PORT,
 		},
 	},
 
@@ -48,6 +53,13 @@ export default defineNuxtConfig({
 	},
 
 	vite: {
+		define: {
+      'process.env.NUXT_API_SECURE': process.env.NUXT_API_SECURE === 'true',
+      'process.env.NUXT_API_DOMAIN': JSON.stringify(process.env.NUXT_API_DOMAIN),
+      'process.env.NUXT_API_PREFIX': JSON.stringify(process.env.NUXT_API_PREFIX),
+      'process.env.NUXT_API_PORT': JSON.stringify(process.env.NUXT_API_PORT)
+    },
+
 		css: {
 			preprocessorOptions: {
 				scss: {
@@ -63,10 +75,6 @@ export default defineNuxtConfig({
 			}),
 		],
 	},
-	apiDomain: process.env.API_DOMAIN,
-	apiPort: process.env.API_PORT,
-	apiPrefix: process.env.API_PREFIX,
-	apiSecure: process.env.API_SECURE === 'true',
 
 	eslint: {
 		checker: true,
