@@ -22,7 +22,7 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build -t ${{ secrets.DOCKER_USER }}/nuxt-prod:latest .
-    			docker push ${{ secrets.DOCKER_USER }}/nuxt-prod:latest
+          docker push ${{ secrets.DOCKER_USER }}/nuxt-prod:latest
 
       # --- Шаг 4: Деплой на сервер через SSH ---
       - name: Deploy via SSH
