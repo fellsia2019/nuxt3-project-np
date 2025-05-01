@@ -20,8 +20,5 @@ COPY --from=builder /app/ecosystem.config.js /app/
 # Устанавливаем PM2 глобально
 RUN npm install -g pm2
 
-# Копируем .env (если нужно)
-COPY .env /app/.env
-
 # Запускаем через PM2
 CMD ["pm2-runtime", "start", "ecosystem.config.js"]
