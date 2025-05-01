@@ -32,14 +32,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Останавливаем старый контейнер
-            docker compose -f ~/nuxt-app/docker-compose.yml down || true
-
-            # Забираем новый образ
-            docker pull ${{ secrets.DOCKER_USER }}/nuxt-prod:latest
-
-            # Запускаем
-            docker compose -f ~/nuxt-app/docker-compose.yml up -d
-
-            # Чистим старые образы (опционально)
-            docker image prune -f
+            cd /var/www/ar69tem/data/www/deep-cosmo.ru/nuxt3-project-np
+            docker compose down || true
+            docker compose pull
+            docker compose up -d
+            docker image prune -f  # Очистка старых образов
