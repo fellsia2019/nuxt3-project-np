@@ -1,5 +1,9 @@
 services:
   frontend:
+    environment:
+      - API_SECURE=true  # или false
+      - API_DOMAIN=api.deep-cosmo.ru
+      - API_PREFIX=api/v1
     image: ${DOCKER_USER}/nuxt-prod:latest
     ports:
       - "3000:3000"

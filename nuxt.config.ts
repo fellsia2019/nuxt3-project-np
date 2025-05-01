@@ -63,6 +63,10 @@ export default defineNuxtConfig({
 			}),
 		],
 	},
+	apiDomain: process.env.API_DOMAIN,
+	apiPort: process.env.API_PORT,
+	apiPrefix: process.env.API_PREFIX,
+	apiSecure: process.env.API_SECURE === 'true',
 
 	eslint: {
 		checker: true,
