@@ -7,6 +7,10 @@ export default defineNuxtConfig({
 
 	modules: ['@pinia/nuxt', '@nuxt/eslint'],
 
+	nitro: {
+    serveStatic: true,
+  },
+
 	components: [
 		{
 			path: '~/components',
