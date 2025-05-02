@@ -21,7 +21,6 @@ jobs:
           docker build --no-cache \
             --build-arg NUXT_PUBLIC_API_DOMAIN=${{ secrets.NUXT_PUBLIC_API_DOMAIN }} \
             --build-arg NUXT_PUBLIC_API_PREFIX=${{ secrets.NUXT_PUBLIC_API_PREFIX }} \
-            --build-arg NUXT_PUBLIC_API_PORT=${{ secrets.NUXT_PUBLIC_API_PORT }} \
             --build-arg NUXT_PUBLIC_API_SECURE=${{ secrets.NUXT_PUBLIC_API_SECURE }} \
             -t ${{ secrets.DOCKER_USER }}/nuxt-prod:latest .
           docker push ${{ secrets.DOCKER_USER }}/nuxt-prod:latest
@@ -41,7 +40,6 @@ jobs:
             DOCKER_USER=${{ secrets.DOCKER_USER }}
             NUXT_PUBLIC_API_DOMAIN=${{ secrets.NUXT_PUBLIC_API_DOMAIN }}
             NUXT_PUBLIC_API_PREFIX=${{ secrets.NUXT_PUBLIC_API_PREFIX }}
-            NUXT_PUBLIC_API_PORT=${{ secrets.NUXT_PUBLIC_API_PORT }}
             NUXT_PUBLIC_API_SECURE=${{ secrets.NUXT_PUBLIC_API_SECURE }}
             EOF
 

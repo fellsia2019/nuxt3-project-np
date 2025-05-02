@@ -12,16 +12,14 @@ COPY . .
 # Передаём переменные через ARG (нужны только для сборки)
 ARG NUXT_PUBLIC_API_DOMAIN
 ARG NUXT_PUBLIC_API_PREFIX
-ARG NUXT_PUBLIC_API_PORT
 ARG NUXT_PUBLIC_API_SECURE
 
 # Создаём временный .env
 RUN echo "NUXT_PUBLIC_API_DOMAIN=${NUXT_PUBLIC_API_DOMAIN}" > .env && \
     echo "NUXT_PUBLIC_API_PREFIX=${NUXT_PUBLIC_API_PREFIX}" >> .env && \
-    echo "NUXT_PUBLIC_API_PORT=${NUXT_PUBLIC_API_PORT}" >> .env && \
     echo "NUXT_PUBLIC_API_SECURE=${NUXT_PUBLIC_API_SECURE}" >> .env
 
-# 5. Билдим приложение
+# Билдим приложение
 RUN npm run build
 
 # ====================== Продакшен-стадия ======================
@@ -42,7 +40,6 @@ RUN chown -R node:node /app && \
 # Переменные для runtime
 ENV NUXT_PUBLIC_API_DOMAIN=${NUXT_PUBLIC_API_DOMAIN}
 ENV NUXT_PUBLIC_API_PREFIX=${NUXT_PUBLIC_API_PREFIX}
-ENV NUXT_PUBLIC_API_PORT=${NUXT_PUBLIC_API_PORT}
 ENV NUXT_PUBLIC_API_SECURE=${NUXT_PUBLIC_API_SECURE}
 
 # Запуск
