@@ -51,7 +51,10 @@ const id: string = Array.isArray(route.params.id) ? route.params.id?.[0] : route
 const projectsStore = useProjectsStore()
 const initiativesStore = useInitiativesStore()
 
+console.log('project:id', id)
+
 const init = async () => {
+	console.log('init')
 	await projectsStore.LOAD_PROJECT(id)
 	await projectsStore.LOAD_PROJECTS({ withReplace: true, page: 1, params: { id__exclude: id } })
 	if (!projectsStore.project?.initiative_ids?.length) {
