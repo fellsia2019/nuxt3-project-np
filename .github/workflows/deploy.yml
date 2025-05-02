@@ -21,6 +21,7 @@ jobs:
           docker build --no-cache \
             --build-arg NUXT_PUBLIC_API_DOMAIN=${{ secrets.NUXT_PUBLIC_API_DOMAIN }} \
             --build-arg NUXT_PUBLIC_API_PREFIX=${{ secrets.NUXT_PUBLIC_API_PREFIX }} \
+            --build-arg NUXT_PUBLIC_API_PORT=${{ secrets.NUXT_PUBLIC_API_PORT }} \
             --build-arg NUXT_PUBLIC_API_SECURE=${{ secrets.NUXT_PUBLIC_API_SECURE }} \
             -t ${{ secrets.DOCKER_USER }}/nuxt-prod:latest .
           docker push ${{ secrets.DOCKER_USER }}/nuxt-prod:latest
@@ -35,17 +36,19 @@ jobs:
             # Переходим в директорию проекта
             cd /var/www/ar69tem/data/www/deep-cosmo.ru/opt/nuxt-app
 
-            # Генерируем .env файл из GitHub Secrets
+            # 1. Генерируем .env файл из GitHub Secrets
             cat << 'EOF' > .env
+            DOCKER_USER=${{ secrets.DOCKER_USER }}
             NUXT_PUBLIC_API_DOMAIN=${{ secrets.NUXT_PUBLIC_API_DOMAIN }}
             NUXT_PUBLIC_API_PREFIX=${{ secrets.NUXT_PUBLIC_API_PREFIX }}
+            NUXT_PUBLIC_API_PORT=${{ secrets.NUXT_PUBLIC_API_PORT }}
             NUXT_PUBLIC_API_SECURE=${{ secrets.NUXT_PUBLIC_API_SECURE }}
             EOF
 
-            # Защищаем файл (только для владельца)
+            # 2. Защищаем файл (только для владельца)
             chmod 600 .env
 
-            # Перезапускаем контейнеры
+            # 3. Перезапускаем контейнеры
             docker compose down --rmi all
             docker compose pull
             docker compose up -d
