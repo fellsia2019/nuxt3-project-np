@@ -54,7 +54,7 @@ const initiativesStore = useInitiativesStore()
 console.log('project:id', id)
 
 const init = async () => {
-	console.log('init')
+	console.log('init', id)
 	await projectsStore.LOAD_PROJECT(id)
 	await projectsStore.LOAD_PROJECTS({ withReplace: true, page: 1, params: { id__exclude: id } })
 	if (!projectsStore.project?.initiative_ids?.length) {
