@@ -8,6 +8,14 @@ RUN npm ci
 
 # Копируем исходники и билдим
 COPY . .
+COPY .env .env
+
+# Важно: передаем переменные в билд
+ARG NUXT_PUBLIC_API_DOMAIN
+ARG NUXT_PUBLIC_API_PREFIX
+ARG NUXT_PUBLIC_API_PORT
+ARG NUXT_PUBLIC_API_SECURE
+
 RUN npm run build
 
 # ====================== Продакшен-стадия ======================
@@ -20,18 +28,15 @@ COPY --from=builder /app/public /app/public
 COPY --from=builder /app/package.json /app/
 COPY --from=builder /app/node_modules /app/node_modules
 
-# Настраиваем безопасность (не запускаем от root!)
+# Настраиваем безопасность
 RUN chown -R node:node /app && \
     chmod -R 755 /app && \
     find /app/node_modules -type f -exec chmod 644 {} +
 
-# Запускаем от обычного пользователя
-USER node
+# Указываем переменные окружения для runtime
+ENV NUXT_PUBLIC_API_DOMAIN=${NUXT_PUBLIC_API_DOMAIN}
+ENV NUXT_PUBLIC_API_PREFIX=${NUXT_PUBLIC_API_PREFIX}
+ENV NUXT_PUBLIC_API_PORT=${NUXT_PUBLIC_API_PORT}
+ENV NUXT_PUBLIC_API_SECURE=${NUXT_PUBLIC_API_SECURE}
 
-RUN echo "#!/bin/sh" > /app/start.sh && \
-    echo "echo '=== ENV in container ==='" >> /app/start.sh && \
-    echo "env | grep NUXT_" >> /app/start.sh && \
-    echo "node /app/.output/server/index.mjs" >> /app/start.sh && \
-    chmod +x /app/start.sh
-
-CMD ["sh", "-c", "NUXT_API_SECURE=DDD${NUXT_API_SECURE} NUXT_API_DOMAIN=DDD${NUXT_API_DOMAIN} NUXT_API_PREFIX=${NUXT_API_PREFIX} node /app/.output/server/index.mjs"]
+CMD ["node", "/app/.output/server/index.mjs"]

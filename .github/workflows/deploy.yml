@@ -31,5 +31,5 @@ jobs:
             cd /var/www/ar69tem/data/www/deep-cosmo.ru/opt/nuxt-app
             docker compose down --rmi all
             docker compose pull
-            docker compose up -d
+            docker compose --env-file .env up -d
             docker image prune -f

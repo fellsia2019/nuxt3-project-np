@@ -3,13 +3,18 @@ services:
     image: ${DOCKER_USER}/nuxt-prod:latest
     ports:
       - "3000:3000"
+    environment:
+      - NUXT_PUBLIC_API_DOMAIN=${NUXT_PUBLIC_API_DOMAIN}
+      - NUXT_PUBLIC_API_PREFIX=${NUXT_PUBLIC_API_PREFIX}
+      - NUXT_PUBLIC_API_PORT=${NUXT_PUBLIC_API_PORT}
+      - NUXT_PUBLIC_API_SECURE=${NUXT_PUBLIC_API_SECURE}
     env_file:
-      - .env
+      - .env  # Сохраняем чтение .env файла для других переменных
     volumes:
       - ./logs:/app/logs
-    restart: unless-stopped  # Авторестарт при падении
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]  # Проверяем доступность
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 30s
       timeout: 5s
       retries: 3
