@@ -62,6 +62,10 @@ const init = async () => {
 }
 
 useAsyncData('initiative-detail', () => init().then(() => true))
+
+useHead({
+	title: `Инициатива | ${initiativesStore?.initiative?.title}`,
+})
 </script>
 
 <style lang="scss">

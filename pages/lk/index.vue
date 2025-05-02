@@ -58,6 +58,10 @@ definePageMeta({
 	ssr: false,
 })
 
+useHead({
+	title: 'Личный кабинет',
+})
+
 const projectsStore = useProjectsStore()
 const userStore = useUserStore()
 

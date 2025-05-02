@@ -96,6 +96,10 @@
 import { CustomButtonModeSettings, CustomButtonSizeSettings } from '~/types/common/CustomButton'
 import { AllBaseColors } from '~/types/common/Themes'
 
+useHead({
+	title: 'Список дел',
+})
+
 enum TypeBlock {
 	FRONT = 'FRONT',
 	BACK = 'BACK',

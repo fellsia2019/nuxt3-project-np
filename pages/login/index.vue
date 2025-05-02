@@ -11,4 +11,8 @@ definePageMeta({
 	middleware: ['guest-only'],
 	ssr: false,
 })
+
+useHead({
+	title: 'Авторизация',
+})
 </script>

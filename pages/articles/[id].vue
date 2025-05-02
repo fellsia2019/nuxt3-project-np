@@ -43,6 +43,10 @@ const init = async () => {
 }
 
 useAsyncData('article-detail', () => init().then(() => true))
+
+useHead({
+	title: `Статья | ${articlesStore?.article?.title}`,
+})
 </script>
 
 <style lang="scss">

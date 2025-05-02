@@ -30,6 +30,10 @@
 import { useInitiativesStore } from '~/store/api/initiatives'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
+useHead({
+	title: 'Инициативы',
+})
+
 const iniativesNode = ref<HTMLElement | null>(null)
 
 const initiativesStore = useInitiativesStore()

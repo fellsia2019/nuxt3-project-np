@@ -30,6 +30,10 @@
 import { useArticlesStore } from '~/store/api/articles'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
+useHead({
+	title: 'Статьи',
+})
+
 const articlesNode = ref<HTMLElement | null>(null)
 
 const articlesStore = useArticlesStore()
