@@ -32,8 +32,21 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            # Переходим в директорию проекта
             cd /var/www/ar69tem/data/www/deep-cosmo.ru/opt/nuxt-app
+
+            # Генерируем .env файл из GitHub Secrets
+            cat << 'EOF' > .env
+            NUXT_PUBLIC_API_DOMAIN=${{ secrets.NUXT_PUBLIC_API_DOMAIN }}
+            NUXT_PUBLIC_API_PREFIX=${{ secrets.NUXT_PUBLIC_API_PREFIX }}
+            NUXT_PUBLIC_API_SECURE=${{ secrets.NUXT_PUBLIC_API_SECURE }}
+            EOF
+
+            # Защищаем файл (только для владельца)
+            chmod 600 .env
+
+            # Перезапускаем контейнеры
             docker compose down --rmi all
             docker compose pull
-            docker compose --env-file .env up -d
+            docker compose up -d
             docker image prune -f
