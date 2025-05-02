@@ -73,7 +73,6 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		async LOAD_PROJECT(id: string) {
-			console.log('LOAD_PROJECT', id)
 			try {
 				if (this.IS_LOADING) {
 					return
