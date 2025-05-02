@@ -34,10 +34,10 @@ export default defineNuxtConfig({
 
 	runtimeConfig: {
 		public: {
-			apiSecure: process.env.NUXT_API_SECURE === 'true',
-			apiDomain: process.env.NUXT_API_DOMAIN,
-			apiPrefix: process.env.NUXT_API_PREFIX,
-			apiPort: process.env.NUXT_API_PORT,
+			apiSecure: process.env?.NUXT_API_SECURE === 'true',
+			apiDomain: process.env?.NUXT_API_DOMAIN || '',
+			apiPrefix: process.env?.NUXT_API_PREFIX || '',
+			apiPort: process.env?.NUXT_API_PORT || '',
 		},
 	},
 
