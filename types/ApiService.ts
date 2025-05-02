@@ -15,7 +15,6 @@ export interface IApiService {
 
 export interface IDomain {
 	secure: boolean
-	port?: number
 	domain: string
 	prefix: string
 }

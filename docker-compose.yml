@@ -6,10 +6,9 @@ services:
     environment:
       - NUXT_PUBLIC_API_DOMAIN=${NUXT_PUBLIC_API_DOMAIN}
       - NUXT_PUBLIC_API_PREFIX=${NUXT_PUBLIC_API_PREFIX}
-      - NUXT_PUBLIC_API_PORT=${NUXT_PUBLIC_API_PORT}
       - NUXT_PUBLIC_API_SECURE=${NUXT_PUBLIC_API_SECURE}
     env_file:
-      - .env  # Сохраняем чтение .env файла для других переменных
+      - .env
     volumes:
       - ./logs:/app/logs
     restart: unless-stopped

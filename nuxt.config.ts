@@ -37,7 +37,6 @@ export default defineNuxtConfig({
 			apiSecure: process.env?.NUXT_PUBLIC_API_SECURE === 'true',
 			apiDomain: process.env?.NUXT_PUBLIC_API_DOMAIN || '',
 			apiPrefix: process.env?.NUXT_PUBLIC_API_PREFIX || '',
-			apiPort: process.env?.NUXT_PUBLIC_API_PORT || '',
 		},
 	},
 

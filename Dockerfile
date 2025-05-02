@@ -10,13 +10,11 @@ COPY . .
 # ARG для переменных (добавлено БЕЗ удаления вашего кода)
 ARG NUXT_PUBLIC_API_DOMAIN
 ARG NUXT_PUBLIC_API_PREFIX
-ARG NUXT_PUBLIC_API_PORT
 ARG NUXT_PUBLIC_API_SECURE
 
 # Создаем временный .env из ARG (добавлено)
 RUN echo "NUXT_PUBLIC_API_DOMAIN=${NUXT_PUBLIC_API_DOMAIN}" > .env && \
     echo "NUXT_PUBLIC_API_PREFIX=${NUXT_PUBLIC_API_PREFIX}" >> .env && \
-    echo "NUXT_PUBLIC_API_PORT=${NUXT_PUBLIC_API_PORT}" >> .env && \
     echo "NUXT_PUBLIC_API_SECURE=${NUXT_PUBLIC_API_SECURE}" >> .env
 
 RUN npm run build
@@ -37,7 +35,6 @@ RUN chown -R node:node /app && \
 
 ENV NUXT_PUBLIC_API_DOMAIN=${NUXT_PUBLIC_API_DOMAIN}
 ENV NUXT_PUBLIC_API_PREFIX=${NUXT_PUBLIC_API_PREFIX}
-ENV NUXT_PUBLIC_API_PORT=${NUXT_PUBLIC_API_PORT}
 ENV NUXT_PUBLIC_API_SECURE=${NUXT_PUBLIC_API_SECURE}
 
 CMD ["node", "/app/.output/server/index.mjs"]

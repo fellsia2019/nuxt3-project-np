@@ -5,13 +5,10 @@ import { type IApiService, type IDomain, HttpMethod } from '~/types/ApiService'
 export const useConfigApiStore = defineStore('configApi', () => {
 	const runtimeConfig = useRuntimeConfig()
 
-	console.log('runtimeConfig', runtimeConfig)
-
 	const domainMain: IDomain = {
 		secure: Boolean(runtimeConfig.public?.apiSecure),
 		domain: String(runtimeConfig.public?.apiDomain),
 		prefix: String(runtimeConfig.public?.apiPrefix),
-		port: Number(runtimeConfig.public?.apiPort),
 	}
 
 	const services = computed<IApiService>(() => ({
