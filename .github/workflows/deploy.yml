@@ -18,7 +18,11 @@ jobs:
 
       - name: Build and Push
         run: |
-          docker build --no-cache -t ${{ secrets.DOCKER_USER }}/nuxt-prod:latest .
+          docker build --no-cache \
+            --build-arg NUXT_PUBLIC_API_DOMAIN=${{ secrets.NUXT_PUBLIC_API_DOMAIN }} \
+            --build-arg NUXT_PUBLIC_API_PREFIX=${{ secrets.NUXT_PUBLIC_API_PREFIX }} \
+            --build-arg NUXT_PUBLIC_API_SECURE=${{ secrets.NUXT_PUBLIC_API_SECURE }} \
+            -t ${{ secrets.DOCKER_USER }}/nuxt-prod:latest .
           docker push ${{ secrets.DOCKER_USER }}/nuxt-prod:latest
 
       - name: Deploy via SSH

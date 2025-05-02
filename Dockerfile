@@ -2,19 +2,22 @@
 FROM node:22-alpine as builder
 WORKDIR /app
 
-# Копируем зависимости и ставим их
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# Копируем исходники и билдим
 COPY . .
-COPY .env .env
 
-# Важно: передаем переменные в билд
+# ARG для переменных (добавлено БЕЗ удаления вашего кода)
 ARG NUXT_PUBLIC_API_DOMAIN
 ARG NUXT_PUBLIC_API_PREFIX
 ARG NUXT_PUBLIC_API_PORT
 ARG NUXT_PUBLIC_API_SECURE
+
+# Создаем временный .env из ARG (добавлено)
+RUN echo "NUXT_PUBLIC_API_DOMAIN=${NUXT_PUBLIC_API_DOMAIN}" > .env && \
+    echo "NUXT_PUBLIC_API_PREFIX=${NUXT_PUBLIC_API_PREFIX}" >> .env && \
+    echo "NUXT_PUBLIC_API_PORT=${NUXT_PUBLIC_API_PORT}" >> .env && \
+    echo "NUXT_PUBLIC_API_SECURE=${NUXT_PUBLIC_API_SECURE}" >> .env
 
 RUN npm run build
 
@@ -22,18 +25,16 @@ RUN npm run build
 FROM node:22-alpine
 WORKDIR /app
 
-# Копируем только нужное из билд-стадии
 COPY --from=builder /app/.output /app/.output
 COPY --from=builder /app/public /app/public
 COPY --from=builder /app/package.json /app/
 COPY --from=builder /app/node_modules /app/node_modules
 
-# Настраиваем безопасность
+
 RUN chown -R node:node /app && \
     chmod -R 755 /app && \
     find /app/node_modules -type f -exec chmod 644 {} +
 
-# Указываем переменные окружения для runtime
 ENV NUXT_PUBLIC_API_DOMAIN=${NUXT_PUBLIC_API_DOMAIN}
 ENV NUXT_PUBLIC_API_PREFIX=${NUXT_PUBLIC_API_PREFIX}
 ENV NUXT_PUBLIC_API_PORT=${NUXT_PUBLIC_API_PORT}
