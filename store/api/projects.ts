@@ -88,8 +88,6 @@ export const useProjectsStore = defineStore('projects', {
 					id,
 				)
 
-				console.log('LOAD_PROJECT respose', response)
-
 				if (response?.ok && response?.data) {
 					this.project = response?.data
 				}

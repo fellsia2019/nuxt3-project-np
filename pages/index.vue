@@ -77,7 +77,7 @@ import { useInitiativesStore } from '~/store/api/initiatives'
 import { useArticlesStore } from '~/store/api/articles'
 
 useHead({
-	title: 'Главная страница',
+	title: 'Deep-cosmo | Главная страница',
 })
 
 const projectsStore = useProjectsStore()

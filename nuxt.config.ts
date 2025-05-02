@@ -18,6 +18,7 @@ export default defineNuxtConfig({
 
 	app: {
 		head: {
+			title: 'Deep-cosmo',
 			meta: [
 				{
 					name: 'viewport',
@@ -26,6 +27,9 @@ export default defineNuxtConfig({
 				{
 					charset: 'utf-8',
 				},
+				{
+
+				}
 			],
 			link: [
 				{ rel: 'icon', type: 'image/png', href: '/favicon-96x96.png', sizes: '96x96' },
