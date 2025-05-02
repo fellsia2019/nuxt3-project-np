@@ -27,7 +27,12 @@ RUN chown -R node:node /app && \
 
 # 3. Запускаем от обычного пользователя
 USER node
-CMD ["sh", "-c", "NUXT_API_SECURE=AFFFFFFF NUXT_API_DOMAIN=EWEWEWEWEWW NUXT_API_PREFIX=${NUXT_API_PREFIX} node /app/.output/server/index.mjs"]
 
-# CMD ["sh", "-c", "NUXT_API_SECURE=${NUXT_API_SECURE} NUXT_API_DOMAIN=${NUXT_API_DOMAIN} NUXT_API_PREFIX=${NUXT_API_PREFIX} node /app/.output/server/index.mjs"]
+RUN echo "#!/bin/sh" > /app/start.sh && \
+    echo "echo '=== ENV in container ==='" >> /app/start.sh && \
+    echo "env | grep NUXT_" >> /app/start.sh && \
+    echo "node /app/.output/server/index.mjs" >> /app/start.sh && \
+    chmod +x /app/start.sh
+
+CMD ["sh", "-c", "NUXT_API_SECURE=DDD${NUXT_API_SECURE} NUXT_API_DOMAIN=DDD${NUXT_API_DOMAIN} NUXT_API_PREFIX=${NUXT_API_PREFIX} node /app/.output/server/index.mjs"]
 # CMD ["node", "/app/.output/server/index.mjs"]
