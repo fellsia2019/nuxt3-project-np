@@ -64,7 +64,7 @@ const init = async () => {
 	await initiativesStore.LOAD_INITIATIVES({ withReplace: true, page: 1, params: { id__in: projectsStore.project?.initiative_ids.join(',') } })
 }
 
-await useAsyncData('project-detail', () => init().then(() => true))
+await useAsyncData(`project-detail-${id}`, () => init().then(() => true))
 
 useHead({
 	title: `Проект | ${projectsStore?.project?.title}`,
