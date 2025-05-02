@@ -42,7 +42,7 @@ const init = async () => {
 	await articlesStore.LOAD_ARTICLES({ withReplace: true, page: 1, params: { id__exclude: id } })
 }
 
-useAsyncData('article-detail', () => init().then(() => true))
+await useAsyncData('article-detail', () => init().then(() => true))
 
 useHead({
 	title: `Статья | ${articlesStore?.article?.title}`,
