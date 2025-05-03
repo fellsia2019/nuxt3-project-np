@@ -1,2 +1,7 @@
 {
+	"eslint.experimental.useFlatConfig": true,  // 🔥 Важно для ESLint 9+
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"eslint.validate": ["javascript", "typescript", "vue"],
+	"eslint.packageManager": "npm"
 }

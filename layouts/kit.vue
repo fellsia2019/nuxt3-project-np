@@ -11,6 +11,12 @@
 	</div>
 </template>
 
+<script setup lang="ts">
+useHead({
+	title: 'Кит',
+})
+</script>
+
 <style lang="scss">
 $b: '.kit-layout';
 

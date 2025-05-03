@@ -72,10 +72,6 @@ const navigation = [
 		name: 'Статьи',
 	},
 	{
-		routeName: 'todo',
-		name: 'Список дел',
-	},
-	{
 		routeName: 'kit',
 		name: 'kit',
 	},

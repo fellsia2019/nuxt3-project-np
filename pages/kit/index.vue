@@ -26,10 +26,6 @@
 definePageMeta({
 	layout: 'kit',
 })
-
-useHead({
-	title: 'Кит',
-})
 </script>
 
 <style lang="scss">
