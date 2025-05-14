@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 useHead({
-	title: 'Кит',
+	title: 'Deep-cosmo | Кит',
 })
 </script>
 

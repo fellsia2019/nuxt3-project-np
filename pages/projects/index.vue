@@ -31,7 +31,7 @@ import { useProjectsStore } from '~/store/api/projects'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
 useHead({
-	title: 'Проекты',
+	title: 'Deep-cosmo | Проекты',
 })
 
 const projectsNode = ref<HTMLElement | null>(null)

@@ -31,7 +31,7 @@ import { useArticlesStore } from '~/store/api/articles'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
 useHead({
-	title: 'Статьи',
+	title: 'Deep-cosmo | Статьи',
 })
 
 const articlesNode = ref<HTMLElement | null>(null)

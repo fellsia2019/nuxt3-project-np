@@ -31,7 +31,7 @@ import { useInitiativesStore } from '~/store/api/initiatives'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
 useHead({
-	title: 'Инициативы',
+	title: 'Deep-cosmo | Инициативы',
 })
 
 const iniativesNode = ref<HTMLElement | null>(null)

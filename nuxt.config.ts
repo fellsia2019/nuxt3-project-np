@@ -18,7 +18,7 @@ export default defineNuxtConfig({
 
 	app: {
 		head: {
-			title: 'Deep-cosmo',
+			title: 'Deep-cosmo | Расширь гаризонт космоса',
 			meta: [
 				{
 					name: 'viewport',

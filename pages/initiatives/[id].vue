@@ -64,7 +64,7 @@ const init = async () => {
 await useAsyncData(`initiative-detail-${id}`, () => init().then(() => true))
 
 useHead({
-	title: `Инициатива | ${initiativesStore?.initiative?.title}`,
+	title: `Deep-cosmo | инициатива: ${initiativesStore?.initiative?.title}`,
 })
 </script>
 
