@@ -22,10 +22,6 @@ jobs:
             --build-arg NUXT_PUBLIC_API_DOMAIN=${{ secrets.NUXT_PUBLIC_API_DOMAIN }} \
             --build-arg NUXT_PUBLIC_API_PREFIX=${{ secrets.NUXT_PUBLIC_API_PREFIX }} \
             --build-arg NUXT_PUBLIC_API_SECURE=${{ secrets.NUXT_PUBLIC_API_SECURE }} \
-            --build-arg NUXT_PUBLIC_SITE_URL=${{ secrets.NUXT_PUBLIC_SITE_URL }} \
-            --build-arg NUXT_PUBLIC_SITE_NAME=${{ secrets.NUXT_PUBLIC_SITE_NAME }} \
-            --build-arg NUXT_PUBLIC_SITE_DESCRIPTION=${{ secrets.NUXT_PUBLIC_SITE_DESCRIPTION }} \
-            --build-arg NUXT_PUBLIC_SITE_INDEXABLE=${{ secrets.NUXT_PUBLIC_SITE_INDEXABLE }} \
             -t ${{ secrets.DOCKER_USER }}/nuxt-prod:latest .
           docker push ${{ secrets.DOCKER_USER }}/nuxt-prod:latest
 
