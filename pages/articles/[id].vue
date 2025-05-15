@@ -1,6 +1,5 @@
 <template>
 	<div
-		v-if="articlesStore?.article?.id"
 		class="detail-articles-page"
 	>
 		<DefaultDetailTemplate
@@ -45,7 +44,13 @@ const init = async () => {
 await useAsyncData(`article-detail-${id}`, () => init().then(() => true))
 
 useHead({
-	title: `Deep-cosmo | статья: ${articlesStore?.article?.title}`,
+	title: `Статья: ${articlesStore?.article?.title}`,
+})
+
+definePageMeta({
+	breadcrumb: {
+		ariaLabel: articlesStore?.article?.title,
+	},
 })
 </script>
 

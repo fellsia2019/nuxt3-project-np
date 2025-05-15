@@ -31,7 +31,13 @@ import { useProjectsStore } from '~/store/api/projects'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
 useHead({
-	title: 'Deep-cosmo | Проекты',
+	title: 'Проекты',
+})
+
+definePageMeta({
+	breadcrumb: {
+		ariaLabel: 'Проекты',
+	},
 })
 
 const projectsNode = ref<HTMLElement | null>(null)

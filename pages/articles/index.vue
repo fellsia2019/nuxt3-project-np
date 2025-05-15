@@ -31,7 +31,13 @@ import { useArticlesStore } from '~/store/api/articles'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
 useHead({
-	title: 'Deep-cosmo | Статьи',
+	title: 'Статьи',
+})
+
+definePageMeta({
+	breadcrumb: {
+		ariaLabel: 'Статьи',
+	},
 })
 
 const articlesNode = ref<HTMLElement | null>(null)

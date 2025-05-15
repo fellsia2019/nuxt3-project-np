@@ -59,7 +59,7 @@ definePageMeta({
 })
 
 useHead({
-	title: 'Deep-cosmo | Личный кабинет',
+	title: 'Личный кабинет',
 })
 
 const projectsStore = useProjectsStore()

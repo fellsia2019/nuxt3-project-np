@@ -5,6 +5,8 @@
 	>
 		<div class="container">
 			<div class="default-detail-template__inner">
+				<!-- <Breadcrumbs class="default-detail-template__breadcrumbs" /> -->
+
 				<div class="default-detail-template__header">
 					<Banner
 						:title="title"
@@ -56,6 +58,11 @@ withDefaults(defineProps<IProps>(), {
 $b: '.default-detail-template';
 
 #{$b} {
+
+	// .default-detail-template__breadcrumbs
+	&__breadcrumbs {
+		margin-bottom: 40px;
+	}
 
   // .default-detail-template__header
   &__header {

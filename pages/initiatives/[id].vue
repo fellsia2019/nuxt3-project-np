@@ -64,7 +64,13 @@ const init = async () => {
 await useAsyncData(`initiative-detail-${id}`, () => init().then(() => true))
 
 useHead({
-	title: `Deep-cosmo | инициатива: ${initiativesStore?.initiative?.title}`,
+	title: `Инициатива: ${initiativesStore?.initiative?.title}`,
+})
+
+definePageMeta({
+	breadcrumb: {
+		ariaLabel: initiativesStore?.initiative?.title,
+	},
 })
 </script>
 

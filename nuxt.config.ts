@@ -4,7 +4,7 @@ import path from 'path'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 export default defineNuxtConfig({
-	modules: ['@pinia/nuxt', '@nuxt/eslint'],
+	modules: ['@pinia/nuxt', '@nuxt/eslint', '@nuxtjs/seo'],
 
 	components: [
 		{
@@ -18,7 +18,7 @@ export default defineNuxtConfig({
 
 	app: {
 		head: {
-			title: 'Deep-cosmo | Расширь гаризонт космоса',
+			title: 'Расширь гаризонт космоса',
 			meta: [
 				{
 					name: 'viewport',
@@ -29,16 +29,32 @@ export default defineNuxtConfig({
 				},
 			],
 			link: [
-				{ rel: 'icon', type: 'image/png', href: '/favicon-96x96.png', sizes: '96x96' },
+				{
+					rel: 'icon',
+					type: 'image/png',
+					href: '/favicon-96x96.png',
+					sizes: '96x96',
+				},
 				{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
 				{ rel: 'shortcut icon', href: '/favicon.ico' },
-				{ rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+				{
+					rel: 'apple-touch-icon',
+					sizes: '180x180',
+					href: '/apple-touch-icon.png',
+				},
 				{ rel: 'manifest', href: '/site.webmanifest' },
 			],
 		},
 	},
 
 	css: ['~/assets/styles/main.scss'],
+
+	site: {
+		url: 'https://deep-cosmo.ru', // твой домен - TODO: вынести в env/github secrets
+		name: 'Deep Cosmo', // название сайта - TODO: вынести в env/github secrets
+		description: 'Научно, просто, ненавязчиво - об космосе', // важный meta-description - TODO: вынести в env/github secrets
+		indexable: process.env?.NUXT_PUBLIC_API_SECURE === 'true',
+	},
 
 	runtimeConfig: {
 		public: {
@@ -58,7 +74,8 @@ export default defineNuxtConfig({
 		css: {
 			preprocessorOptions: {
 				scss: {
-					additionalData: '@use "~/assets/styles/global/variables.scss" as *; @use "~/assets/styles/global/mixins.scss" as *;',
+					additionalData:
+						'@use "~/assets/styles/global/variables.scss" as *; @use "~/assets/styles/global/mixins.scss" as *;',
 				},
 			},
 		},

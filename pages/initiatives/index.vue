@@ -31,7 +31,13 @@ import { useInitiativesStore } from '~/store/api/initiatives'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
 useHead({
-	title: 'Deep-cosmo | Инициативы',
+	title: 'Инициативы',
+})
+
+definePageMeta({
+	breadcrumb: {
+		ariaLabel: 'Инициативы',
+	},
 })
 
 const iniativesNode = ref<HTMLElement | null>(null)
