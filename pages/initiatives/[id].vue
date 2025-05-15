@@ -5,6 +5,7 @@
 	>
 		<DefaultDetailTemplate
 			class="detail-initiatives-page__section"
+			:breadcrumbs="breadcrumbs"
 			:title="initiativesStore?.initiative?.title"
 			:content="initiativesStore?.initiative?.content"
 			:html="initiativesStore?.initiative?.detail_text"
@@ -64,8 +65,17 @@ const init = async () => {
 await useAsyncData(`initiative-detail-${id}`, () => init().then(() => true))
 
 useHead({
-	title: `Deep-cosmo | инициатива: ${initiativesStore?.initiative?.title}`,
+	title: `Инициатива: ${initiativesStore?.initiative?.title}`,
 })
+
+const breadcrumbs = useBreadcrumbItems({
+	schemaOrg: true,
+	overrides: [
+		undefined,
+		undefined,
+		{ label: initiativesStore?.initiative?.title || '', to: `/initiatives/${initiativesStore?.initiative?.id}` },
+	],
+}) as ComputedRef<Array<IBreadcrumbItem>>
 </script>
 
 <style lang="scss">

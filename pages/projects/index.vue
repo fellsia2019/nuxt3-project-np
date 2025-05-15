@@ -2,6 +2,12 @@
 	<main class="projects-page">
 		<div class="projects-page__inner">
 			<div class="container">
+				<Breadcrumbs
+					v-if="breadcrumbs?.length"
+					class="projects-page__breadcrumbs"
+					:items="breadcrumbs"
+				/>
+
 				<div class="projects-page__header">
 					<h1 class="projects-page__title title title-h1 color-primary">
 						Проекты
@@ -31,8 +37,18 @@ import { useProjectsStore } from '~/store/api/projects'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
 useHead({
-	title: 'Deep-cosmo | Проекты',
+	title: 'Проекты',
 })
+
+definePageMeta({
+	breadcrumb: {
+		label: 'Проекты',
+	},
+})
+
+const breadcrumbs = useBreadcrumbItems({
+	schemaOrg: true,
+}) as ComputedRef<Array<IBreadcrumbItem>>
 
 const projectsNode = ref<HTMLElement | null>(null)
 
@@ -59,6 +75,15 @@ async function onChangePage(page: number) {
 $b: '.projects-page';
 
 #{$b} {
+
+	// .projects-page__breadcrumbs
+	&__breadcrumbs {
+		margin-bottom: 20px;
+
+    @include mobile {
+      margin-bottom: 12px;
+    }
+	}
 
   // .projects-page__header
   &__header {

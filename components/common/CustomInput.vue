@@ -36,7 +36,7 @@ interface ICustomInputProps {
 	disabled?: boolean
 	isError?: boolean
 	isOutsideFocus?: boolean
-	modelValue: modelValueType
+	modelValue?: modelValueType
 	type?: string
 	autocomplete?: string
 	readonly?: boolean

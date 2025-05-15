@@ -76,6 +76,12 @@ import { useProjectsStore } from '~/store/api/projects'
 import { useInitiativesStore } from '~/store/api/initiatives'
 import { useArticlesStore } from '~/store/api/articles'
 
+definePageMeta({
+	breadcrumb: {
+		label: 'Главная',
+	},
+})
+
 const projectsStore = useProjectsStore()
 const initiativesStore = useInitiativesStore()
 const articlesStore = useArticlesStore()

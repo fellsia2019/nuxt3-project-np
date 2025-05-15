@@ -2,6 +2,12 @@
 	<main class="articles-page">
 		<div class="articles-page__inner">
 			<div class="container">
+				<Breadcrumbs
+					v-if="breadcrumbs?.length"
+					class="articles-page__breadcrumbs"
+					:items="breadcrumbs"
+				/>
+
 				<div class="articles-page__header">
 					<h1 class="articles-page__title title title-h1 color-danger">
 						Статьи
@@ -31,8 +37,18 @@ import { useArticlesStore } from '~/store/api/articles'
 import { scrollToBlock } from '~/helpers/scrollHelper'
 
 useHead({
-	title: 'Deep-cosmo | Статьи',
+	title: 'Статьи',
 })
+
+definePageMeta({
+	breadcrumb: {
+		label: 'Статьи',
+	},
+})
+
+const breadcrumbs = useBreadcrumbItems({
+	schemaOrg: true,
+}) as ComputedRef<Array<IBreadcrumbItem>>
 
 const articlesNode = ref<HTMLElement | null>(null)
 
@@ -59,6 +75,15 @@ async function onChangePage(page: number) {
 $b: '.articles-page';
 
 #{$b} {
+
+  // .articles-page__breadcrumbs
+	&__breadcrumbs {
+		margin-bottom: 20px;
+
+    @include mobile {
+      margin-bottom: 12px;
+    }
+	}
 
   // .articles-page__header
   &__header {

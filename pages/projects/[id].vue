@@ -6,6 +6,7 @@
 		<DefaultDetailTemplate
 			class="detail-project-page__section"
 			:title="projectsStore?.project?.title"
+			:breadcrumbs="breadcrumbs"
 			:content="projectsStore?.project?.content"
 			:html="projectsStore?.project?.detail_text"
 			:detail-img="{
@@ -53,6 +54,8 @@ const initiativesStore = useInitiativesStore()
 
 const init = async () => {
 	await projectsStore.LOAD_PROJECT(id)
+
+	console.log('projectsStore?.project?.title', projectsStore?.project?.title)
 	await projectsStore.LOAD_PROJECTS({ withReplace: true, page: 1, params: { id__exclude: id } })
 	if (!projectsStore.project?.initiative_ids?.length) {
 		initiativesStore.CLEAR()
@@ -64,8 +67,17 @@ const init = async () => {
 await useAsyncData(`project-detail-${id}`, () => init().then(() => true))
 
 useHead({
-	title: `Deep-cosmo | проект: ${projectsStore?.project?.title}`,
+	title: `Проект: ${projectsStore?.project?.title}`,
 })
+
+const breadcrumbs = useBreadcrumbItems({
+	schemaOrg: true,
+	overrides: [
+		undefined,
+		undefined,
+		{ label: projectsStore?.project?.title || '', to: `/projects/${projectsStore?.project?.id}` },
+	],
+}) as ComputedRef<Array<IBreadcrumbItem>>
 </script>
 
 <style lang="scss">

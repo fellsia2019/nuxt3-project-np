@@ -5,6 +5,7 @@
 	>
 		<DefaultDetailTemplate
 			class="detail-articles-page__section"
+			:breadcrumbs="breadcrumbs"
 			:title="articlesStore?.article?.title"
 			:content="articlesStore?.article?.content"
 			:html="articlesStore?.article?.detail_text"
@@ -29,7 +30,6 @@
 
 <script setup lang="ts">
 import { AllBaseColors } from '~/types/common/Themes'
-
 import { useArticlesStore } from '~/store/api/articles'
 
 const route = useRoute()
@@ -45,8 +45,17 @@ const init = async () => {
 await useAsyncData(`article-detail-${id}`, () => init().then(() => true))
 
 useHead({
-	title: `Deep-cosmo | статья: ${articlesStore?.article?.title}`,
+	title: `Статья: ${articlesStore?.article?.title}`,
 })
+
+const breadcrumbs = useBreadcrumbItems({
+	schemaOrg: true,
+	overrides: [
+		undefined,
+		undefined,
+		{ label: articlesStore?.article?.title || '', to: `/articles/${articlesStore?.article?.id}` },
+	],
+}) as ComputedRef<Array<IBreadcrumbItem>>
 </script>
 
 <style lang="scss">

@@ -13,6 +13,6 @@ definePageMeta({
 })
 
 useHead({
-	title: 'Deep-cosmo | Авторизация',
+	title: 'Вход',
 })
 </script>
