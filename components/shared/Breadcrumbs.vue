@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 interface IProps {
-	items: IBreadcrumbItem[]
+	items: Array<IBreadcrumbItem>
 }
 
 defineProps<IProps>()

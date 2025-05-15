@@ -52,7 +52,7 @@ interface IProps {
 	theme?: AllBaseColors
 	mobFullWidth?: boolean
 	timeCreate?: number | null
-	breadcrumbs?: IBreadcrumbItem[]
+	breadcrumbs?: Array<IBreadcrumbItem>
 }
 
 withDefaults(defineProps<IProps>(), {

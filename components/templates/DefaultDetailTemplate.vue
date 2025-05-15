@@ -46,7 +46,7 @@ interface IProps {
 	detailImg: IImageData
 	theme?: AllBaseColors
 	timeCreate?: number | null
-	breadcrumbs: IBreadcrumbItem[]
+	breadcrumbs: Array<IBreadcrumbItem>
 }
 
 withDefaults(defineProps<IProps>(), {

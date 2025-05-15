@@ -55,7 +55,7 @@ const breadcrumbs = useBreadcrumbItems({
 		undefined,
 		{ label: articlesStore?.article?.title || '', to: `/articles/${articlesStore?.article?.id}` },
 	],
-}) as ComputedRef<IBreadcrumbItem[]>
+}) as ComputedRef<Array<IBreadcrumbItem>>
 </script>
 
 <style lang="scss">

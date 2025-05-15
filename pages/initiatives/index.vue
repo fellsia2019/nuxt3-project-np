@@ -48,7 +48,7 @@ definePageMeta({
 
 const breadcrumbs = useBreadcrumbItems({
 	schemaOrg: true,
-}) as ComputedRef<IBreadcrumbItem[]>
+}) as ComputedRef<Array<IBreadcrumbItem>>
 
 const iniativesNode = ref<HTMLElement | null>(null)
 
