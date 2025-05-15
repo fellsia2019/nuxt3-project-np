@@ -18,7 +18,6 @@ export default defineNuxtConfig({
 
 	app: {
 		head: {
-			title: 'Расширь гаризонт космоса',
 			meta: [
 				{
 					name: 'viewport',
@@ -50,10 +49,10 @@ export default defineNuxtConfig({
 	css: ['~/assets/styles/main.scss'],
 
 	site: {
-		url: 'https://deep-cosmo.ru', // твой домен - TODO: вынести в env/github secrets
-		name: 'Deep Cosmo', // название сайта - TODO: вынести в env/github secrets
-		description: 'Научно, просто, ненавязчиво - об космосе', // важный meta-description - TODO: вынести в env/github secrets
-		indexable: process.env?.NUXT_PUBLIC_API_SECURE === 'true',
+		url: process.env?.NUXT_PUBLIC_SITE_URL,
+		name: process.env?.NUXT_PUBLIC_SITE_NAME,
+		description: process.env?.NUXT_PUBLIC_SITE_DESCRIPTION,
+		indexable: process.env?.NUXT_PUBLIC_SITE_INDEXABLE === 'true',
 	},
 
 	runtimeConfig: {

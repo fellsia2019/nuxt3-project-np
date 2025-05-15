@@ -78,7 +78,7 @@ import { useArticlesStore } from '~/store/api/articles'
 
 definePageMeta({
 	breadcrumb: {
-		ariaLabel: 'Главная',
+		label: 'Главная',
 	},
 })
 

@@ -2,6 +2,12 @@
 	<main class="initiatives-page">
 		<div class="initiatives-page__inner">
 			<div class="container">
+				<Breadcrumbs
+					v-if="breadcrumbs?.length"
+					class="initiatives-page__breadcrumbs"
+					:items="breadcrumbs"
+				/>
+
 				<div class="initiatives-page__header">
 					<h1 class="initiatives-page__title title title-h1 color-primary-accent">
 						Инициативы
@@ -36,9 +42,13 @@ useHead({
 
 definePageMeta({
 	breadcrumb: {
-		ariaLabel: 'Инициативы',
+		label: 'Инициативы',
 	},
 })
+
+const breadcrumbs = useBreadcrumbItems({
+	schemaOrg: true,
+}) as ComputedRef<IBreadcrumbItem[]>
 
 const iniativesNode = ref<HTMLElement | null>(null)
 
@@ -65,6 +75,15 @@ async function onChangePage(page: number) {
 $b: '.initiatives-page';
 
 #{$b} {
+
+	// .initiatives-page__breadcrumbs
+	&__breadcrumbs {
+		margin-bottom: 20px;
+
+    @include mobile {
+      margin-bottom: 12px;
+    }
+	}
 
   // .initiatives-page__header
   &__header {

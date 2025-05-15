@@ -1,26 +1,30 @@
 <template>
 	<nav class="breadcrumbs">
 		<ul class="breadcrumbs__list">
-			<!-- <li
+			<li
 				v-for="item in items"
-				:key="`breadcrumbs__list-item-${item.ariaLabel}-${item.to}`"
+				:key="`breadcrumbs__list-item-${item.label}-${item.to}`"
 				class="breadcrumbs__list-item"
 				:class="{ 'breadcrumbs__list-item--is-active': item.current }"
-			> -->
-				<!-- // -->
-				<!-- <NuxtLink
+			>
+				//
+				<NuxtLink
 					class="breadcrumbs__list-link link"
 					:to="item.to"
 				>
-					{{ item.ariaLabel }}
-				</NuxtLink> -->
-			<!-- </li> -->
+					{{ item.label }}
+				</NuxtLink>
+			</li>
 		</ul>
 	</nav>
 </template>
 
 <script lang="ts" setup>
-// const items = useBreadcrumbItems()
+interface IProps {
+	items: IBreadcrumbItem[]
+}
+
+defineProps<IProps>()
 </script>
 
 <style lang="scss">

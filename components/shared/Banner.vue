@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="banner"
-		:class="[`banner--theme-${theme}`, { 'banner--mob-full-width': mobFullWidth }]"
+		:class="[`banner--theme-${theme}`, { 'banner--mob-full-width': mobFullWidth, 'banner--with-time': timeCreate }]"
 	>
 		<div :class="withContainer ? 'container' : ''">
 			<div class="banner__inner">
@@ -9,12 +9,12 @@
 					img-class="banner__bg"
 					:image="image"
 				/>
-				<time
-					v-if="timeCreate"
-					class="banner__time"
-				>
-					{{ getDateArticle(timeCreate) }}
-				</time>
+				<Breadcrumbs
+					v-if="breadcrumbs?.length"
+					class="banner__breadcrumbs"
+					:items="breadcrumbs"
+				/>
+
 				<div class="banner__content">
 					<h1
 						class="banner__title title title-h1"
@@ -22,10 +22,17 @@
 						v-html="title"
 					/>
 					<div
-						v-if="description"
+						v-if="description?.length"
 						class="banner__description"
 						v-html="description"
 					/>
+
+					<time
+						v-if="timeCreate"
+						class="banner__time"
+					>
+						{{ getDateArticle(timeCreate) }}
+					</time>
 				</div>
 			</div>
 		</div>
@@ -45,6 +52,7 @@ interface IProps {
 	theme?: AllBaseColors
 	mobFullWidth?: boolean
 	timeCreate?: number | null
+	breadcrumbs?: IBreadcrumbItem[]
 }
 
 withDefaults(defineProps<IProps>(), {
@@ -60,13 +68,15 @@ $b: '.banner';
   @return linear-gradient(to bottom, rgba($color, 0.2), rgba($color-dark, 0.7));
 }
 
+$inner-padding: 32px;
+
 #{$b} {
 
   // .banner__inner
   &__inner {
     position: relative;
     border-radius: 16px;
-    padding: 32px;
+    padding: $inner-padding;
     overflow: hidden;
 
     @include tablet {
@@ -76,6 +86,10 @@ $b: '.banner';
     @include mobile {
       padding: 16px;
     }
+
+		#{$b}--with-time & {
+			padding-bottom: 10px;
+		}
 
     #{$b}--mob-full-width & {
       @include tablet {
@@ -192,11 +206,18 @@ $b: '.banner';
     object-fit: cover;
   }
 
-	// .banner__time
-	&__time {
+	// .banner__breadcrumbs
+	&__breadcrumbs {
 		position: relative;
 		display: block;
 		margin-bottom: 24px;
+		z-index: 2;
+	}
+
+	// .banner__time
+	&__time {
+		position: relative;
+		text-align: right;
 		z-index: 2;
 	}
 

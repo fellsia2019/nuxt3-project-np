@@ -5,11 +5,10 @@
 	>
 		<div class="container">
 			<div class="default-detail-template__inner">
-				<!-- <Breadcrumbs class="default-detail-template__breadcrumbs" /> -->
-
 				<div class="default-detail-template__header">
 					<Banner
 						:title="title"
+						:breadcrumbs="breadcrumbs"
 						:description="content"
 						:image="detailImg"
 						:theme="theme"
@@ -47,6 +46,7 @@ interface IProps {
 	detailImg: IImageData
 	theme?: AllBaseColors
 	timeCreate?: number | null
+	breadcrumbs: IBreadcrumbItem[]
 }
 
 withDefaults(defineProps<IProps>(), {
@@ -58,12 +58,6 @@ withDefaults(defineProps<IProps>(), {
 $b: '.default-detail-template';
 
 #{$b} {
-
-	// .default-detail-template__breadcrumbs
-	&__breadcrumbs {
-		margin-bottom: 40px;
-	}
-
   // .default-detail-template__header
   &__header {
     position: relative;

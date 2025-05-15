@@ -5,6 +5,7 @@
 	>
 		<DefaultDetailTemplate
 			class="detail-initiatives-page__section"
+			:breadcrumbs="breadcrumbs"
 			:title="initiativesStore?.initiative?.title"
 			:content="initiativesStore?.initiative?.content"
 			:html="initiativesStore?.initiative?.detail_text"
@@ -67,11 +68,14 @@ useHead({
 	title: `Инициатива: ${initiativesStore?.initiative?.title}`,
 })
 
-definePageMeta({
-	breadcrumb: {
-		ariaLabel: initiativesStore?.initiative?.title,
-	},
-})
+const breadcrumbs = useBreadcrumbItems({
+	schemaOrg: true,
+	overrides: [
+		undefined,
+		undefined,
+		{ label: initiativesStore?.initiative?.title || '', to: `/initiatives/${initiativesStore?.initiative?.id}` },
+	],
+}) as ComputedRef<IBreadcrumbItem[]>
 </script>
 
 <style lang="scss">

@@ -1,9 +1,11 @@
 <template>
 	<div
+		v-if="articlesStore?.article?.id"
 		class="detail-articles-page"
 	>
 		<DefaultDetailTemplate
 			class="detail-articles-page__section"
+			:breadcrumbs="breadcrumbs"
 			:title="articlesStore?.article?.title"
 			:content="articlesStore?.article?.content"
 			:html="articlesStore?.article?.detail_text"
@@ -28,7 +30,6 @@
 
 <script setup lang="ts">
 import { AllBaseColors } from '~/types/common/Themes'
-
 import { useArticlesStore } from '~/store/api/articles'
 
 const route = useRoute()
@@ -47,11 +48,14 @@ useHead({
 	title: `Статья: ${articlesStore?.article?.title}`,
 })
 
-definePageMeta({
-	breadcrumb: {
-		ariaLabel: articlesStore?.article?.title,
-	},
-})
+const breadcrumbs = useBreadcrumbItems({
+	schemaOrg: true,
+	overrides: [
+		undefined,
+		undefined,
+		{ label: articlesStore?.article?.title || '', to: `/articles/${articlesStore?.article?.id}` },
+	],
+}) as ComputedRef<IBreadcrumbItem[]>
 </script>
 
 <style lang="scss">
